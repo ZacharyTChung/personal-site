@@ -3,48 +3,52 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ContainerScroll } from "@/components/ui/container-scroll-animation";
-import { ArrowUpRight, Github } from "lucide-react";
+import { ArrowUpRight, Github, Trophy } from "lucide-react";
 
 const projects = [
   {
-    title: "AdaptiveIO Journal",
+    title: "Agentic Automation for iOS Accessibility",
     description:
-      "Engineering journal for an adaptive I/O system. Low level work on zero copy data pipelines using io_uring, mmap, and Apache Arrow.",
-    tags: ["C++", "Apache Arrow", "Linux", "io_uring", "mmap"],
-    image:
-      "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?q=80&w=1600&auto=format&fit=crop",
-    href: "#",
-    repo: "https://github.com/ZacharyTChung/AdaptiveIO_Journal",
-    role: "Contributor",
-  },
-  {
-    title: "iOS Agent Automation",
-    description:
-      "AI agent that drives an iPhone autonomously, using vision and tool use to complete real tasks across mobile apps.",
+      "Voice-driven AI iPhone agent that understands screen context, performs multi-step workflows across apps, and narrates each action in real time for blind and low-vision users.",
     tags: ["Swift", "SwiftUI", "Node.js", "Claude API", "XCTest", "AVFoundation"],
     image: "/images/Agentic_Automation_IOS.png",
     href: "#",
     repo: "https://github.com/bryanrg22/ios-agent_automation",
     role: "Contributor",
+    date: "April 2026",
+    award: "3rd Place · SoCal Claude Hackathon (UCLA · USC · Caltech)",
   },
   {
-    title: "wandr",
+    title: "Wandr",
     description:
-      "Beli, but for travel. A social app for tracking, ranking, and sharing the places you've been.",
+      "Full-stack mobile app for mapping and rating travel locations. EXIF auto-pinning, GPS dwell-time detection, presigned S3 uploads, and a geospatial PostGIS schema behind a Firebase Auth-protected API.",
     tags: [
+      "React Native",
       "TypeScript",
-      "React",
-      "Mapbox",
+      "Node.js",
+      "PostgreSQL/PostGIS",
+      "AWS S3",
       "Firebase",
-      "AWS",
-      "Supabase",
-      "PostGIS",
+      "Mapbox GL",
     ],
     image:
       "https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b?q=80&w=1600&auto=format&fit=crop",
     href: "#",
     repo: "https://github.com/ZacharyTChung/travel-map",
     role: "Built it",
+    date: "March 2026 – Present",
+  },
+  {
+    title: "I/O Performance Study — mmap vs io_uring",
+    description:
+      "17 controlled experiments across 8 research phases comparing I/O strategies for analytical workloads. Identified NVMe queue saturation as a scaling limit and produced 5 actionable engineering recommendations.",
+    tags: ["C++", "Apache Arrow", "Linux", "io_uring", "mmap"],
+    image:
+      "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?q=80&w=1600&auto=format&fit=crop",
+    href: "#",
+    repo: "https://github.com/ZacharyTChung/AdaptiveIO_Journal",
+    role: "Author",
+    date: "December 2025 – Present",
   },
 ];
 
@@ -100,9 +104,22 @@ export function Projects() {
                 )}
               </div>
               <div className="flex flex-1 flex-col p-5">
-                <h3 className="text-lg font-semibold text-foreground">
-                  {p.title}
-                </h3>
+                <div className="flex items-start justify-between gap-3">
+                  <h3 className="text-lg font-semibold text-foreground">
+                    {p.title}
+                  </h3>
+                  {p.date && (
+                    <span className="shrink-0 pt-1 text-[11px] uppercase tracking-wider text-muted-foreground">
+                      {p.date}
+                    </span>
+                  )}
+                </div>
+                {p.award && (
+                  <div className="mt-2 inline-flex w-fit items-center gap-1.5 rounded-full border border-amber-500/30 bg-amber-500/10 px-2.5 py-1 text-[11px] font-medium text-amber-600 dark:text-amber-400">
+                    <Trophy className="h-3 w-3" />
+                    {p.award}
+                  </div>
+                )}
                 <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
                   {p.description}
                 </p>
