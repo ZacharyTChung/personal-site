@@ -1,0 +1,91 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* dark — soft charcoal + warm cream + honey amber */
+    --c-bg-1: 22 22 23;
+    --c-bg-2: 32 32 33;
+    --c-bg-3: 46 46 48;
+    --c-fg: 240 234 222;
+    --c-accent-1: 218 212 200;
+    --c-accent-2: 168 162 150;
+    --c-accent-3: 118 112 102;
+    --c-warm-1: 224 178 110;
+    --c-warm-2: 196 148 80;
+    --c-warm-3: 156 112 50;
+
+    --background: 220 4% 9%;
+    --foreground: 38 36% 92%;
+    --card: 220 4% 12%;
+    --card-foreground: 38 36% 92%;
+    --popover: 220 4% 12%;
+    --popover-foreground: 38 36% 92%;
+    --primary: 38 36% 92%;
+    --primary-foreground: 220 4% 9%;
+    --secondary: 220 4% 16%;
+    --secondary-foreground: 38 36% 92%;
+    --muted: 220 4% 16%;
+    --muted-foreground: 36 12% 70%;
+    --accent: 36 56% 60%;
+    --accent-foreground: 220 4% 12%;
+    --destructive: 0 50% 50%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 220 4% 20%;
+    --input: 220 4% 20%;
+    --ring: 36 40% 60%;
+    --radius: 0.875rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  section[id] {
+    scroll-margin-top: 5rem;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+    background-image:
+      radial-gradient(
+        circle at 15% 0%,
+        rgb(var(--c-accent-2) / 0.06),
+        transparent 55%
+      ),
+      radial-gradient(
+        circle at 85% 100%,
+        rgb(var(--c-warm-2) / 0.05),
+        transparent 55%
+      );
+  }
+  ::selection {
+    @apply bg-foreground/20 text-foreground;
+  }
+}
+
+@keyframes polaroid-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+.polaroid-float {
+  animation: polaroid-float 6s ease-in-out infinite;
+  will-change: transform;
+}
+
+/* subtle grain overlay */
+.grain::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 100;
+  opacity: 0.03;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
