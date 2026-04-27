@@ -4,7 +4,7 @@ export function Contact() {
   return (
     <section
       id="contact"
-      className="relative overflow-hidden bg-background px-6 py-32 text-foreground"
+      className="relative overflow-hidden bg-background px-6 py-20 text-foreground"
     >
       <div className="relative mx-auto max-w-3xl text-center">
         <p className="text-sm uppercase tracking-[0.3em] text-muted-foreground">
@@ -16,8 +16,8 @@ export function Contact() {
           <span className="text-foreground/50">Drop a line.</span>
         </h2>
         <p className="mx-auto mt-6 max-w-xl text-lg text-muted-foreground">
-          Always happy to chat about projects, training, or where to hike
-          next. Email&apos;s the fastest way to reach me.
+          Always down to chat about projects, training, or your favorite
+          hike. Email is the fastest way to reach me — I read everything.
         </p>
 
         <a
@@ -54,10 +54,10 @@ export function Contact() {
         </div>
       </div>
 
-      <footer className="relative mt-24 border-t border-border pt-8 text-center text-xs text-muted-foreground">
+      <footer className="relative mt-16 border-t border-border pt-8 text-center text-xs text-muted-foreground">
         <p>
-          Built with Next.js and Tailwind. © {new Date().getFullYear()} Zachary
-          Chung.
+          Built between training sessions with Next.js and Tailwind. ©{" "}
+          {new Date().getFullYear()} Zachary Chung.
         </p>
       </footer>
     </section>

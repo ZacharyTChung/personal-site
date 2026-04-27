@@ -5,7 +5,7 @@ export function IronmanSection() {
   return (
     <section
       id="ironman"
-      className="relative overflow-hidden bg-background px-6 py-32 text-foreground"
+      className="relative overflow-hidden bg-background px-6 py-20 text-foreground"
     >
       <div className="absolute inset-0 -z-10">
         <Image
@@ -27,14 +27,14 @@ export function IronmanSection() {
             What I&apos;m chasing.
           </h2>
           <p className="mt-6 max-w-lg text-lg leading-relaxed text-muted-foreground">
-            Big goals keep me honest. The one I&apos;m most focused on right
-            now is my first half Ironman: a 1.2 mile swim, 56 mile bike, and
-            13.1 mile run. There&apos;s no shortcut to it; you just have to
-            show up.
+            Big goals keep me honest. The one I&apos;m chasing right now is my
+            first half Ironman: a 1.2 mile swim, a 56 mile bike, and a 13.1
+            mile run. There&apos;s no shortcut to it — you just keep showing
+            up.
           </p>
           <p className="mt-4 max-w-lg text-lg leading-relaxed text-muted-foreground">
-            Same thing applies to most of what I build. The interesting parts
-            are usually the boring middle.
+            Same goes for most of what I build. The interesting parts are
+            almost always in the boring middle.
           </p>
         </div>
 

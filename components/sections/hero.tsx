@@ -28,9 +28,9 @@ export function Hero() {
             Software engineer in LA, open to relocating.
           </h2>
           <p className="mx-auto mt-6 max-w-xl text-base text-muted-foreground md:text-lg">
-            I work on side projects when I have time and I&apos;m training for
-            my first half-Ironman this December. Most of what I build comes
-            from problems I&apos;ve actually run into.
+            Most of what I build started with a problem I ran into myself.
+            When I&apos;m not at a screen, I&apos;m probably swimming, biking,
+            or running — chasing a half-Ironman in December.
           </p>
 
           <div className="mt-8 flex flex-wrap items-center justify-center gap-4">

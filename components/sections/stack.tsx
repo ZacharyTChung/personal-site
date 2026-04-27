@@ -44,7 +44,7 @@ export function Stack() {
   return (
     <section
       id="stack"
-      className="relative bg-background px-6 py-32 text-foreground"
+      className="relative bg-background px-6 py-20 text-foreground"
     >
       <div className="mx-auto max-w-6xl">
         <div className="mb-12 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
@@ -59,8 +59,8 @@ export function Stack() {
             </h2>
           </div>
           <p className="max-w-md text-muted-foreground">
-            A working set, not a wishlist. These are the tools I&apos;ve actually
-            shipped with on recent projects.
+            A working set, not a wishlist. These are the tools I&apos;ve
+            actually shipped with — and the ones I keep coming back to.
           </p>
         </div>
 

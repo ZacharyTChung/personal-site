@@ -27,7 +27,7 @@ export function About() {
   return (
     <section
       id="about"
-      className="relative bg-background px-6 py-32 text-foreground"
+      className="relative bg-background px-6 py-20 text-foreground"
     >
       <div className="mx-auto max-w-5xl">
         <p className="text-sm uppercase tracking-[0.3em] text-muted-foreground">
@@ -46,15 +46,15 @@ export function About() {
               for it.
             </p>
             <p>
-              When I&apos;m not at a screen I&apos;m usually running, hiking, or
-              trying to plan the next trip. The reason I like long-distance
-              training is the same reason I like building: small daily
-              progress that turns into something you couldn&apos;t do a few
-              months back.
+              When I&apos;m not at a screen, I&apos;m usually running, hiking,
+              or scheming up the next trip. The reason I like long-distance
+              training is the same reason I like building things: small,
+              boring days that quietly add up to something you couldn&apos;t
+              do a few months back.
             </p>
             <p>
-              This site is a place to keep track of what I&apos;m working on
-              and what I&apos;ve been up to.
+              This little corner of the internet is mostly an excuse to keep
+              track of what I&apos;m working on and where I&apos;ve been.
             </p>
           </div>
           <div className="grid grid-cols-2 gap-4 md:col-span-2">

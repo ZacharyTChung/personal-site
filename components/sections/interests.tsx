@@ -48,7 +48,7 @@ export function Interests() {
   return (
     <section
       id="interests"
-      className="relative bg-background px-6 py-32 text-foreground"
+      className="relative bg-background px-6 py-20 text-foreground"
     >
       <div className="mx-auto max-w-6xl">
         <div className="mb-12 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
@@ -63,8 +63,8 @@ export function Interests() {
             </h2>
           </div>
           <p className="max-w-md text-muted-foreground">
-            A few things I keep coming back to. Some recharge me, some humble
-            me. The rest end up shaping how I work.
+            A handful of things I keep coming back to. Some recharge me, some
+            humble me, and the rest quietly shape how I work.
           </p>
         </div>
 
