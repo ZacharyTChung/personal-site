@@ -28,8 +28,9 @@ export function IronmanSection() {
           </h2>
           <p className="mt-6 max-w-lg text-lg leading-relaxed text-muted-foreground">
             Big goals keep me honest. The one I&apos;m most focused on right
-            now is my first half-Ironman — 1.2-mile swim, 56-mile bike, 13.1-mile
-            run. There&apos;s no shortcut to it; you just have to show up.
+            now is my first half Ironman: a 1.2 mile swim, 56 mile bike, and
+            13.1 mile run. There&apos;s no shortcut to it; you just have to
+            show up.
           </p>
           <p className="mt-4 max-w-lg text-lg leading-relaxed text-muted-foreground">
             Same thing applies to most of what I build. The interesting parts

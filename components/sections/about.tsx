@@ -1,4 +1,4 @@
-import { Code2, Mountain, Bike, BookOpen } from "lucide-react";
+import { Code2, Mountain, Bike, Globe } from "lucide-react";
 
 const stats = [
   {
@@ -17,9 +17,9 @@ const stats = [
     value: "70.3 in December",
   },
   {
-    icon: BookOpen,
-    label: "Reader",
-    value: "Sci-fi and nonfiction",
+    icon: Globe,
+    label: "Traveler",
+    value: "Always planning the next trip",
   },
 ];
 
@@ -41,7 +41,7 @@ export function About() {
             <p>
               I&apos;m a software engineer based in LA, though I&apos;d happily
               relocate for the right opportunity. I like taking an idea from
-              a sticky note to something real — mostly with TypeScript and
+              a sticky note to something real, mostly with TypeScript and
               Python.
             </p>
             <p>

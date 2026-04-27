@@ -9,7 +9,7 @@ const projects = [
   {
     title: "AdaptiveIO Journal",
     description:
-      "Engineering journal for an adaptive I/O system — low-level work on zero-copy data pipelines using io_uring, mmap, and Apache Arrow.",
+      "Engineering journal for an adaptive I/O system. Low level work on zero copy data pipelines using io_uring, mmap, and Apache Arrow.",
     tags: ["C++", "Apache Arrow", "Linux", "io_uring", "mmap"],
     image:
       "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?q=80&w=1600&auto=format&fit=crop",
@@ -20,7 +20,7 @@ const projects = [
   {
     title: "iOS Agent Automation",
     description:
-      "AI agent that drives an iPhone autonomously — vision + tool use to complete real tasks across mobile apps.",
+      "AI agent that drives an iPhone autonomously, using vision and tool use to complete real tasks across mobile apps.",
     tags: ["Swift", "SwiftUI", "Node.js", "Claude API", "XCTest", "AVFoundation"],
     image: "/images/Agentic_Automation_IOS.png",
     href: "#",
@@ -30,7 +30,7 @@ const projects = [
   {
     title: "wandr",
     description:
-      "Beli, but for travel — a social app for tracking, ranking, and sharing the places you've been.",
+      "Beli, but for travel. A social app for tracking, ranking, and sharing the places you've been.",
     tags: [
       "TypeScript",
       "React",

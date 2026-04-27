@@ -16,14 +16,14 @@ const fraunces = Fraunces({
 });
 
 export const metadata: Metadata = {
-  title: "Zachary Chung — Engineer, athlete, explorer",
+  title: "Zachary Chung. Engineer, athlete, explorer",
   description:
     "Personal site of Zachary Chung. Software engineer based in Los Angeles, open to relocating. Building things, training for an Ironman, and finding any excuse to be outside.",
   metadataBase: new URL("https://zacharychung.dev"),
   openGraph: {
     title: "Zachary Chung",
     description:
-      "Engineer, athlete, explorer — building things and chasing mountains.",
+      "Engineer, athlete, explorer. Building things and chasing mountains.",
     type: "website",
   },
 };

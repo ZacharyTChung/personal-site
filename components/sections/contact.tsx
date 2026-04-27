@@ -16,7 +16,7 @@ export function Contact() {
           <span className="text-foreground/50">Drop a line.</span>
         </h2>
         <p className="mx-auto mt-6 max-w-xl text-lg text-muted-foreground">
-          Always happy to chat — about projects, training, or where to hike
+          Always happy to chat about projects, training, or where to hike
           next. Email&apos;s the fastest way to reach me.
         </p>
 

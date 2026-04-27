@@ -13,7 +13,7 @@ const interests = [
   {
     title: "Travel",
     blurb:
-      "I'll go pretty much anywhere new — usually for the food and the people.",
+      "I'll go pretty much anywhere new, usually for the food and the people.",
     icon: Plane,
     image: "/images/travel.PNG",
     span: "",
@@ -29,7 +29,7 @@ const interests = [
   {
     title: "Hiking",
     blurb:
-      "Most weekends end up with a trail somewhere — Sierras, desert, wherever there's a bit of elevation.",
+      "Most weekends end up with a trail somewhere. Sierras, desert, wherever there's a bit of elevation.",
     icon: Mountain,
     image: "/images/hiking.JPG",
     span: "md:col-span-2",
@@ -64,7 +64,7 @@ export function Interests() {
           </div>
           <p className="max-w-md text-muted-foreground">
             A few things I keep coming back to. Some recharge me, some humble
-            me — the rest end up shaping how I work.
+            me. The rest end up shaping how I work.
           </p>
         </div>
 
