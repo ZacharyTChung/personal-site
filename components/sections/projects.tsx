@@ -104,26 +104,24 @@ export function Projects() {
                 )}
               </div>
               <div className="flex flex-1 flex-col p-5">
-                <div className="flex items-start justify-between gap-3">
-                  <h3 className="text-lg font-semibold text-foreground">
-                    {p.title}
-                  </h3>
-                  {p.date && (
-                    <span className="shrink-0 pt-1 text-[11px] uppercase tracking-wider text-muted-foreground">
-                      {p.date}
-                    </span>
-                  )}
-                </div>
+                {p.date && (
+                  <span className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
+                    {p.date}
+                  </span>
+                )}
+                <h3 className="mt-1.5 text-lg font-semibold leading-snug text-foreground">
+                  {p.title}
+                </h3>
                 {p.award && (
                   <div className="mt-2 inline-flex w-fit items-center gap-1.5 rounded-full border border-amber-500/30 bg-amber-500/10 px-2.5 py-1 text-[11px] font-medium text-amber-600 dark:text-amber-400">
                     <Trophy className="h-3 w-3" />
                     {p.award}
                   </div>
                 )}
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
                   {p.description}
                 </p>
-                <div className="mt-4 flex flex-wrap gap-2">
+                <div className="mt-auto flex flex-wrap gap-2 pt-4">
                   {p.tags.map((t) => (
                     <span
                       key={t}
@@ -133,7 +131,7 @@ export function Projects() {
                     </span>
                   ))}
                 </div>
-                <div className="mt-5 flex items-center gap-4 border-t border-border pt-4 text-sm text-muted-foreground">
+                <div className="mt-4 flex items-center gap-4 border-t border-border pt-4 text-sm text-muted-foreground">
                   {p.href && p.href !== "#" && (
                     <Link
                       href={p.href}

@@ -4,7 +4,7 @@ const stats = [
   {
     icon: Code2,
     label: "Engineer",
-    value: "Mostly TypeScript & Python",
+    value: "Full-stack, mobile, systems",
   },
   {
     icon: Mountain,
@@ -41,8 +41,9 @@ export function About() {
             <p>
               I&apos;m a software engineer based in LA, though I&apos;d happily
               relocate for the right opportunity. I like taking an idea from
-              a sticky note to something real, mostly with TypeScript and
-              Python.
+              a sticky note to something real — full-stack apps, mobile,
+              and a bit of low-level systems work when the problem calls
+              for it.
             </p>
             <p>
               When I&apos;m not at a screen I&apos;m usually running, hiking, or
