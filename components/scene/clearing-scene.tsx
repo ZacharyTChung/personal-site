@@ -82,14 +82,14 @@ export function ClearingScene() {
         />
 
         {/* headline */}
-        <div className="absolute left-1/2 top-[10%] z-10 w-[88%] -translate-x-1/2 text-center [text-shadow:0_1px_8px_rgba(20,16,8,0.45)] md:left-[7%] md:top-[17%] md:w-auto md:max-w-md md:translate-x-0 md:text-left">
-          <p className="text-xs uppercase tracking-[0.3em] text-[#f8ecd2]">
+        <div className="absolute left-1/2 top-[10%] z-10 w-[88%] -translate-x-1/2 text-center md:left-[7%] md:top-[17%] md:w-auto md:max-w-md md:translate-x-0 md:text-left">
+          <p className="text-xs uppercase tracking-[0.3em] text-[#2c4034]">
             Zachary Chung
           </p>
-          <h1 className="mt-3 font-display text-4xl font-semibold leading-tight text-white md:text-5xl">
+          <h1 className="mt-3 font-display text-4xl font-semibold leading-tight text-[#16241f] drop-shadow-sm md:text-5xl">
             A clearing in the woods.
           </h1>
-          <p className="mx-auto mt-4 max-w-md text-sm text-[#f3e6cd] md:mx-0 md:text-base">
+          <p className="mx-auto mt-4 max-w-md text-sm text-[#22362c] md:mx-0 md:text-base">
             Software engineer in LA, chasing a half-Ironman. Poke around the
             clearing — each thing here opens up part of my story.
           </p>
@@ -124,7 +124,7 @@ export function ClearingScene() {
         <a
           href="#about"
           aria-label="Skip the scene and read on"
-          className="absolute bottom-5 right-5 z-20 hidden items-center gap-2 text-xs uppercase tracking-[0.2em] text-[#f3e6cd] [text-shadow:0_1px_8px_rgba(20,16,8,0.45)] transition-opacity hover:opacity-70 md:flex"
+          className="absolute bottom-5 right-5 z-20 hidden items-center gap-2 text-xs uppercase tracking-[0.2em] text-[#2c4034] transition-opacity hover:opacity-70 md:flex"
         >
           Continue
           <ArrowDown className="h-4 w-4 animate-bounce" />

@@ -48,7 +48,7 @@ export function Interests() {
   return (
     <section
       id="interests"
-      className="relative px-6 py-20 text-foreground"
+      className="relative bg-background px-6 py-20 text-foreground"
     >
       <div className="mx-auto max-w-6xl">
         <div className="mb-12 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">

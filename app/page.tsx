@@ -1,5 +1,4 @@
 import { Nav } from "@/components/sections/nav";
-import { TopoBackdrop } from "@/components/ui/topo-backdrop";
 import { ClearingScene } from "@/components/scene/clearing-scene";
 import { About } from "@/components/sections/about";
 import { Stack } from "@/components/sections/stack";
@@ -11,7 +10,6 @@ import { Contact } from "@/components/sections/contact";
 export default function Home() {
   return (
     <main className="relative">
-      <TopoBackdrop />
       <Nav />
       <ClearingScene />
       <About />
