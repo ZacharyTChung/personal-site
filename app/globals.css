@@ -16,6 +16,18 @@
     --c-warm-2: 196 148 80;
     --c-warm-3: 156 112 50;
 
+    /* scene — forest clearing by a lake (daytime/calm) */
+    --s-sky-top: 150 200 230;
+    --s-sky-bottom: 214 234 226;
+    --s-sun: 255 226 150;
+    --s-pine-far: 60 96 84;
+    --s-pine-mid: 46 96 72;
+    --s-pine-near: 30 70 52;
+    --s-water: 96 150 168;
+    --s-water-deep: 56 104 128;
+    --s-ground: 82 120 78;
+    --s-ground-shadow: 54 86 60;
+
     --background: 220 4% 9%;
     --foreground: 38 36% 92%;
     --card: 220 4% 12%;
@@ -88,4 +100,19 @@
   opacity: 0.03;
   mix-blend-mode: overlay;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* honor the OS "reduce motion" setting site-wide */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
 }

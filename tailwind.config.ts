@@ -70,6 +70,19 @@ const config: Config = {
           800: "rgb(var(--c-bg-2) / <alpha-value>)",
           700: "rgb(var(--c-bg-3) / <alpha-value>)",
         },
+        // forest-clearing scene palette
+        scene: {
+          "sky-top": "rgb(var(--s-sky-top) / <alpha-value>)",
+          "sky-bottom": "rgb(var(--s-sky-bottom) / <alpha-value>)",
+          sun: "rgb(var(--s-sun) / <alpha-value>)",
+          "pine-far": "rgb(var(--s-pine-far) / <alpha-value>)",
+          "pine-mid": "rgb(var(--s-pine-mid) / <alpha-value>)",
+          "pine-near": "rgb(var(--s-pine-near) / <alpha-value>)",
+          water: "rgb(var(--s-water) / <alpha-value>)",
+          "water-deep": "rgb(var(--s-water-deep) / <alpha-value>)",
+          ground: "rgb(var(--s-ground) / <alpha-value>)",
+          "ground-shadow": "rgb(var(--s-ground-shadow) / <alpha-value>)",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
