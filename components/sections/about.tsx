@@ -27,7 +27,7 @@ export function About() {
   return (
     <section
       id="about"
-      className="relative bg-background px-6 py-20 text-foreground"
+      className="relative px-6 py-20 text-foreground"
     >
       <div className="mx-auto max-w-5xl">
         <p className="text-sm uppercase tracking-[0.3em] text-muted-foreground">

@@ -16,17 +16,18 @@
     --c-warm-2: 196 148 80;
     --c-warm-3: 156 112 50;
 
-    /* scene — forest clearing by a lake (daytime/calm) */
-    --s-sky-top: 150 200 230;
-    --s-sky-bottom: 214 234 226;
-    --s-sun: 255 226 150;
-    --s-pine-far: 60 96 84;
-    --s-pine-mid: 46 96 72;
-    --s-pine-near: 30 70 52;
-    --s-water: 96 150 168;
-    --s-water-deep: 56 104 128;
-    --s-ground: 82 120 78;
-    --s-ground-shadow: 54 86 60;
+    /* scene — forest clearing by a lake at golden hour (bridges to the
+       warm/dark site below) */
+    --s-sky-top: 92 116 162;
+    --s-sky-bottom: 244 196 142;
+    --s-sun: 255 214 138;
+    --s-pine-far: 70 92 96;
+    --s-pine-mid: 46 82 72;
+    --s-pine-near: 26 56 46;
+    --s-water: 120 146 162;
+    --s-water-deep: 58 86 110;
+    --s-ground: 96 110 70;
+    --s-ground-shadow: 52 70 48;
 
     --background: 220 4% 9%;
     --foreground: 38 36% 92%;
@@ -88,6 +89,24 @@
 .polaroid-float {
   animation: polaroid-float 6s ease-in-out infinite;
   will-change: transform;
+}
+
+@keyframes flame-flicker {
+  0%, 100% { transform: scaleY(1) scaleX(1); opacity: 0.92; }
+  50% { transform: scaleY(1.09) scaleX(0.95); opacity: 1; }
+}
+
+.flame {
+  transform-origin: 50% 100%;
+  animation: flame-flicker 1.6s ease-in-out infinite;
+}
+.flame-mid {
+  animation-duration: 2.1s;
+  animation-delay: 0.3s;
+}
+.flame-core {
+  animation-duration: 1.2s;
+  animation-delay: 0.15s;
 }
 
 /* subtle grain overlay */
