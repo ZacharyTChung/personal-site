@@ -15,6 +15,7 @@ const links = [
 
 export function Nav() {
   const [scrolled, setScrolled] = useState(false);
+  const [active, setActive] = useState("");
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -23,37 +24,78 @@ export function Nav() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  useEffect(() => {
+    const els = links
+      .map((l) => document.getElementById(l.href.slice(1)))
+      .filter((el): el is HTMLElement => el !== null);
+    const obs = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) setActive(e.target.id);
+        });
+      },
+      { rootMargin: "-45% 0px -50% 0px" },
+    );
+    els.forEach((el) => obs.observe(el));
+    return () => obs.disconnect();
+  }, []);
+
   return (
     <header
       className={cn(
-        "fixed top-0 inset-x-0 z-50 transition-all duration-300",
-        scrolled
-          ? "backdrop-blur-md bg-background/70 border-b border-border"
-          : "bg-transparent",
+        "fixed inset-x-0 top-0 z-50 px-4 transition-all duration-300",
+        scrolled ? "py-2" : "py-4",
       )}
     >
-      <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-        <Link
-          href="#top"
-          className="font-display text-lg tracking-tight text-foreground"
-        >
-          Zachary Chung
+      <nav
+        className={cn(
+          "mx-auto flex max-w-6xl items-center justify-between gap-4 rounded-2xl px-4 py-2 transition-all duration-300",
+          scrolled
+            ? "border border-[rgb(var(--c-warm-1)/0.18)] bg-[rgb(var(--c-bg-2)/0.8)] backdrop-blur-md"
+            : "border border-transparent",
+        )}
+      >
+        <Link href="#top" className="flex items-center gap-2">
+          <span className="font-hud text-[10px] text-[rgb(var(--c-warm-1))]">
+            ▲
+          </span>
+          <span className="font-display text-lg tracking-tight text-foreground">
+            Zachary Chung
+          </span>
         </Link>
-        <ul className="hidden items-center gap-8 md:flex">
-          {links.map((l) => (
-            <li key={l.href}>
-              <a
-                href={l.href}
-                className="text-sm text-muted-foreground transition-colors hover:text-foreground"
-              >
-                {l.label}
-              </a>
-            </li>
-          ))}
+
+        <ul className="hidden items-center gap-0.5 md:flex">
+          {links.map((l) => {
+            const isActive = active === l.href.slice(1);
+            return (
+              <li key={l.href}>
+                <a
+                  href={l.href}
+                  className={cn(
+                    "group flex items-center gap-2 rounded-lg px-3 py-1.5 text-sm transition-colors",
+                    isActive
+                      ? "bg-[rgb(var(--c-warm-1)/0.12)] text-foreground"
+                      : "text-muted-foreground hover:text-foreground",
+                  )}
+                >
+                  <span
+                    className={cn(
+                      "h-1.5 w-1.5 rounded-full transition-colors",
+                      isActive
+                        ? "bg-[rgb(var(--c-warm-1))]"
+                        : "bg-foreground/25 group-hover:bg-foreground/50",
+                    )}
+                  />
+                  {l.label}
+                </a>
+              </li>
+            );
+          })}
         </ul>
+
         <a
           href="#contact"
-          className="rounded-full border border-border px-4 py-1.5 text-sm text-foreground transition-colors hover:border-foreground/40"
+          className="rounded-lg border border-[rgb(var(--c-warm-1)/0.4)] bg-[rgb(var(--c-warm-1)/0.1)] px-3 py-2 font-hud text-[9px] uppercase tracking-wider text-[rgb(var(--c-warm-1))] transition-colors hover:bg-[rgb(var(--c-warm-1)/0.18)]"
         >
           Say hi
         </a>

@@ -1,4 +1,6 @@
 import { Code2, Mountain, Bike, Globe } from "lucide-react";
+import { TentSVG } from "@/components/scene/scene-objects";
+import { SceneGlyph, SectionGlow, SectionEyebrow } from "@/components/ui/scene-accents";
 
 const stats = [
   {
@@ -27,34 +29,37 @@ export function About() {
   return (
     <section
       id="about"
-      className="relative bg-background px-6 py-20 text-foreground"
+      className="relative overflow-hidden bg-background px-6 py-20 text-foreground"
     >
-      <div className="mx-auto max-w-5xl">
-        <p className="text-sm uppercase tracking-[0.3em] text-muted-foreground">
-          About
-        </p>
-        <h2 className="mt-4 font-display text-4xl font-semibold tracking-tight md:text-6xl">
-          A little about me.
-        </h2>
+      <SectionGlow />
+      <div className="relative z-10 mx-auto max-w-5xl">
+        <div className="flex items-center gap-4">
+          <SceneGlyph Object={TentSVG} />
+          <div>
+            <SectionEyebrow>Basecamp</SectionEyebrow>
+            <h2 className="mt-1 font-display text-4xl font-semibold tracking-tight md:text-6xl">
+              A little about me.
+            </h2>
+          </div>
+        </div>
         <div className="mt-8 grid gap-10 md:grid-cols-5">
           <div className="md:col-span-3 space-y-5 text-lg leading-relaxed text-muted-foreground">
             <p>
-              I&apos;m a software engineer based in LA, though I&apos;d happily
-              relocate for the right opportunity. I like taking an idea from
-              a sticky note to something real — full-stack apps, mobile,
-              and a bit of low-level systems work when the problem calls
-              for it.
+              I&apos;m a software engineer in LA — happy to move for the right
+              thing. Most of my favorite work starts as a half-baked idea and
+              ends up as something people actually use: web apps, mobile, and
+              the occasional dive into lower-level stuff when a problem needs
+              it.
             </p>
             <p>
-              When I&apos;m not at a screen, I&apos;m usually running, hiking,
-              or scheming up the next trip. The reason I like long-distance
-              training is the same reason I like building things: small,
-              boring days that quietly add up to something you couldn&apos;t
-              do a few months back.
+              Away from the keyboard I&apos;m usually running, hiking, or
+              planning the next trip. I like endurance training for the same
+              reason I like building things — a pile of ordinary days quietly
+              adds up to something you couldn&apos;t do a few months ago.
             </p>
             <p>
-              This little corner of the internet is mostly an excuse to keep
-              track of what I&apos;m working on and where I&apos;ve been.
+              This site is mostly a place to keep track of what I&apos;m
+              building and where I&apos;ve been.
             </p>
           </div>
           <div className="grid grid-cols-2 gap-4 md:col-span-2">

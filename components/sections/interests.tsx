@@ -1,5 +1,7 @@
 import Image from "next/image";
 import { Plane, Mountain, Dumbbell, Footprints, Goal } from "lucide-react";
+import { SoccerBallSVG } from "@/components/scene/scene-objects";
+import { SceneGlyph, SectionGlow, SectionEyebrow } from "@/components/ui/scene-accents";
 
 const interests = [
   {
@@ -37,7 +39,7 @@ const interests = [
   {
     title: "Running",
     blurb:
-      "Easy miles before the city wakes up. Nothing fixes a bad day like a long run.",
+      "Easy miles before the city's awake. A long run fixes most bad days.",
     icon: Footprints,
     image: "/images/running.JPG",
     span: "",
@@ -48,23 +50,25 @@ export function Interests() {
   return (
     <section
       id="interests"
-      className="relative bg-background px-6 py-20 text-foreground"
+      className="relative overflow-hidden bg-background px-6 py-20 text-foreground"
     >
-      <div className="mx-auto max-w-6xl">
+      <SectionGlow />
+      <div className="relative z-10 mx-auto max-w-6xl">
         <div className="mb-12 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-          <div>
-            <p className="text-sm uppercase tracking-[0.3em] text-muted-foreground">
-              Off the clock
-            </p>
-            <h2 className="mt-4 font-display text-4xl font-semibold tracking-tight md:text-6xl">
-              What I do outside
-              <br />
-              <span className="text-foreground/50">of work.</span>
-            </h2>
+          <div className="flex items-center gap-4">
+            <SceneGlyph Object={SoccerBallSVG} />
+            <div>
+              <SectionEyebrow>Off the clock</SectionEyebrow>
+              <h2 className="mt-1 font-display text-4xl font-semibold tracking-tight md:text-6xl">
+                What I do outside
+                <br />
+                <span className="text-foreground/50">of work.</span>
+              </h2>
+            </div>
           </div>
           <p className="max-w-md text-muted-foreground">
-            A handful of things I keep coming back to. Some recharge me, some
-            humble me, and the rest quietly shape how I work.
+            A few things I keep coming back to. Some reset me, some humble me,
+            and all of them keep me sane.
           </p>
         </div>
 

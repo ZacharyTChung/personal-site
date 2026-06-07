@@ -6,6 +6,8 @@ import {
   Sparkles,
   Wrench,
 } from "lucide-react";
+import { BackpackSVG } from "@/components/scene/scene-objects";
+import { SceneGlyph, SectionGlow, SectionEyebrow } from "@/components/ui/scene-accents";
 
 const groups = [
   {
@@ -44,23 +46,25 @@ export function Stack() {
   return (
     <section
       id="stack"
-      className="relative bg-background px-6 py-20 text-foreground"
+      className="relative overflow-hidden bg-background px-6 py-20 text-foreground"
     >
-      <div className="mx-auto max-w-6xl">
+      <SectionGlow />
+      <div className="relative z-10 mx-auto max-w-6xl">
         <div className="mb-12 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-          <div>
-            <p className="text-sm uppercase tracking-[0.3em] text-muted-foreground">
-              Toolkit
-            </p>
-            <h2 className="mt-4 font-display text-4xl font-semibold tracking-tight md:text-6xl">
-              The stack I reach for
-              <br />
-              <span className="text-foreground/50">most often.</span>
-            </h2>
+          <div className="flex items-center gap-4">
+            <SceneGlyph Object={BackpackSVG} />
+            <div>
+              <SectionEyebrow>What&apos;s in my pack</SectionEyebrow>
+              <h2 className="mt-1 font-display text-4xl font-semibold tracking-tight md:text-6xl">
+                The stack I reach for
+                <br />
+                <span className="text-foreground/50">most often.</span>
+              </h2>
+            </div>
           </div>
           <p className="max-w-md text-muted-foreground">
-            A working set, not a wishlist. These are the tools I&apos;ve
-            actually shipped with — and the ones I keep coming back to.
+            Not a wishlist — just the stuff I actually reach for and have
+            shipped real things with.
           </p>
         </div>
 

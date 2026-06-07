@@ -15,6 +15,13 @@ interface HotspotProps {
   baseSize: number;
 }
 
+const BRACKETS = [
+  "left-0 top-0 border-l-2 border-t-2",
+  "right-0 top-0 border-r-2 border-t-2",
+  "left-0 bottom-0 border-l-2 border-b-2",
+  "right-0 bottom-0 border-r-2 border-b-2",
+];
+
 export function Hotspot({ hotspot, isMobile, reduced, baseSize }: HotspotProps) {
   const { label, sublabel, targetId, x, y, xMobile, yMobile, scale, Object } =
     hotspot;
@@ -47,20 +54,41 @@ export function Hotspot({ hotspot, isMobile, reduced, baseSize }: HotspotProps) 
       onBlur={() => setFocused(false)}
       className={cn(
         "group pointer-events-auto absolute flex min-h-[48px] min-w-[48px] -translate-x-1/2 -translate-y-1/2 cursor-pointer items-center justify-center rounded-2xl",
-        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+        "focus-visible:outline-none",
       )}
       style={{ left: `${left}%`, top: `${top}%`, width: size, height: size }}
     >
-      {/* label tooltip */}
+      {/* targeting reticle */}
+      {BRACKETS.map((b) => (
+        <span
+          key={b}
+          aria-hidden="true"
+          className={cn(
+            "absolute h-3 w-3 rounded-[2px] border-[rgb(var(--c-warm-1))] transition-all duration-200",
+            b,
+            active ? "scale-100 opacity-90" : "scale-75 opacity-0",
+          )}
+        />
+      ))}
+
+      {/* examine prompt */}
       <span
         aria-hidden="true"
         className={cn(
-          "pointer-events-none absolute bottom-full left-1/2 mb-2 -translate-x-1/2 whitespace-nowrap rounded-full border border-border bg-card/90 px-3 py-1 text-center backdrop-blur transition duration-200",
+          "pointer-events-none absolute bottom-full left-1/2 mb-3 w-max max-w-[200px] -translate-x-1/2 rounded-lg border border-[rgb(var(--c-warm-1)/0.4)] bg-[rgb(var(--c-bg-2)/0.95)] px-3 py-2 text-center shadow-lg backdrop-blur transition duration-200",
           active ? "translate-y-0 opacity-100" : "translate-y-1 opacity-0",
         )}
       >
-        <span className="block text-sm font-medium text-foreground">{label}</span>
+        <span className="flex items-center justify-center gap-1.5 font-hud text-[8px] uppercase tracking-[0.15em] text-[rgb(var(--c-warm-1))]">
+          ▸ Examine
+        </span>
+        <span className="mt-1 block text-sm font-medium text-foreground">
+          {label}
+        </span>
         <span className="block text-[11px] text-muted-foreground">{sublabel}</span>
+        <span className="mt-1.5 inline-block rounded border border-border bg-background/60 px-1.5 font-hud text-[8px] text-muted-foreground">
+          ENTER
+        </span>
       </span>
 
       {/* idle-float + hover scale (transform owned by framer) */}
@@ -85,8 +113,8 @@ export function Hotspot({ hotspot, isMobile, reduced, baseSize }: HotspotProps) 
           className="block h-full w-full transition-[filter] duration-200"
           style={{
             filter: active
-              ? "drop-shadow(0 6px 20px rgba(255,226,150,0.6))"
-              : "drop-shadow(0 5px 10px rgba(0,0,0,0.28))",
+              ? "drop-shadow(0 6px 20px rgba(255,214,138,0.6))"
+              : "drop-shadow(0 5px 10px rgba(0,0,0,0.45))",
           }}
         >
           <Object />

@@ -90,8 +90,8 @@ export function ClearingScene() {
             A clearing in the woods.
           </h1>
           <p className="mx-auto mt-4 max-w-xs text-sm text-[#dccdb4] md:max-w-md md:mx-0 md:text-base">
-            Software engineer in LA, chasing a half-Ironman. Poke around the
-            clearing — each thing here opens up part of my story.
+            I build software in LA and I&apos;m training for a half-Ironman.
+            Have a look around — everything out here is clickable.
           </p>
         </div>
 
@@ -117,7 +117,7 @@ export function ClearingScene() {
             hintVisible ? "opacity-100" : "opacity-0"
           }`}
         >
-          {isTouch ? "Tap an object to explore" : "Move your mouse to look around · click an object"}
+          {isTouch ? "Tap something to take a look" : "Move to look around · click to examine"}
         </div>
 
         {/* scroll cue */}

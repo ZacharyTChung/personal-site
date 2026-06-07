@@ -1,5 +1,7 @@
 import Image from "next/image";
 import { RaceCountdown } from "@/components/ui/race-countdown";
+import { BikeSVG } from "@/components/scene/scene-objects";
+import { SceneGlyph, SectionEyebrow } from "@/components/ui/scene-accents";
 
 export function IronmanSection() {
   return (
@@ -20,21 +22,23 @@ export function IronmanSection() {
 
       <div className="mx-auto grid max-w-6xl gap-12 md:grid-cols-2 md:items-center">
         <div>
-          <p className="text-sm uppercase tracking-[0.3em] text-muted-foreground">
-            Goals
-          </p>
-          <h2 className="mt-4 font-display text-4xl font-semibold tracking-tight md:text-6xl">
-            What I&apos;m chasing.
-          </h2>
+          <div className="flex items-center gap-4">
+            <SceneGlyph Object={BikeSVG} />
+            <div>
+              <SectionEyebrow>The route</SectionEyebrow>
+              <h2 className="mt-1 font-display text-4xl font-semibold tracking-tight md:text-6xl">
+                What I&apos;m chasing.
+              </h2>
+            </div>
+          </div>
           <p className="mt-6 max-w-lg text-lg leading-relaxed text-muted-foreground">
-            Big goals keep me honest. The one I&apos;m chasing right now is my
-            first half Ironman: a 1.2 mile swim, a 56 mile bike, and a 13.1
-            mile run. There&apos;s no shortcut to it — you just keep showing
-            up.
+            Right now it&apos;s my first half-Ironman: a 1.2-mile swim, 56 on
+            the bike, then a 13.1 run. No shortcut to that one — you just keep
+            showing up.
           </p>
           <p className="mt-4 max-w-lg text-lg leading-relaxed text-muted-foreground">
-            Same goes for most of what I build. The interesting parts are
-            almost always in the boring middle.
+            Same goes for most of what I build. The good parts are usually
+            buried somewhere in the boring middle.
           </p>
         </div>
 

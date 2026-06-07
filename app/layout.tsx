@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Fraunces } from "next/font/google";
+import { Inter, Fraunces, Silkscreen } from "next/font/google";
 import "./globals.css";
 
 const inter = Inter({
@@ -15,15 +15,23 @@ const fraunces = Fraunces({
   axes: ["SOFT", "opsz"],
 });
 
+// pixel accent font for the game-HUD chrome (labels, key caps, prompts)
+const silkscreen = Silkscreen({
+  subsets: ["latin"],
+  weight: ["400", "700"],
+  variable: "--font-hud",
+  display: "swap",
+});
+
 export const metadata: Metadata = {
-  title: "Zachary Chung. Engineer, athlete, explorer",
+  title: "Zachary Chung — software engineer in LA",
   description:
-    "Personal site of Zachary Chung. Software engineer based in Los Angeles, open to relocating. Building things, training for an Ironman, and finding any excuse to be outside.",
+    "I'm a software engineer in LA. I build web and mobile apps, train for triathlons, and spend a lot of time outside. Have a look around.",
   metadataBase: new URL("https://zacharychung.dev"),
   openGraph: {
     title: "Zachary Chung",
     description:
-      "Engineer, athlete, explorer. Building things and chasing mountains.",
+      "Software engineer in LA who builds things and trains a little too much.",
     type: "website",
   },
 };
@@ -43,7 +51,7 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${inter.variable} ${fraunces.variable} font-sans grain`}
+        className={`${inter.variable} ${fraunces.variable} ${silkscreen.variable} font-sans grain`}
       >
         {children}
       </body>
