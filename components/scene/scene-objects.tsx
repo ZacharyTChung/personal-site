@@ -252,3 +252,68 @@ export function CampfireSVG({ className }: ObjProps) {
     </svg>
   );
 }
+
+export function FlagSVG({ className }: ObjProps) {
+  return (
+    <svg
+      viewBox="0 0 100 100"
+      className={cn(SVG_BASE, className)}
+      fill="none"
+      aria-hidden="true"
+    >
+      <defs>
+        <linearGradient id="flag-pennant" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stopColor="rgb(var(--s-sun))" />
+          <stop offset="1" stopColor="#e8a23f" />
+        </linearGradient>
+      </defs>
+      <GroundShadow rx={16} />
+      {/* small cairn the flag is planted in */}
+      <ellipse cx="50" cy="86" rx="13" ry="6" fill="#5b5750" />
+      <circle cx="44" cy="83" r="4" fill="#6b6760" />
+      <circle cx="56" cy="83" r="4.5" fill="#56524b" />
+      {/* pole */}
+      <rect x="48.5" y="16" width="3" height="70" rx="1.5" fill="#6b5536" />
+      <circle cx="50" cy="15" r="3" fill="rgb(var(--c-warm-1))" />
+      {/* pennant */}
+      <path d="M51.5 19 L82 28 L51.5 41 Z" fill="url(#flag-pennant)" />
+      {/* little star */}
+      <path
+        d="M62 28 L63.4 31 L66.6 31 L64 33 L65 36 L62 34.2 L59 36 L60 33 L57.4 31 L60.6 31 Z"
+        fill="#3a2616"
+        opacity="0.7"
+      />
+    </svg>
+  );
+}
+
+export function GuitarSVG({ className }: ObjProps) {
+  return (
+    <svg
+      viewBox="0 0 100 100"
+      className={cn(SVG_BASE, className)}
+      fill="none"
+      aria-hidden="true"
+    >
+      <GroundShadow rx={22} />
+      <g transform="rotate(18 50 54)">
+        {/* body */}
+        <ellipse cx="50" cy="70" rx="20" ry="22" fill="#9a6638" />
+        <ellipse cx="50" cy="48" rx="14" ry="15" fill="#9a6638" />
+        <ellipse cx="50" cy="70" rx="20" ry="22" fill="none" stroke="#74492a" strokeWidth="1.6" />
+        {/* sound hole */}
+        <circle cx="50" cy="58" r="6.5" fill="#3a2616" />
+        <circle cx="50" cy="58" r="6.5" fill="none" stroke="rgb(var(--s-sun))" strokeWidth="1" />
+        {/* bridge */}
+        <rect x="43" y="76" width="14" height="3.2" rx="1.4" fill="#3a2616" />
+        {/* neck + fretboard */}
+        <rect x="45.5" y="6" width="9" height="40" rx="1" fill="#5a3d28" />
+        <rect x="47" y="6" width="6" height="40" fill="#3a2616" />
+        {/* headstock */}
+        <rect x="43.5" y="1" width="13" height="9" rx="2" fill="#5a3d28" />
+        {/* strings */}
+        <path d="M48 9 L48 76 M52 9 L52 76" stroke="#d8c8a8" strokeWidth="0.5" opacity="0.6" />
+      </g>
+    </svg>
+  );
+}

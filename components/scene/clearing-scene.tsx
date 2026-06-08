@@ -61,7 +61,7 @@ export function ClearingScene() {
     return () => clearTimeout(t);
   }, []);
 
-  const baseSize = isNarrow ? 108 : 134;
+  const baseSize = isNarrow ? 92 : 122;
 
   return (
     <>

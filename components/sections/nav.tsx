@@ -8,7 +8,9 @@ const links = [
   { href: "#about", label: "About" },
   { href: "#stack", label: "Stack" },
   { href: "#projects", label: "Projects" },
+  { href: "#awards", label: "Awards" },
   { href: "#interests", label: "Interests" },
+  { href: "#music", label: "Music" },
   { href: "#ironman", label: "Goals" },
   { href: "#contact", label: "Contact" },
 ];
@@ -72,7 +74,7 @@ export function Nav() {
                 <a
                   href={l.href}
                   className={cn(
-                    "group flex items-center gap-2 rounded-lg px-3 py-1.5 text-sm transition-colors",
+                    "group flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-sm transition-colors",
                     isActive
                       ? "bg-[rgb(var(--c-warm-1)/0.12)] text-foreground"
                       : "text-muted-foreground hover:text-foreground",
