@@ -14,14 +14,14 @@ const seats: Seat[] = [
     icon: Github,
     label: "GitHub",
     value: "ZacharyTChung",
-    href: "https://github.com/ZacharyTChung",
+    href: "https://github.com/ZacharyTChung/ZacharyTChung",
     pos: "md:left-[1%] md:top-[12%]",
   },
   {
     icon: Linkedin,
     label: "LinkedIn",
-    value: "zacharychung",
-    href: "https://linkedin.com/in/zacharychung",
+    value: "zachary-chung",
+    href: "https://www.linkedin.com/in/zachary-chung-07012a319/",
     pos: "md:right-[1%] md:top-[12%]",
   },
   {
