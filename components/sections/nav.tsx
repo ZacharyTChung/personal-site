@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
 
 const links = [
   { href: "#about", label: "About" },
@@ -95,12 +96,15 @@ export function Nav() {
           })}
         </ul>
 
-        <a
-          href="#contact"
-          className="rounded-lg border border-[rgb(var(--c-warm-1)/0.4)] bg-[rgb(var(--c-warm-1)/0.1)] px-3 py-2 font-hud text-[9px] uppercase tracking-wider text-[rgb(var(--c-warm-1))] transition-colors hover:bg-[rgb(var(--c-warm-1)/0.18)]"
-        >
-          Say hi
-        </a>
+        <div className="flex items-center gap-2">
+          <ThemeToggle />
+          <a
+            href="#contact"
+            className="rounded-full border-2 border-[rgb(var(--c-warm-1)/0.55)] bg-[rgb(var(--c-warm-1)/0.15)] px-4 py-1 font-hand text-lg leading-none text-[rgb(var(--c-warm-1))] transition-transform hover:-rotate-2 hover:scale-105"
+          >
+            say hi!
+          </a>
+        </div>
       </nav>
     </header>
   );

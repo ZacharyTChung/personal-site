@@ -15,12 +15,12 @@ import {
  * Owned here so the whole scene's feel is tunable in one place.
  */
 export const DEPTH = {
-  sky: 4,
-  far: 10,
-  mid: 18,
-  water: 8,
-  ground: 30,
-  objects: 34,
+  sky: 2,
+  far: 4,
+  mid: 7,
+  water: 4,
+  ground: 11,
+  objects: 12,
 } as const;
 
 export interface SceneHotspot {

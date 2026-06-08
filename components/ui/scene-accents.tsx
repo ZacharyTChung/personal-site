@@ -19,12 +19,12 @@ export function SceneGlyph({
   return (
     <span
       className={cn(
-        "inline-flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border p-2.5 shadow-sm",
+        "inline-flex h-16 w-16 shrink-0 -rotate-3 items-center justify-center rounded-2xl border-2 p-2.5 shadow-[3px_3px_0_rgb(0_0_0_/_0.12)] transition-transform duration-200 hover:rotate-0",
         className,
       )}
       style={{
-        borderColor: `rgb(var(${accent}) / 0.4)`,
-        background: `rgb(var(${accent}) / 0.14)`,
+        borderColor: `rgb(var(${accent}) / 0.55)`,
+        background: `rgb(var(${accent}) / 0.16)`,
       }}
     >
       <Object className="h-full w-full" />
@@ -65,7 +65,7 @@ export function SectionEyebrow({
 }) {
   return (
     <p
-      className="font-hud text-[10px] uppercase tracking-[0.22em]"
+      className="font-hand text-xl lowercase leading-none"
       style={{ color: `rgb(var(${accent}))` }}
     >
       {children}

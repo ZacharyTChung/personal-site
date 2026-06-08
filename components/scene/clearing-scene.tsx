@@ -7,6 +7,7 @@ import { useReducedMotionSafe } from "@/lib/use-reduced-motion";
 import { SceneLandscape } from "./scene-landscape";
 import { Hotspot } from "./hotspot";
 import { CampDog } from "./camp-dog";
+import { Sparkle, Squiggle } from "@/components/ui/doodles";
 import { HOTSPOTS, DEPTH } from "./scene-config";
 
 /** SSR-safe media query hook (false until mounted). */
@@ -31,8 +32,8 @@ export function ClearingScene() {
 
   const mx = useMotionValue(0);
   const my = useMotionValue(0);
-  const sx = useSpring(mx, { stiffness: 50, damping: 18 });
-  const sy = useSpring(my, { stiffness: 50, damping: 18 });
+  const sx = useSpring(mx, { stiffness: 45, damping: 28 });
+  const sy = useSpring(my, { stiffness: 45, damping: 28 });
 
   const skyX = useTransform(sx, (v) => v * DEPTH.sky);
   const farX = useTransform(sx, (v) => v * DEPTH.far);
@@ -40,8 +41,8 @@ export function ClearingScene() {
   const waterX = useTransform(sx, (v) => v * DEPTH.water);
   const groundX = useTransform(sx, (v) => v * DEPTH.ground);
   const objectsX = useTransform(sx, (v) => v * DEPTH.objects);
-  const objectsY = useTransform(sy, (v) => v * 4);
-  const sunY = useTransform(sy, (v) => v * 8);
+  const objectsY = useTransform(sy, (v) => v * 2);
+  const sunY = useTransform(sy, (v) => v * 4);
 
   // single pointer source — only when parallax is wanted
   useEffect(() => {
@@ -83,16 +84,20 @@ export function ClearingScene() {
         />
 
         {/* headline */}
-        <div className="absolute inset-x-5 top-[9%] z-10 text-center [text-shadow:0_1px_3px_rgba(255,255,255,0.65)] md:inset-x-auto md:left-[7%] md:top-[16%] md:max-w-md md:text-left">
-          <p className="font-hud text-[10px] uppercase tracking-[0.25em] text-[rgb(var(--c-warm-3))]">
-            Zachary Chung
+        <div className="absolute inset-x-5 top-[8%] z-10 text-center md:inset-x-auto md:left-[7%] md:top-[14%] md:max-w-lg md:text-left">
+          <p className="flex items-center justify-center gap-1.5 font-hand text-2xl text-[rgb(var(--c-warm-3))] md:justify-start md:text-3xl">
+            <Sparkle className="h-4 w-4" /> hey! i&apos;m
           </p>
-          <h1 className="mx-auto mt-3 max-w-[14ch] whitespace-normal break-words font-display text-4xl font-bold leading-[1.05] text-[#0f3b34] md:mx-0 md:max-w-none md:text-6xl">
-            A clearing in the woods.
+          <h1 className="relative mt-0 inline-block font-display text-5xl font-extrabold leading-[0.9] text-[#0f3b34] [text-shadow:2px_2px_0_rgba(255,255,255,0.5)] dark:text-[#f7eede] dark:[text-shadow:2px_2px_0_rgba(0,0,0,0.4)] md:text-7xl">
+            Zachary
+            <br />
+            Chung
+            <Squiggle className="mt-1 h-3 w-44 text-[rgb(var(--c-pop-coral))] md:w-64" />
           </h1>
-          <p className="mx-auto mt-4 max-w-xs text-sm font-medium text-[#1f4a42] md:max-w-md md:mx-0 md:text-base">
-            I build software in LA and I&apos;m training for a half-Ironman.
-            Have a look around — everything out here is clickable.
+          <p className="mx-auto mt-5 max-w-xs font-medium text-[#1f4a42] dark:text-[#dccdb4] md:mx-0 md:max-w-md md:text-lg">
+            software engineer, triathlete-in-training, and full-time
+            excuse-finder to be outside. poke around — everything out here is
+            clickable.
           </p>
         </div>
 
@@ -127,20 +132,20 @@ export function ClearingScene() {
 
         {/* onboarding hint */}
         <div
-          className={`pointer-events-none absolute bottom-6 left-1/2 z-20 -translate-x-1/2 rounded-full border border-border bg-card/85 px-4 py-2 text-xs text-muted-foreground backdrop-blur transition-opacity duration-500 ${
+          className={`pointer-events-none absolute bottom-6 left-1/2 z-20 -translate-x-1/2 rounded-full border-2 border-border bg-card/90 px-4 py-1.5 font-hand text-lg text-foreground/70 backdrop-blur transition-opacity duration-500 ${
             hintVisible ? "opacity-100" : "opacity-0"
           }`}
         >
-          {isTouch ? "Tap something to take a look" : "Move to look around · click to examine"}
+          {isTouch ? "tap stuff to take a peek!" : "drag around · click stuff to peek!"}
         </div>
 
         {/* scroll cue */}
         <a
           href="#about"
           aria-label="Skip the scene and read on"
-          className="absolute bottom-5 right-5 z-20 hidden items-center gap-2 font-hud text-[9px] uppercase tracking-[0.2em] text-[#0f3b34] [text-shadow:0_1px_2px_rgba(255,255,255,0.6)] transition-opacity hover:opacity-70 md:flex"
+          className="absolute bottom-5 right-5 z-20 hidden items-center gap-1.5 font-hand text-xl text-[#0f3b34] transition-opacity hover:opacity-70 dark:text-[#dccdb4] md:flex"
         >
-          Continue
+          scroll!
           <ArrowDown className="h-4 w-4 animate-bounce" />
         </a>
       </section>

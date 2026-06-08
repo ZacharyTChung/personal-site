@@ -58,6 +58,61 @@
     --ring: 24 100% 58%;
     --radius: 0.875rem;
   }
+
+  /* dark mode — cozy night version of the world */
+  .dark {
+    --c-bg-1: 22 22 25;
+    --c-bg-2: 32 32 36;
+    --c-bg-3: 46 46 52;
+    --c-fg: 240 234 222;
+    --c-accent-1: 214 208 198;
+    --c-accent-2: 168 162 152;
+    --c-accent-3: 120 114 104;
+    --c-warm-1: 255 168 70;
+    --c-warm-2: 244 122 86;
+    --c-warm-3: 224 92 62;
+
+    --c-pop-coral: 255 122 122;
+    --c-pop-teal: 56 214 232;
+    --c-pop-violet: 172 144 255;
+    --c-pop-gold: 255 205 72;
+    --c-pop-lime: 110 222 130;
+    --c-pop-pink: 255 138 212;
+    --c-pop-sky: 110 210 255;
+
+    /* night clearing */
+    --s-sky-top: 18 19 28;
+    --s-sky-bottom: 44 36 40;
+    --s-sun: 255 214 138;
+    --s-pine-far: 40 48 52;
+    --s-pine-mid: 27 35 37;
+    --s-pine-near: 15 21 22;
+    --s-water: 42 56 72;
+    --s-water-deep: 20 28 42;
+    --s-ground: 30 37 30;
+    --s-ground-shadow: 15 20 15;
+
+    --background: 222 16% 11%;
+    --foreground: 38 36% 92%;
+    --card: 222 14% 15%;
+    --card-foreground: 38 36% 92%;
+    --popover: 222 14% 15%;
+    --popover-foreground: 38 36% 92%;
+    --primary: 38 36% 92%;
+    --primary-foreground: 222 16% 11%;
+    --secondary: 222 12% 20%;
+    --secondary-foreground: 38 36% 92%;
+    --muted: 222 12% 20%;
+    --muted-foreground: 36 14% 72%;
+    --accent: 24 100% 62%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 60% 55%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 222 12% 24%;
+    --input: 222 12% 24%;
+    --ring: 24 100% 62%;
+    --radius: 0.875rem;
+  }
 }
 
 @layer base {

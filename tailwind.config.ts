@@ -16,7 +16,9 @@ const config: Config = {
       fontFamily: {
         sans: ["var(--font-sans)", "system-ui", "sans-serif"],
         display: ["var(--font-display)", "system-ui", "sans-serif"],
-        hud: ["var(--font-hud)", "ui-monospace", "monospace"],
+        hand: ["var(--font-hand)", "ui-rounded", "cursive"],
+        // legacy "hud" usages now render in the handwritten font
+        hud: ["var(--font-hand)", "ui-rounded", "cursive"],
       },
       colors: {
         border: "hsl(var(--border))",

@@ -1,25 +1,26 @@
 import type { Metadata } from "next";
-import { Inter, Fraunces, Silkscreen } from "next/font/google";
+import { Nunito, Baloo_2, Caveat } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({
+// friendly rounded body
+const nunito = Nunito({
   subsets: ["latin"],
   variable: "--font-sans",
   display: "swap",
 });
 
-const fraunces = Fraunces({
+// chunky rounded headings
+const baloo = Baloo_2({
   subsets: ["latin"],
   variable: "--font-display",
   display: "swap",
-  axes: ["SOFT", "opsz"],
 });
 
-// pixel accent font for the game-HUD chrome (labels, key caps, prompts)
-const silkscreen = Silkscreen({
+// handwritten accents (eyebrows, doodle labels, captions)
+const caveat = Caveat({
   subsets: ["latin"],
-  weight: ["400", "700"],
-  variable: "--font-hud",
+  weight: ["400", "600", "700"],
+  variable: "--font-hand",
   display: "swap",
 });
 
@@ -46,12 +47,12 @@ export default function RootLayout({
       <head>
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){try{if('scrollRestoration' in history){history.scrollRestoration='manual';}window.scrollTo(0,0);}catch(e){}})();`,
+            __html: `(function(){try{if('scrollRestoration' in history){history.scrollRestoration='manual';}window.scrollTo(0,0);var t=localStorage.getItem('theme');if(t==='dark'||(!t&&window.matchMedia('(prefers-color-scheme: dark)').matches)){document.documentElement.classList.add('dark');}}catch(e){}})();`,
           }}
         />
       </head>
       <body
-        className={`${inter.variable} ${fraunces.variable} ${silkscreen.variable} font-sans grain`}
+        className={`${nunito.variable} ${baloo.variable} ${caveat.variable} font-sans grain`}
       >
         {children}
       </body>
