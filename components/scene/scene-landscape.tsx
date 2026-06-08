@@ -235,16 +235,17 @@ export function SceneLandscape({
         className="absolute inset-x-0 bottom-0 h-[44%] w-full"
         style={{ x: groundX }}
       >
-        {/* trail heading down out of the clearing — connects to the page trail */}
+        {/* trail heading down out of the clearing — starts on the grass
+            (below the water) and connects to the page trail */}
         <path
-          d="M600 20 C 540 100, 660 170, 600 250"
+          d="M600 96 C 556 150, 660 200, 600 252"
           fill="none"
           stroke="rgb(var(--c-trail) / 0.5)"
           strokeWidth="34"
           strokeLinecap="round"
         />
         <path
-          d="M600 20 C 540 100, 660 170, 600 250"
+          d="M600 96 C 556 150, 660 200, 600 252"
           fill="none"
           stroke="rgb(var(--c-fg) / 0.26)"
           strokeWidth="3"
@@ -271,8 +272,8 @@ export function SceneLandscape({
         })}
       </motion.svg>
 
-      {/* dissolve the bright scene into the dark site below */}
-      <div className="absolute inset-x-0 bottom-0 h-[22%] bg-gradient-to-b from-transparent to-background" />
+      {/* dissolve the scene gradually into the page below for a smooth blend */}
+      <div className="absolute inset-x-0 bottom-0 h-[34%] bg-gradient-to-b from-transparent via-background/55 to-background" />
     </div>
   );
 }
