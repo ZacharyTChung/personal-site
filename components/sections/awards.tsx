@@ -13,6 +13,18 @@ const awards = [
     date: "April 2026",
     note: "Built a voice-driven iPhone agent that runs multi-step tasks across apps and reads each step out loud for blind and low-vision users.",
   },
+  {
+    title: "Director's Scholar",
+    org: "USC",
+    date: "Scholarship",
+    note: "Merit scholarship awarded for academic achievement.",
+  },
+  {
+    title: "Dean's List · 4×",
+    org: "USC",
+    date: "Academics",
+    note: "Made the Dean's List four semesters.",
+  },
 ];
 
 export function Awards() {
