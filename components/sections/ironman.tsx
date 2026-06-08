@@ -23,9 +23,9 @@ export function IronmanSection() {
       <div className="mx-auto grid max-w-6xl gap-12 md:grid-cols-2 md:items-center">
         <div>
           <div className="flex items-center gap-4">
-            <SceneGlyph Object={BikeSVG} />
+            <SceneGlyph Object={BikeSVG} accent="--c-pop-sky" />
             <div>
-              <SectionEyebrow>The route</SectionEyebrow>
+              <SectionEyebrow accent="--c-pop-sky">The route</SectionEyebrow>
               <h2 className="mt-1 font-display text-4xl font-semibold tracking-tight md:text-6xl">
                 What I&apos;m chasing.
               </h2>

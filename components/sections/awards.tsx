@@ -21,12 +21,12 @@ export function Awards() {
       id="awards"
       className="relative overflow-hidden bg-background px-6 py-20 text-foreground"
     >
-      <SectionGlow />
+      <SectionGlow accent="--c-pop-gold" />
       <div className="relative z-10 mx-auto max-w-5xl">
         <div className="flex items-center gap-4">
-          <SceneGlyph Object={FlagSVG} />
+          <SceneGlyph Object={FlagSVG} accent="--c-pop-gold" />
           <div>
-            <SectionEyebrow>Trophy shelf</SectionEyebrow>
+            <SectionEyebrow accent="--c-pop-gold">Trophy shelf</SectionEyebrow>
             <h2 className="mt-1 font-display text-4xl font-semibold tracking-tight md:text-6xl">
               A few wins.
             </h2>

@@ -59,42 +59,43 @@ export function SceneLandscape({
         transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
       />
 
-      {/* stars */}
-      <motion.div className="absolute inset-x-0 top-0 h-[50%]" style={{ x: skyX }}>
-        {[...Array(36)].map((_, i) => {
-          const x = (i * 53) % 100;
-          const y = (i * 29) % 48;
-          const s = (i % 3) + 1;
-          return (
-            <motion.span
-              key={i}
-              className="absolute rounded-full"
-              style={{
-                left: `${x}%`,
-                top: `${y}%`,
-                width: s,
-                height: s,
-                background: "rgba(255,244,214,0.9)",
-              }}
-              animate={animate ? { opacity: [0.2, 0.9, 0.2] } : undefined}
-              transition={{
-                duration: 3 + (i % 4),
-                repeat: Infinity,
-                delay: (i % 7) * 0.4,
-              }}
-            />
-          );
-        })}
-      </motion.div>
-
-      {/* warm firelight / last-light glow on the horizon */}
+      {/* soft sun haze */}
       <div
-        className="absolute inset-x-0 top-[40%] h-[30%]"
+        className="absolute left-[72%] top-[15%] h-[40%] w-[40%] -translate-x-1/2 -translate-y-1/2 rounded-full"
         style={{
           background:
-            "radial-gradient(ellipse 65% 100% at 50% 100%, rgb(var(--s-sun) / 0.30), transparent 72%)",
+            "radial-gradient(circle, rgb(var(--s-sun) / 0.4), transparent 68%)",
         }}
       />
+
+      {/* drifting clouds */}
+      <motion.svg
+        viewBox="0 0 600 200"
+        className="absolute left-0 top-[12%] h-[14%] w-[160%]"
+        style={{ x: farX }}
+        animate={animate ? { translateX: ["-6%", "5%", "-6%"] } : undefined}
+        transition={{ duration: 75, repeat: Infinity, ease: "easeInOut" }}
+      >
+        <g fill="#ffffff">
+          <ellipse cx="90" cy="120" rx="60" ry="24" />
+          <ellipse cx="140" cy="128" rx="48" ry="20" />
+          <ellipse cx="320" cy="100" rx="70" ry="26" />
+          <ellipse cx="375" cy="110" rx="52" ry="20" />
+          <ellipse cx="520" cy="125" rx="46" ry="18" />
+        </g>
+      </motion.svg>
+
+      {/* a couple of birds */}
+      <motion.svg
+        viewBox="0 0 100 40"
+        className="absolute left-[22%] top-[19%] h-[5%] w-[14%]"
+        style={{ x: skyX }}
+        animate={animate ? { y: [0, -5, 0], x: [0, 10, 0] } : undefined}
+        transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
+      >
+        <path d="M6 22 Q12 13 18 22 Q24 13 30 22" stroke="#2a4a3c" strokeWidth="2" fill="none" strokeLinecap="round" />
+        <path d="M42 15 Q47 8 52 15 Q57 8 62 15" stroke="#2a4a3c" strokeWidth="1.6" fill="none" strokeLinecap="round" />
+      </motion.svg>
 
       {/* far treeline */}
       <motion.svg
@@ -195,13 +196,13 @@ export function SceneLandscape({
           d="M0 66 C20 62 38 64 50 63 C66 62 82 65 100 63 L100 100 L0 100 Z"
           fill="rgb(var(--s-ground))"
         />
-        {/* faint firelight rim on the bank */}
+        {/* sunlit grass rim */}
         <path
           d="M0 66 C20 62 38 64 50 63 C66 62 82 65 100 63"
           fill="none"
-          stroke="rgb(var(--s-sun))"
+          stroke="#dcffe4"
           strokeWidth="0.8"
-          opacity="0.18"
+          opacity="0.5"
         />
         {/* soft contour shadow */}
         <path

@@ -6,6 +6,7 @@ import { ArrowDown } from "lucide-react";
 import { useReducedMotionSafe } from "@/lib/use-reduced-motion";
 import { SceneLandscape } from "./scene-landscape";
 import { Hotspot } from "./hotspot";
+import { CampDog } from "./camp-dog";
 import { HOTSPOTS, DEPTH } from "./scene-config";
 
 /** SSR-safe media query hook (false until mounted). */
@@ -82,14 +83,14 @@ export function ClearingScene() {
         />
 
         {/* headline */}
-        <div className="absolute inset-x-5 top-[9%] z-10 text-center [text-shadow:0_2px_12px_rgba(0,0,0,0.5)] md:inset-x-auto md:left-[7%] md:top-[16%] md:max-w-md md:text-left">
-          <p className="text-xs uppercase tracking-[0.3em] text-[#e7c79a]">
+        <div className="absolute inset-x-5 top-[9%] z-10 text-center [text-shadow:0_1px_3px_rgba(255,255,255,0.65)] md:inset-x-auto md:left-[7%] md:top-[16%] md:max-w-md md:text-left">
+          <p className="font-hud text-[10px] uppercase tracking-[0.25em] text-[rgb(var(--c-warm-3))]">
             Zachary Chung
           </p>
-          <h1 className="mx-auto mt-3 max-w-[14ch] whitespace-normal break-words font-display text-3xl font-semibold leading-tight text-[#f5ecda] md:mx-0 md:max-w-none md:text-5xl">
+          <h1 className="mx-auto mt-3 max-w-[14ch] whitespace-normal break-words font-display text-4xl font-bold leading-[1.05] text-[#0f3b34] md:mx-0 md:max-w-none md:text-6xl">
             A clearing in the woods.
           </h1>
-          <p className="mx-auto mt-4 max-w-xs text-sm text-[#dccdb4] md:max-w-md md:mx-0 md:text-base">
+          <p className="mx-auto mt-4 max-w-xs text-sm font-medium text-[#1f4a42] md:max-w-md md:mx-0 md:text-base">
             I build software in LA and I&apos;m training for a half-Ironman.
             Have a look around — everything out here is clickable.
           </p>
@@ -109,6 +110,19 @@ export function ClearingScene() {
               baseSize={baseSize}
             />
           ))}
+
+          {/* camp dog hanging out by the fire */}
+          <div
+            className="pointer-events-auto absolute -translate-x-1/2 -translate-y-1/2"
+            style={{
+              left: "40%",
+              top: "91%",
+              width: baseSize * 0.62,
+              height: baseSize * 0.62,
+            }}
+          >
+            <CampDog reduced={reduced} />
+          </div>
         </motion.div>
 
         {/* onboarding hint */}
@@ -124,7 +138,7 @@ export function ClearingScene() {
         <a
           href="#about"
           aria-label="Skip the scene and read on"
-          className="absolute bottom-5 right-5 z-20 hidden items-center gap-2 text-xs uppercase tracking-[0.2em] text-[#dccdb4] [text-shadow:0_1px_8px_rgba(0,0,0,0.5)] transition-opacity hover:opacity-70 md:flex"
+          className="absolute bottom-5 right-5 z-20 hidden items-center gap-2 font-hud text-[9px] uppercase tracking-[0.2em] text-[#0f3b34] [text-shadow:0_1px_2px_rgba(255,255,255,0.6)] transition-opacity hover:opacity-70 md:flex"
         >
           Continue
           <ArrowDown className="h-4 w-4 animate-bounce" />

@@ -48,13 +48,13 @@ export function Stack() {
       id="stack"
       className="relative overflow-hidden bg-background px-6 py-20 text-foreground"
     >
-      <SectionGlow />
+      <SectionGlow accent="--c-pop-teal" />
       <div className="relative z-10 mx-auto max-w-6xl">
         <div className="mb-12 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div className="flex items-center gap-4">
-            <SceneGlyph Object={BackpackSVG} />
+            <SceneGlyph Object={BackpackSVG} accent="--c-pop-teal" />
             <div>
-              <SectionEyebrow>What&apos;s in my pack</SectionEyebrow>
+              <SectionEyebrow accent="--c-pop-teal">What&apos;s in my pack</SectionEyebrow>
               <h2 className="mt-1 font-display text-4xl font-semibold tracking-tight md:text-6xl">
                 The stack I reach for
                 <br />

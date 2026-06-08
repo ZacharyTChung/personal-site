@@ -31,12 +31,12 @@ export function About() {
       id="about"
       className="relative overflow-hidden bg-background px-6 py-20 text-foreground"
     >
-      <SectionGlow />
+      <SectionGlow accent="--c-pop-coral" />
       <div className="relative z-10 mx-auto max-w-5xl">
         <div className="flex items-center gap-4">
-          <SceneGlyph Object={TentSVG} />
+          <SceneGlyph Object={TentSVG} accent="--c-pop-coral" />
           <div>
-            <SectionEyebrow>Basecamp</SectionEyebrow>
+            <SectionEyebrow accent="--c-pop-coral">Basecamp</SectionEyebrow>
             <h2 className="mt-1 font-display text-4xl font-semibold tracking-tight md:text-6xl">
               A little about me.
             </h2>

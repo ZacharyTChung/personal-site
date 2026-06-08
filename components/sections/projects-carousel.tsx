@@ -68,9 +68,9 @@ export function ProjectsCarousel({ projects }: { projects: Project[] }) {
         titleComponent={
           <>
             <div className="flex items-center justify-center gap-4">
-              <SceneGlyph Object={LaptopLogSVG} />
+              <SceneGlyph Object={LaptopLogSVG} accent="--c-pop-violet" />
               <div className="text-left">
-                <SectionEyebrow>Field notes</SectionEyebrow>
+                <SectionEyebrow accent="--c-pop-violet">Field notes</SectionEyebrow>
                 <h2 className="mt-2 font-display text-3xl font-semibold text-foreground md:text-5xl">
                   Things I&apos;ve built lately
                 </h2>

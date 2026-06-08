@@ -2,35 +2,45 @@ import type { FC } from "react";
 import { cn } from "@/lib/utils";
 
 /**
- * A scene object (tent, backpack, etc.) shown in a small warm badge — used as
- * each section's heading glyph so every section visibly ties back to the
- * object you clicked in the clearing.
+ * A scene object (tent, backpack, etc.) shown in a small colored badge — used
+ * as each section's heading glyph so every section visibly ties back to the
+ * object you clicked in the clearing. `accent` is a CSS custom-property name
+ * (e.g. "--c-pop-teal") so each section gets its own pop color.
  */
 export function SceneGlyph({
   Object,
+  accent = "--c-warm-1",
   className,
 }: {
   Object: FC<{ className?: string }>;
+  accent?: string;
   className?: string;
 }) {
   return (
     <span
       className={cn(
-        "inline-flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border border-[rgb(var(--c-warm-1)/0.25)] bg-[rgb(var(--c-warm-1)/0.08)] p-2.5",
+        "inline-flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border p-2.5 shadow-sm",
         className,
       )}
+      style={{
+        borderColor: `rgb(var(${accent}) / 0.4)`,
+        background: `rgb(var(${accent}) / 0.14)`,
+      }}
     >
       <Object className="h-full w-full" />
     </span>
   );
 }
 
-/**
- * Warm firelight glow anchored to the top of a section. Renders above the
- * section background but below content (content sits in a `relative z-10`
- * wrapper), so it never falls behind the page.
- */
-export function SectionGlow({ className }: { className?: string }) {
+/** Soft colored glow anchored to the top of a section (sits above the section
+ *  background, below content which uses a `relative z-10` wrapper). */
+export function SectionGlow({
+  accent = "--c-warm-1",
+  className,
+}: {
+  accent?: string;
+  className?: string;
+}) {
   return (
     <div
       aria-hidden="true"
@@ -39,17 +49,25 @@ export function SectionGlow({ className }: { className?: string }) {
         className,
       )}
       style={{
-        background:
-          "radial-gradient(ellipse at center top, rgb(var(--c-warm-1) / 0.10), transparent 70%)",
+        background: `radial-gradient(ellipse at center top, rgb(var(${accent}) / 0.16), transparent 70%)`,
       }}
     />
   );
 }
 
-/** Thematic eyebrow label — warm amber, used above each section heading. */
-export function SectionEyebrow({ children }: { children: React.ReactNode }) {
+/** Thematic eyebrow label — pixel HUD font, tinted with the section accent. */
+export function SectionEyebrow({
+  children,
+  accent = "--c-warm-1",
+}: {
+  children: React.ReactNode;
+  accent?: string;
+}) {
   return (
-    <p className="text-sm uppercase tracking-[0.3em] text-[rgb(var(--c-warm-1))]">
+    <p
+      className="font-hud text-[10px] uppercase tracking-[0.22em]"
+      style={{ color: `rgb(var(${accent}))` }}
+    >
       {children}
     </p>
   );

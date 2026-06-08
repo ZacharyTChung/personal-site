@@ -15,12 +15,12 @@ export function Music() {
       id="music"
       className="relative overflow-hidden bg-background px-6 py-20 text-foreground"
     >
-      <SectionGlow />
+      <SectionGlow accent="--c-pop-pink" />
       <div className="relative z-10 mx-auto max-w-3xl">
         <div className="flex items-center gap-4">
-          <SceneGlyph Object={GuitarSVG} />
+          <SceneGlyph Object={GuitarSVG} accent="--c-pop-pink" />
           <div>
-            <SectionEyebrow>By the fire</SectionEyebrow>
+            <SectionEyebrow accent="--c-pop-pink">By the fire</SectionEyebrow>
             <h2 className="mt-1 font-display text-4xl font-semibold tracking-tight md:text-6xl">
               Campfire playlist.
             </h2>
