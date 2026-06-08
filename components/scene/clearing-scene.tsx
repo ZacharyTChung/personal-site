@@ -7,7 +7,7 @@ import { useReducedMotionSafe } from "@/lib/use-reduced-motion";
 import { SceneLandscape } from "./scene-landscape";
 import { Hotspot } from "./hotspot";
 import { CampDog } from "./camp-dog";
-import { Sparkle, Squiggle } from "@/components/ui/doodles";
+import { Sparkle, Squiggle, Burst } from "@/components/ui/doodles";
 import { HOTSPOTS, DEPTH } from "./scene-config";
 
 /** SSR-safe media query hook (false until mounted). */
@@ -93,6 +93,7 @@ export function ClearingScene() {
             <br />
             Chung
             <Squiggle className="mt-1 h-3 w-44 text-[rgb(var(--c-pop-coral))] md:w-64" />
+            <Burst className="absolute -right-7 -top-3 h-8 w-8 text-[rgb(var(--c-pop-gold))]" />
           </h1>
           <p className="mx-auto mt-5 max-w-xs font-medium text-[#1f4a42] dark:text-[#dccdb4] md:mx-0 md:max-w-md md:text-lg">
             software engineer, triathlete-in-training, and full-time
@@ -120,14 +121,21 @@ export function ClearingScene() {
           <div
             className="pointer-events-auto absolute -translate-x-1/2 -translate-y-1/2"
             style={{
-              left: "40%",
-              top: "91%",
+              left: "63%",
+              top: "90%",
               width: baseSize * 0.62,
               height: baseSize * 0.62,
             }}
           >
             <CampDog reduced={reduced} />
           </div>
+
+          <span
+            className="pointer-events-none absolute z-20 -rotate-6 font-hand text-xl text-[rgb(var(--c-warm-3))]"
+            style={{ left: "54%", top: "82%" }}
+          >
+            woof!
+          </span>
         </motion.div>
 
         {/* onboarding hint */}

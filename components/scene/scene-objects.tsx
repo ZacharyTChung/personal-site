@@ -23,6 +23,7 @@ function GroundShadow({ rx = 30 }: { rx?: number }) {
       rx={rx}
       ry="5"
       fill="rgb(var(--s-ground-shadow))"
+      stroke="none"
       opacity="0.4"
     />
   );
@@ -34,6 +35,10 @@ export function TentSVG({ className }: ObjProps) {
       viewBox="0 0 100 100"
       className={cn(SVG_BASE, className)}
       fill="none"
+      stroke="rgb(var(--c-fg))"
+      strokeWidth="2.2"
+      strokeLinejoin="round"
+      strokeLinecap="round"
       aria-hidden="true"
     >
       <defs>
@@ -68,6 +73,10 @@ export function LaptopLogSVG({ className }: ObjProps) {
       viewBox="0 0 100 100"
       className={cn(SVG_BASE, className)}
       fill="none"
+      stroke="rgb(var(--c-fg))"
+      strokeWidth="2.2"
+      strokeLinejoin="round"
+      strokeLinecap="round"
       aria-hidden="true"
     >
       <defs>
@@ -104,6 +113,10 @@ export function BackpackSVG({ className }: ObjProps) {
       viewBox="0 0 100 100"
       className={cn(SVG_BASE, className)}
       fill="none"
+      stroke="rgb(var(--c-fg))"
+      strokeWidth="2.2"
+      strokeLinejoin="round"
+      strokeLinecap="round"
       aria-hidden="true"
     >
       <defs>
@@ -139,6 +152,10 @@ export function SoccerBallSVG({ className }: ObjProps) {
       viewBox="0 0 100 100"
       className={cn(SVG_BASE, className)}
       fill="none"
+      stroke="rgb(var(--c-fg))"
+      strokeWidth="2.2"
+      strokeLinejoin="round"
+      strokeLinecap="round"
       aria-hidden="true"
     >
       <GroundShadow rx={22} />
@@ -171,6 +188,10 @@ export function BikeSVG({ className }: ObjProps) {
       viewBox="0 0 100 100"
       className={cn(SVG_BASE, className)}
       fill="none"
+      stroke="rgb(var(--c-fg))"
+      strokeWidth="2.2"
+      strokeLinejoin="round"
+      strokeLinecap="round"
       aria-hidden="true"
     >
       <GroundShadow rx={38} />
@@ -215,6 +236,10 @@ export function CampfireSVG({ className }: ObjProps) {
       viewBox="0 0 100 100"
       className={cn(SVG_BASE, className)}
       fill="none"
+      stroke="rgb(var(--c-fg))"
+      strokeWidth="2.2"
+      strokeLinejoin="round"
+      strokeLinecap="round"
       aria-hidden="true"
     >
       <defs>
@@ -259,6 +284,10 @@ export function FlagSVG({ className }: ObjProps) {
       viewBox="0 0 100 100"
       className={cn(SVG_BASE, className)}
       fill="none"
+      stroke="rgb(var(--c-fg))"
+      strokeWidth="2.2"
+      strokeLinejoin="round"
+      strokeLinecap="round"
       aria-hidden="true"
     >
       <defs>
@@ -293,6 +322,10 @@ export function GuitarSVG({ className }: ObjProps) {
       viewBox="0 0 100 100"
       className={cn(SVG_BASE, className)}
       fill="none"
+      stroke="rgb(var(--c-fg))"
+      strokeWidth="2.2"
+      strokeLinejoin="round"
+      strokeLinecap="round"
       aria-hidden="true"
     >
       <GroundShadow rx={22} />

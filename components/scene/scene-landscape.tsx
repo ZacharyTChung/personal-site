@@ -68,6 +68,32 @@ export function SceneLandscape({
         }}
       />
 
+      {/* doodle sun rays */}
+      <motion.svg
+        viewBox="0 0 100 100"
+        className="absolute left-[72%] top-[15%] h-[22vw] w-[22vw] max-h-[300px] max-w-[300px] -translate-x-1/2 -translate-y-1/2"
+        style={{ x: skyX, y: sunY }}
+        animate={animate ? { rotate: 360 } : undefined}
+        transition={{ duration: 120, repeat: Infinity, ease: "linear" }}
+      >
+        {Array.from({ length: 12 }).map((_, i) => {
+          const a = (i * 30 * Math.PI) / 180;
+          return (
+            <line
+              key={i}
+              x1={50 + Math.cos(a) * 30}
+              y1={50 + Math.sin(a) * 30}
+              x2={50 + Math.cos(a) * 39}
+              y2={50 + Math.sin(a) * 39}
+              stroke="rgb(var(--s-sun))"
+              strokeWidth="2.4"
+              strokeLinecap="round"
+              opacity="0.7"
+            />
+          );
+        })}
+      </motion.svg>
+
       {/* drifting clouds */}
       <motion.svg
         viewBox="0 0 600 200"
@@ -210,6 +236,71 @@ export function SceneLandscape({
           fill="rgb(var(--s-ground-shadow))"
           opacity="0.45"
         />
+      </motion.svg>
+
+      {/* foreground doodles — grass tufts, little flowers, a winding trail */}
+      <motion.svg
+        viewBox="0 0 1200 240"
+        preserveAspectRatio="xMidYMax slice"
+        className="absolute inset-x-0 bottom-0 h-[44%] w-full"
+        style={{ x: groundX }}
+      >
+        {/* winding dashed trail */}
+        <path
+          d="M-40 214 C 200 176, 360 232, 600 196 S 1000 156, 1260 206"
+          fill="none"
+          stroke="rgb(var(--s-ground-shadow))"
+          strokeWidth="5"
+          strokeLinecap="round"
+          strokeDasharray="2 18"
+          opacity="0.55"
+        />
+        {/* grass tufts */}
+        {Array.from({ length: 26 }).map((_, i) => {
+          const x = 20 + i * 46 + ((i * 37) % 26);
+          const y = 150 + ((i * 53) % 72);
+          return (
+            <g
+              key={`g${i}`}
+              stroke="rgb(var(--s-ground-shadow))"
+              strokeWidth="3"
+              strokeLinecap="round"
+              opacity="0.6"
+            >
+              <path d={`M${x} ${y} q -3 -10 -5 -15`} />
+              <path d={`M${x} ${y} q 0 -12 0 -17`} />
+              <path d={`M${x} ${y} q 3 -10 5 -15`} />
+            </g>
+          );
+        })}
+        {/* little flowers */}
+        {(
+          [
+            [150, 196, "--c-pop-coral"],
+            [520, 220, "--c-pop-gold"],
+            [880, 188, "--c-pop-pink"],
+            [1080, 214, "--c-pop-violet"],
+          ] as const
+        ).map(([x, y, c], i) => (
+          <g key={`f${i}`}>
+            <path
+              d={`M${x} ${y} L${x} ${y - 22}`}
+              stroke="rgb(var(--s-ground-shadow))"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+              opacity="0.7"
+            />
+            <circle
+              cx={x}
+              cy={y - 27}
+              r="6"
+              fill={`rgb(var(${c}))`}
+              stroke="rgb(var(--c-fg))"
+              strokeWidth="1.6"
+            />
+            <circle cx={x} cy={y - 27} r="2" fill="rgb(var(--s-sun))" />
+          </g>
+        ))}
       </motion.svg>
 
       {/* dissolve the bright scene into the dark site below */}
