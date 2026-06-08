@@ -45,76 +45,53 @@ export function SceneLandscape({
         }}
       />
 
-      {/* SUN (light mode) — rays + glow are concentric with the disc */}
-      <motion.div
-        className="absolute left-[74%] top-[16%] -translate-x-1/2 -translate-y-1/2 dark:hidden"
+      {/* SUN (light mode) — disc + rays in one SVG, always concentric */}
+      <motion.svg
+        viewBox="0 0 100 100"
+        className="absolute left-[74%] top-[15%] h-[26vw] w-[26vw] max-h-[290px] max-w-[290px] -translate-x-1/2 -translate-y-1/2 dark:hidden"
         style={{ x: skyX, y: sunY }}
+        animate={animate ? { rotate: 360 } : undefined}
+        transition={{ duration: 170, repeat: Infinity, ease: "linear" }}
       >
-        <div className="relative h-[14vw] w-[14vw] max-h-[150px] max-w-[150px]">
-          <motion.svg
-            viewBox="0 0 200 200"
-            className="absolute inset-[-55%]"
-            animate={animate ? { rotate: 360 } : undefined}
-            transition={{ duration: 150, repeat: Infinity, ease: "linear" }}
-          >
-            {Array.from({ length: 12 }).map((_, i) => {
-              const a = (i * 30 * Math.PI) / 180;
-              return (
-                <line
-                  key={i}
-                  x1={100 + Math.cos(a) * 80}
-                  y1={100 + Math.sin(a) * 80}
-                  x2={100 + Math.cos(a) * 96}
-                  y2={100 + Math.sin(a) * 96}
-                  stroke="rgb(var(--s-sun))"
-                  strokeWidth="5"
-                  strokeLinecap="round"
-                  opacity="0.6"
-                />
-              );
-            })}
-          </motion.svg>
-          <div
-            className="absolute inset-[-40%] -z-10 rounded-full"
-            style={{
-              background:
-                "radial-gradient(circle, rgb(var(--s-sun) / 0.4), transparent 70%)",
-            }}
-          />
-          <motion.div
-            className="absolute inset-0 rounded-full"
-            style={{
-              background:
-                "radial-gradient(circle at 42% 38%, #fff6da 0%, rgb(var(--s-sun)) 55%, #f0b24a 100%)",
-              boxShadow: "0 0 64px rgba(255,210,90,0.5)",
-            }}
-            animate={animate ? { scale: [1, 1.04, 1] } : undefined}
-            transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
-          />
-        </div>
-      </motion.div>
+        <defs>
+          <radialGradient id="sun-disc" cx="42%" cy="38%" r="65%">
+            <stop offset="0" stopColor="#fff6da" />
+            <stop offset="0.55" stopColor="rgb(var(--s-sun))" />
+            <stop offset="1" stopColor="#f1b657" />
+          </radialGradient>
+        </defs>
+        <circle cx="50" cy="50" r="30" fill="rgb(var(--s-sun))" opacity="0.16" />
+        {Array.from({ length: 12 }).map((_, i) => {
+          const a = (i * 30 * Math.PI) / 180;
+          return (
+            <line
+              key={i}
+              x1={50 + Math.cos(a) * 25}
+              y1={50 + Math.sin(a) * 25}
+              x2={50 + Math.cos(a) * 33}
+              y2={50 + Math.sin(a) * 33}
+              stroke="rgb(var(--s-sun))"
+              strokeWidth="2.1"
+              strokeLinecap="round"
+              opacity="0.6"
+            />
+          );
+        })}
+        <circle cx="50" cy="50" r="17" fill="url(#sun-disc)" />
+      </motion.svg>
 
       {/* MOON (dark mode) */}
-      <motion.div
-        className="absolute left-[74%] top-[16%] hidden -translate-x-1/2 -translate-y-1/2 dark:block"
+      <motion.svg
+        viewBox="0 0 100 100"
+        className="absolute left-[74%] top-[15%] hidden h-[22vw] w-[22vw] max-h-[230px] max-w-[230px] -translate-x-1/2 -translate-y-1/2 dark:block"
         style={{ x: skyX, y: sunY }}
       >
-        <div className="relative h-[12vw] w-[12vw] max-h-[128px] max-w-[128px]">
-          <div
-            className="absolute inset-[-45%] rounded-full"
-            style={{
-              background:
-                "radial-gradient(circle, rgba(214,226,242,0.4), transparent 70%)",
-            }}
-          />
-          <div className="absolute inset-0 overflow-hidden rounded-full bg-[#e9eef6] shadow-[0_0_48px_rgba(200,216,240,0.45)]">
-            <div className="absolute -right-[20%] -top-[16%] h-[120%] w-[120%] rounded-full bg-[#0d1426] opacity-[0.08]" />
-            <div className="absolute left-[30%] top-[32%] h-2 w-2 rounded-full bg-black/10" />
-            <div className="absolute left-[54%] top-[56%] h-3 w-3 rounded-full bg-black/10" />
-            <div className="absolute left-[40%] top-[70%] h-1.5 w-1.5 rounded-full bg-black/10" />
-          </div>
-        </div>
-      </motion.div>
+        <circle cx="50" cy="50" r="30" fill="rgba(214,226,242,0.22)" />
+        <circle cx="50" cy="50" r="18" fill="#e9eef6" />
+        <circle cx="44" cy="45" r="2.6" fill="#0d1426" opacity="0.1" />
+        <circle cx="56" cy="52" r="3.4" fill="#0d1426" opacity="0.1" />
+        <circle cx="49" cy="59" r="2" fill="#0d1426" opacity="0.1" />
+      </motion.svg>
 
       {/* drifting clouds */}
       <motion.svg
@@ -258,15 +235,21 @@ export function SceneLandscape({
         className="absolute inset-x-0 bottom-0 h-[44%] w-full"
         style={{ x: groundX }}
       >
-        {/* winding dashed trail */}
+        {/* trail heading down out of the clearing — connects to the page trail */}
         <path
-          d="M-40 214 C 200 176, 360 232, 600 196 S 1000 156, 1260 206"
+          d="M600 20 C 540 100, 660 170, 600 250"
           fill="none"
-          stroke="rgb(var(--s-ground-shadow))"
-          strokeWidth="5"
+          stroke="rgb(var(--c-trail) / 0.5)"
+          strokeWidth="34"
           strokeLinecap="round"
-          strokeDasharray="2 18"
-          opacity="0.55"
+        />
+        <path
+          d="M600 20 C 540 100, 660 170, 600 250"
+          fill="none"
+          stroke="rgb(var(--c-fg) / 0.26)"
+          strokeWidth="3"
+          strokeDasharray="4 22"
+          strokeLinecap="round"
         />
         {/* grass tufts */}
         {Array.from({ length: 26 }).map((_, i) => {
@@ -286,34 +269,6 @@ export function SceneLandscape({
             </g>
           );
         })}
-        {/* little flowers */}
-        {(
-          [
-            [150, 196, "--c-pop-coral"],
-            [520, 220, "--c-pop-gold"],
-            [880, 188, "--c-pop-pink"],
-            [1080, 214, "--c-pop-violet"],
-          ] as const
-        ).map(([x, y, c], i) => (
-          <g key={`f${i}`}>
-            <path
-              d={`M${x} ${y} L${x} ${y - 22}`}
-              stroke="rgb(var(--s-ground-shadow))"
-              strokeWidth="2.5"
-              strokeLinecap="round"
-              opacity="0.7"
-            />
-            <circle
-              cx={x}
-              cy={y - 27}
-              r="6"
-              fill={`rgb(var(${c}))`}
-              stroke="rgb(var(--c-fg))"
-              strokeWidth="1.6"
-            />
-            <circle cx={x} cy={y - 27} r="2" fill="rgb(var(--s-sun))" />
-          </g>
-        ))}
       </motion.svg>
 
       {/* dissolve the bright scene into the dark site below */}

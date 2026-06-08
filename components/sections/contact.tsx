@@ -1,5 +1,4 @@
 import { Mail, Github, Linkedin, MapPin } from "lucide-react";
-import { PineDivider } from "@/components/ui/pine-divider";
 
 type Seat = {
   icon: typeof Github;
@@ -151,9 +150,6 @@ export function Contact() {
       id="contact"
       className="relative overflow-hidden px-6 pb-16 pt-20 text-foreground"
     >
-      {/* forest edge */}
-      <PineDivider className="absolute inset-x-0 top-0 h-10 w-full" />
-
       <div className="relative mx-auto max-w-4xl text-center">
         <p className="text-sm uppercase tracking-[0.3em] text-muted-foreground">
           Get in touch

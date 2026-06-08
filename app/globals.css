@@ -20,26 +20,26 @@
     --c-trail: 198 162 116;
     --c-land: 214 236 197;
 
-    /* pop accents — used per-section so each area has its own color */
-    --c-pop-coral: 255 107 107;
-    --c-pop-teal: 38 198 218;
-    --c-pop-violet: 149 117 255;
-    --c-pop-gold: 255 192 28;
-    --c-pop-lime: 76 201 99;
-    --c-pop-pink: 255 110 199;
-    --c-pop-sky: 76 201 255;
+    /* pop accents — softened/pastel so they're lively but not neon */
+    --c-pop-coral: 236 130 122;
+    --c-pop-teal: 96 186 198;
+    --c-pop-violet: 158 142 226;
+    --c-pop-gold: 234 188 96;
+    --c-pop-lime: 124 188 132;
+    --c-pop-pink: 232 146 196;
+    --c-pop-sky: 132 190 222;
 
-    /* scene — bright cartoon-day clearing by a lake */
-    --s-sky-top: 76 201 255;
-    --s-sky-bottom: 198 237 255;
-    --s-sun: 255 210 63;
-    --s-pine-far: 64 190 112;
-    --s-pine-mid: 42 168 80;
-    --s-pine-near: 28 146 60;
-    --s-water: 42 169 224;
-    --s-water-deep: 26 120 184;
-    --s-ground: 96 198 104;
-    --s-ground-shadow: 54 158 70;
+    /* scene — soft daytime clearing by a lake (muted, pastel) */
+    --s-sky-top: 146 198 230;
+    --s-sky-bottom: 224 239 246;
+    --s-sun: 255 218 130;
+    --s-pine-far: 128 180 144;
+    --s-pine-mid: 96 164 118;
+    --s-pine-near: 70 142 100;
+    --s-water: 130 186 210;
+    --s-water-deep: 92 154 188;
+    --s-ground: 156 200 158;
+    --s-ground-shadow: 116 172 126;
 
     --background: 42 60% 97%;
     --foreground: 24 18% 16%;

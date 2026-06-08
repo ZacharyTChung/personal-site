@@ -9,13 +9,14 @@ import { useEffect, useState } from "react";
  * static and lightweight — just a soft dirt band + a dashed centerline.
  */
 export function TrailScape() {
-  const [{ w, h }, setSize] = useState({ w: 1280, h: 4200 });
+  const [{ w, h, vh }, setSize] = useState({ w: 1280, h: 4200, vh: 800 });
 
   useEffect(() => {
     const update = () =>
       setSize({
         w: window.innerWidth,
         h: Math.max(document.documentElement.scrollHeight, window.innerHeight),
+        vh: window.innerHeight,
       });
     update();
     const ro = new ResizeObserver(update);
@@ -31,8 +32,8 @@ export function TrailScape() {
     };
   }, []);
 
-  // gentle winding path, starting just past the hero
-  const startY = Math.min(h * 0.16, 720);
+  // start at the bottom of the hero so it links up with the clearing's trail
+  const startY = Math.max(40, vh - 90);
   let d = `M${w * 0.5} ${startY}`;
   let x = w * 0.5;
   let y = startY;
