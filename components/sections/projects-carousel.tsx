@@ -62,7 +62,7 @@ export function ProjectsCarousel({ projects }: { projects: Project[] }) {
   return (
     <section
       id="projects"
-      className="relative overflow-hidden bg-background text-foreground"
+      className="relative overflow-hidden text-foreground"
     >
       <ContainerScroll
         titleComponent={

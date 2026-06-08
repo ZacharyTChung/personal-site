@@ -149,7 +149,7 @@ export function Contact() {
   return (
     <section
       id="contact"
-      className="relative overflow-hidden bg-background px-6 pb-16 pt-20 text-foreground"
+      className="relative overflow-hidden px-6 pb-16 pt-20 text-foreground"
     >
       {/* forest edge */}
       <PineDivider className="absolute inset-x-0 top-0 h-10 w-full" />

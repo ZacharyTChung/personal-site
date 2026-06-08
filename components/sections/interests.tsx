@@ -50,7 +50,7 @@ export function Interests() {
   return (
     <section
       id="interests"
-      className="relative overflow-hidden bg-background px-6 py-20 text-foreground"
+      className="relative overflow-hidden px-6 py-20 text-foreground"
     >
       <SectionGlow accent="--c-pop-lime" />
       <div className="relative z-10 mx-auto max-w-5xl">

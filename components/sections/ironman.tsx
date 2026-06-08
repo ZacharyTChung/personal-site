@@ -1,26 +1,20 @@
-import Image from "next/image";
 import { RaceCountdown } from "@/components/ui/race-countdown";
 import { BikeSVG } from "@/components/scene/scene-objects";
-import { SceneGlyph, SectionEyebrow } from "@/components/ui/scene-accents";
+import {
+  SceneGlyph,
+  SectionGlow,
+  SectionEyebrow,
+} from "@/components/ui/scene-accents";
 
 export function IronmanSection() {
   return (
     <section
       id="ironman"
-      className="relative overflow-hidden bg-background px-6 py-20 text-foreground"
+      className="relative overflow-hidden px-6 py-20 text-foreground"
     >
-      <div className="absolute inset-0 -z-10">
-        <Image
-          src="https://images.unsplash.com/photo-1517649763962-0c623066013b?q=80&w=1920&auto=format&fit=crop"
-          alt=""
-          fill
-          className="object-cover opacity-15 grayscale"
-          priority={false}
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-background/85 via-background/75 to-background" />
-      </div>
+      <SectionGlow accent="--c-pop-sky" />
 
-      <div className="mx-auto grid max-w-6xl gap-12 md:grid-cols-2 md:items-center">
+      <div className="relative z-10 mx-auto grid max-w-6xl gap-12 md:grid-cols-2 md:items-center">
         <div>
           <div className="flex items-center gap-4">
             <SceneGlyph Object={BikeSVG} accent="--c-pop-sky" />

@@ -19,7 +19,7 @@ export function Awards() {
   return (
     <section
       id="awards"
-      className="relative overflow-hidden bg-background px-6 py-20 text-foreground"
+      className="relative overflow-hidden px-6 py-20 text-foreground"
     >
       <SectionGlow accent="--c-pop-gold" />
       <div className="relative z-10 mx-auto max-w-5xl">

@@ -13,7 +13,7 @@ export function Music() {
   return (
     <section
       id="music"
-      className="relative overflow-hidden bg-background px-6 py-20 text-foreground"
+      className="relative overflow-hidden px-6 py-20 text-foreground"
     >
       <SectionGlow accent="--c-pop-pink" />
       <div className="relative z-10 mx-auto max-w-3xl">

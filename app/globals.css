@@ -16,6 +16,10 @@
     --c-warm-2: 255 116 84;
     --c-warm-3: 232 88 56;
 
+    /* dirt trail + a soft ground wash for the continuous landscape */
+    --c-trail: 198 162 116;
+    --c-land: 214 236 197;
+
     /* pop accents — used per-section so each area has its own color */
     --c-pop-coral: 255 107 107;
     --c-pop-teal: 38 198 218;
@@ -71,6 +75,9 @@
     --c-warm-1: 255 168 70;
     --c-warm-2: 244 122 86;
     --c-warm-3: 224 92 62;
+
+    --c-trail: 104 84 60;
+    --c-land: 26 40 30;
 
     --c-pop-coral: 255 122 122;
     --c-pop-teal: 56 214 232;
