@@ -1,48 +1,48 @@
 import Image from "next/image";
-import { Plane, Mountain, Dumbbell, Footprints, Goal } from "lucide-react";
 import { SoccerBallSVG } from "@/components/scene/scene-objects";
-import { SceneGlyph, SectionGlow, SectionEyebrow } from "@/components/ui/scene-accents";
+import {
+  SceneGlyph,
+  SectionGlow,
+  SectionEyebrow,
+} from "@/components/ui/scene-accents";
 
 const interests = [
   {
-    title: "Soccer",
+    title: "soccer",
     blurb:
-      "Been playing since I was a kid and never really stopped. Pickup games, leagues, and the occasional weekend match on the couch.",
-    icon: Goal,
+      "been playing since I was a kid and never really stopped — pickup games, leagues, the occasional couch match.",
     image: "/images/soccer.JPEG",
-    span: "",
+    rotClass: "-rotate-3",
+    tape: "--c-pop-lime",
   },
   {
-    title: "Travel",
-    blurb:
-      "I'll go pretty much anywhere new, usually for the food and the people.",
-    icon: Plane,
+    title: "travel",
+    blurb: "I'll go pretty much anywhere new, usually for the food and the people.",
     image: "/images/travel.PNG",
-    span: "",
+    rotClass: "rotate-2",
+    tape: "--c-pop-sky",
   },
   {
-    title: "Training",
-    blurb:
-      "Swim, bike, run. Most days it's just the work of showing up.",
-    icon: Dumbbell,
+    title: "training",
+    blurb: "swim, bike, run. most days it's just the work of showing up.",
     image: "/images/ironman_train.JPG",
-    span: "",
+    rotClass: "-rotate-2",
+    tape: "--c-pop-coral",
   },
   {
-    title: "Hiking",
+    title: "hiking",
     blurb:
-      "Most weekends end up with a trail somewhere. Sierras, desert, wherever there's a bit of elevation.",
-    icon: Mountain,
+      "most weekends end up on a trail somewhere — Sierras, desert, wherever there's a little elevation.",
     image: "/images/hiking.JPG",
-    span: "md:col-span-2",
+    rotClass: "rotate-3",
+    tape: "--c-pop-gold",
   },
   {
-    title: "Running",
-    blurb:
-      "Easy miles before the city's awake. A long run fixes most bad days.",
-    icon: Footprints,
+    title: "running",
+    blurb: "easy miles before the city's awake. a long run fixes most bad days.",
     image: "/images/running.JPG",
-    span: "",
+    rotClass: "-rotate-1",
+    tape: "--c-pop-violet",
   },
 ];
 
@@ -53,8 +53,8 @@ export function Interests() {
       className="relative overflow-hidden bg-background px-6 py-20 text-foreground"
     >
       <SectionGlow accent="--c-pop-lime" />
-      <div className="relative z-10 mx-auto max-w-6xl">
-        <div className="mb-12 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+      <div className="relative z-10 mx-auto max-w-5xl">
+        <div className="mb-4 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div className="flex items-center gap-4">
             <SceneGlyph Object={SoccerBallSVG} accent="--c-pop-lime" />
             <div>
@@ -67,33 +67,43 @@ export function Interests() {
             </div>
           </div>
           <p className="max-w-md text-muted-foreground">
-            A few things I keep coming back to. Some reset me, some humble me,
+            A few snapshots from the camera roll. Some reset me, some humble me,
             and all of them keep me sane.
           </p>
         </div>
 
-        <div className="grid auto-rows-[20rem] grid-cols-1 gap-5 md:auto-rows-[24rem] md:grid-cols-3">
+        {/* taped trail-journal polaroids */}
+        <div className="mt-14 flex flex-wrap items-start justify-center gap-x-8 gap-y-16">
           {interests.map((i) => (
-            <article
+            <figure
               key={i.title}
-              className={`group relative overflow-hidden rounded-2xl border border-border bg-card ${i.span}`}
+              className={`group relative w-[240px] max-w-[78vw] rounded-[3px] bg-[#fbf8f0] p-3 pb-14 shadow-[0_12px_26px_rgba(0,0,0,0.22)] ring-1 ring-black/5 transition-transform duration-200 hover:z-20 hover:-translate-y-1.5 hover:rotate-0 ${i.rotClass}`}
             >
-              <Image
-                src={i.image}
-                alt={i.title}
-                fill
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                className="object-cover object-center transition-transform duration-700 group-hover:scale-[1.04]"
+              {/* washi tape */}
+              <span
+                className="absolute -top-3 left-1/2 h-7 w-24 -translate-x-1/2 -rotate-3 rounded-[2px] shadow-sm"
+                style={{ background: `rgb(var(${i.tape}) / 0.55)` }}
               />
-              <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-background via-background/70 to-transparent" />
-              <div className="absolute inset-0 flex flex-col justify-end p-5">
-                <div className="mb-2 inline-flex w-fit items-center gap-2 rounded-full border border-border bg-background/80 px-2.5 py-1 text-xs text-foreground backdrop-blur">
-                  <i.icon className="h-3.5 w-3.5 text-foreground/80" />
-                  {i.title}
-                </div>
-                <p className="max-w-md text-sm text-foreground/85">{i.blurb}</p>
+              <div className="relative aspect-[4/5] overflow-hidden rounded-[2px] bg-black/5">
+                <Image
+                  src={i.image}
+                  alt={i.title}
+                  fill
+                  sizes="260px"
+                  className="object-cover"
+                />
               </div>
-            </article>
+              <figcaption className="absolute inset-x-0 bottom-4 text-center font-hand text-3xl leading-none text-[#33312e]">
+                {i.title}
+              </figcaption>
+              {/* blurb note on hover */}
+              <div
+                className="pointer-events-none absolute -bottom-8 left-1/2 w-[94%] -translate-x-1/2 rotate-[-2deg] rounded-md border-2 bg-card px-3 py-2 text-center font-hand text-base leading-tight text-foreground opacity-0 shadow-lg transition-opacity duration-200 group-hover:opacity-100"
+                style={{ borderColor: `rgb(var(${i.tape}) / 0.5)` }}
+              >
+                {i.blurb}
+              </div>
+            </figure>
           ))}
         </div>
       </div>
