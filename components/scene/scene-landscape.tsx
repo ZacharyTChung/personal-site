@@ -45,54 +45,76 @@ export function SceneLandscape({
         }}
       />
 
-      {/* sun + glow */}
+      {/* SUN (light mode) — rays + glow are concentric with the disc */}
       <motion.div
-        className="absolute left-[72%] top-[15%] h-[12vw] w-[12vw] max-h-[150px] max-w-[150px] -translate-x-1/2 -translate-y-1/2 rounded-full"
-        style={{
-          x: skyX,
-          y: sunY,
-          background:
-            "radial-gradient(circle at 45% 40%, #fff3d0 0%, rgb(var(--s-sun)) 45%, rgba(255,226,150,0.2) 75%, transparent 100%)",
-          boxShadow: "0 0 90px rgba(255,226,150,0.55)",
-        }}
-        animate={animate ? { scale: [1, 1.04, 1] } : undefined}
-        transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
-      />
-
-      {/* soft sun haze */}
-      <div
-        className="absolute left-[72%] top-[15%] h-[40%] w-[40%] -translate-x-1/2 -translate-y-1/2 rounded-full"
-        style={{
-          background:
-            "radial-gradient(circle, rgb(var(--s-sun) / 0.4), transparent 68%)",
-        }}
-      />
-
-      {/* doodle sun rays */}
-      <motion.svg
-        viewBox="0 0 100 100"
-        className="absolute left-[72%] top-[15%] h-[22vw] w-[22vw] max-h-[300px] max-w-[300px] -translate-x-1/2 -translate-y-1/2"
+        className="absolute left-[74%] top-[16%] -translate-x-1/2 -translate-y-1/2 dark:hidden"
         style={{ x: skyX, y: sunY }}
-        animate={animate ? { rotate: 360 } : undefined}
-        transition={{ duration: 120, repeat: Infinity, ease: "linear" }}
       >
-        {Array.from({ length: 12 }).map((_, i) => {
-          const a = (i * 30 * Math.PI) / 180;
-          return (
-            <line
-              key={i}
-              x1={50 + Math.cos(a) * 30}
-              y1={50 + Math.sin(a) * 30}
-              x2={50 + Math.cos(a) * 39}
-              y2={50 + Math.sin(a) * 39}
-              stroke="rgb(var(--s-sun))"
-              strokeWidth="2.4"
-              strokeLinecap="round"
-              opacity="0.7"
-            />
-          );
-        })}
-      </motion.svg>
+        <div className="relative h-[14vw] w-[14vw] max-h-[150px] max-w-[150px]">
+          <motion.svg
+            viewBox="0 0 200 200"
+            className="absolute inset-[-55%]"
+            animate={animate ? { rotate: 360 } : undefined}
+            transition={{ duration: 150, repeat: Infinity, ease: "linear" }}
+          >
+            {Array.from({ length: 12 }).map((_, i) => {
+              const a = (i * 30 * Math.PI) / 180;
+              return (
+                <line
+                  key={i}
+                  x1={100 + Math.cos(a) * 80}
+                  y1={100 + Math.sin(a) * 80}
+                  x2={100 + Math.cos(a) * 96}
+                  y2={100 + Math.sin(a) * 96}
+                  stroke="rgb(var(--s-sun))"
+                  strokeWidth="5"
+                  strokeLinecap="round"
+                  opacity="0.6"
+                />
+              );
+            })}
+          </motion.svg>
+          <div
+            className="absolute inset-[-40%] -z-10 rounded-full"
+            style={{
+              background:
+                "radial-gradient(circle, rgb(var(--s-sun) / 0.4), transparent 70%)",
+            }}
+          />
+          <motion.div
+            className="absolute inset-0 rounded-full"
+            style={{
+              background:
+                "radial-gradient(circle at 42% 38%, #fff6da 0%, rgb(var(--s-sun)) 55%, #f0b24a 100%)",
+              boxShadow: "0 0 64px rgba(255,210,90,0.5)",
+            }}
+            animate={animate ? { scale: [1, 1.04, 1] } : undefined}
+            transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
+          />
+        </div>
+      </motion.div>
+
+      {/* MOON (dark mode) */}
+      <motion.div
+        className="absolute left-[74%] top-[16%] hidden -translate-x-1/2 -translate-y-1/2 dark:block"
+        style={{ x: skyX, y: sunY }}
+      >
+        <div className="relative h-[12vw] w-[12vw] max-h-[128px] max-w-[128px]">
+          <div
+            className="absolute inset-[-45%] rounded-full"
+            style={{
+              background:
+                "radial-gradient(circle, rgba(214,226,242,0.4), transparent 70%)",
+            }}
+          />
+          <div className="absolute inset-0 overflow-hidden rounded-full bg-[#e9eef6] shadow-[0_0_48px_rgba(200,216,240,0.45)]">
+            <div className="absolute -right-[20%] -top-[16%] h-[120%] w-[120%] rounded-full bg-[#0d1426] opacity-[0.08]" />
+            <div className="absolute left-[30%] top-[32%] h-2 w-2 rounded-full bg-black/10" />
+            <div className="absolute left-[54%] top-[56%] h-3 w-3 rounded-full bg-black/10" />
+            <div className="absolute left-[40%] top-[70%] h-1.5 w-1.5 rounded-full bg-black/10" />
+          </div>
+        </div>
+      </motion.div>
 
       {/* drifting clouds */}
       <motion.svg
@@ -163,15 +185,6 @@ export function SceneLandscape({
           </linearGradient>
         </defs>
         <rect x="0" y="56" width="100" height="44" fill="url(#lake-water)" />
-        {/* warm sun reflection on the water */}
-        <rect
-          x="69"
-          y="56"
-          width="6"
-          height="8"
-          fill="rgb(var(--s-sun))"
-          opacity="0.4"
-        />
         {/* ripples */}
         {[
           [58, 22, 60],

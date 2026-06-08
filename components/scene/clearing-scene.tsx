@@ -132,7 +132,7 @@ export function ClearingScene() {
 
           <span
             className="pointer-events-none absolute z-20 -rotate-6 font-hand text-xl text-[rgb(var(--c-warm-3))]"
-            style={{ left: "54%", top: "82%" }}
+            style={{ left: "64%", top: "83%" }}
           >
             woof!
           </span>
@@ -140,7 +140,7 @@ export function ClearingScene() {
 
         {/* onboarding hint */}
         <div
-          className={`pointer-events-none absolute bottom-6 left-1/2 z-20 -translate-x-1/2 rounded-full border-2 border-border bg-card/90 px-4 py-1.5 font-hand text-lg text-foreground/70 backdrop-blur transition-opacity duration-500 ${
+          className={`pointer-events-none absolute bottom-6 left-1/2 z-20 -translate-x-1/2 rounded-full border-2 border-border bg-card px-4 py-1.5 font-hand text-lg text-foreground/70 shadow-sm transition-opacity duration-500 ${
             hintVisible ? "opacity-100" : "opacity-0"
           }`}
         >

@@ -52,7 +52,7 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${nunito.variable} ${baloo.variable} ${caveat.variable} font-sans grain`}
+        className={`${nunito.variable} ${baloo.variable} ${caveat.variable} font-sans`}
       >
         {children}
       </body>

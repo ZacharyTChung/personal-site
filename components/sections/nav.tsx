@@ -54,7 +54,7 @@ export function Nav() {
         className={cn(
           "mx-auto flex max-w-6xl items-center justify-between gap-4 rounded-2xl px-4 py-2 transition-all duration-300",
           scrolled
-            ? "border border-[rgb(var(--c-warm-1)/0.18)] bg-[rgb(var(--c-bg-2)/0.8)] backdrop-blur-md"
+            ? "border border-[rgb(var(--c-warm-1)/0.2)] bg-[rgb(var(--c-bg-2)/0.95)] shadow-sm"
             : "border border-transparent",
         )}
       >
