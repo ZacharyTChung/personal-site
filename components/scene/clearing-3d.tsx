@@ -24,12 +24,12 @@ function Rig() {
     const e = state.clock.elapsedTime;
     const t = Math.min(1, e / INTRO);
     const k = 1 - Math.pow(1 - t, 3); // ease-out
-    const rx = state.pointer.x * 1.8 * k;
-    const ry = 3.6 + state.pointer.y * 0.7 * k;
-    const rz = 13.5;
+    const rx = state.pointer.x * 2.2 * k;
+    const ry = 4.6 + state.pointer.y * 0.9 * k;
+    const rz = 18;
     const sx = 0,
-      sy = 9,
-      sz = 26;
+      sy = 12,
+      sz = 36;
     const cx = sx + (rx - sx) * k;
     const cy = sy + (ry - sy) * k;
     const cz = sz + (rz - sz) * k;
@@ -37,7 +37,7 @@ function Rig() {
     state.camera.position.x += (cx - state.camera.position.x) * f;
     state.camera.position.y += (cy - state.camera.position.y) * f;
     state.camera.position.z += (cz - state.camera.position.z) * f;
-    state.camera.lookAt(0, 1, -3);
+    state.camera.lookAt(0, 0.6, -5);
   });
   return null;
 }
@@ -129,60 +129,111 @@ function Bar({
 
 /* ---------- objects (one per section) ---------- */
 function Tent() {
+  // wide, low ridge tent so the silhouette reads clearly
   const shape = useMemo(() => {
     const s = new THREE.Shape();
-    s.moveTo(-1.15, 0);
-    s.lineTo(1.15, 0);
-    s.lineTo(0, 1.5);
+    s.moveTo(-1.7, 0);
+    s.lineTo(1.7, 0);
+    s.lineTo(0, 1.45);
     s.closePath();
     return s;
   }, []);
   const door = useMemo(() => {
     const s = new THREE.Shape();
-    s.moveTo(-0.45, 0);
-    s.lineTo(0.45, 0);
-    s.lineTo(0, 1.0);
+    s.moveTo(-0.6, 0);
+    s.lineTo(0.6, 0);
+    s.lineTo(0, 1.1);
     s.closePath();
     return s;
   }, []);
   return (
     <group>
-      <mesh castShadow position={[0, 0, -1.3]}>
-        <extrudeGeometry args={[shape, { depth: 2.6, bevelEnabled: false }]} />
-        <meshStandardMaterial color="#d98c5f" flatShading />
+      {/* fabric body (extruded triangle, end caps closed) */}
+      <mesh castShadow position={[0, 0, -1.6]}>
+        <extrudeGeometry args={[shape, { depth: 3.2, bevelEnabled: false }]} />
+        <meshStandardMaterial color="#e08a4f" flatShading />
       </mesh>
-      <mesh position={[0, 0.01, 1.31]}>
+      {/* dark doorway on the front */}
+      <mesh position={[0, 0.01, 1.61]}>
         <shapeGeometry args={[door]} />
-        <meshStandardMaterial color="#4a3122" side={THREE.DoubleSide} />
+        <meshStandardMaterial color="#34211a" side={THREE.DoubleSide} />
       </mesh>
-      {/* ridge pole tips */}
-      <mesh position={[0, 1.5, 0]} rotation={[Math.PI / 2, 0, 0]}>
-        <cylinderGeometry args={[0.03, 0.03, 2.7, 6]} />
-        <meshStandardMaterial color="#6b4a2e" />
+      {/* two open flaps peeled back from the door */}
+      <mesh position={[-0.34, 0.55, 1.63]} rotation={[0, 0, 0.32]}>
+        <planeGeometry args={[0.42, 1.1]} />
+        <meshStandardMaterial color="#c2703a" side={THREE.DoubleSide} />
       </mesh>
+      <mesh position={[0.34, 0.55, 1.63]} rotation={[0, 0, -0.32]}>
+        <planeGeometry args={[0.42, 1.1]} />
+        <meshStandardMaterial color="#c2703a" side={THREE.DoubleSide} />
+      </mesh>
+      {/* ridge pole poking out each end */}
+      <mesh position={[0, 1.45, 0]} rotation={[Math.PI / 2, 0, 0]}>
+        <cylinderGeometry args={[0.04, 0.04, 3.5, 6]} />
+        <meshStandardMaterial color="#5a3d28" />
+      </mesh>
+      {/* guy lines to pegs */}
+      {[
+        [-1.7, 1.9],
+        [1.7, 1.9],
+        [-1.7, -1.9],
+        [1.7, -1.9],
+      ].map((p, i) => (
+        <Bar key={i} a={[0, 1.45, p[1] > 0 ? 1.6 : -1.6]} b={[p[0] * 0.9, 0, p[1]]} r={0.012} color="#cdbfae" />
+      ))}
     </group>
   );
 }
 
 function Backpack() {
+  const body = "#2f8f6e";
+  const dark = "#1c4c3b";
+  const buckle = "#d8b84a";
   return (
     <group>
-      <RoundedBox args={[1, 1.4, 0.7]} radius={0.18} position={[0, 0.75, 0]} castShadow>
-        <meshStandardMaterial color="#3f8275" flatShading />
+      {/* main body */}
+      <RoundedBox args={[1.05, 1.5, 0.72]} radius={0.16} position={[0, 0.85, 0]} castShadow>
+        <meshStandardMaterial color={body} flatShading />
       </RoundedBox>
-      <RoundedBox args={[1.06, 0.5, 0.78]} radius={0.16} position={[0, 1.26, 0.02]} castShadow>
-        <meshStandardMaterial color="#2f6256" flatShading />
+      {/* rounded top lid */}
+      <RoundedBox args={[1.12, 0.5, 0.8]} radius={0.2} position={[0, 1.62, 0.02]} castShadow>
+        <meshStandardMaterial color="#256f55" flatShading />
       </RoundedBox>
-      <RoundedBox args={[0.6, 0.55, 0.18]} radius={0.1} position={[0, 0.55, 0.42]}>
-        <meshStandardMaterial color="#54a594" flatShading />
-      </RoundedBox>
-      <mesh position={[-0.3, 0.8, -0.4]} castShadow>
-        <boxGeometry args={[0.12, 1.2, 0.12]} />
-        <meshStandardMaterial color="#2c5a4f" />
+      {/* lid strap + buckle */}
+      <mesh position={[0, 1.5, 0.44]}>
+        <boxGeometry args={[0.16, 0.55, 0.05]} />
+        <meshStandardMaterial color={dark} />
       </mesh>
-      <mesh position={[0.3, 0.8, -0.4]} castShadow>
-        <boxGeometry args={[0.12, 1.2, 0.12]} />
-        <meshStandardMaterial color="#2c5a4f" />
+      <mesh position={[0, 1.3, 0.46]}>
+        <boxGeometry args={[0.2, 0.12, 0.05]} />
+        <meshStandardMaterial color={buckle} metalness={0.3} />
+      </mesh>
+      {/* big front pocket */}
+      <RoundedBox args={[0.72, 0.66, 0.24]} radius={0.1} position={[0, 0.6, 0.42]} castShadow>
+        <meshStandardMaterial color="#3aa884" flatShading />
+      </RoundedBox>
+      <mesh position={[0, 0.6, 0.56]}>
+        <boxGeometry args={[0.14, 0.5, 0.04]} />
+        <meshStandardMaterial color={dark} />
+      </mesh>
+      {/* padded shoulder straps on the front */}
+      <mesh position={[-0.32, 0.95, 0.34]} rotation={[0.12, 0, 0.05]} castShadow>
+        <boxGeometry args={[0.17, 1.25, 0.12]} />
+        <meshStandardMaterial color={dark} flatShading />
+      </mesh>
+      <mesh position={[0.32, 0.95, 0.34]} rotation={[0.12, 0, -0.05]} castShadow>
+        <boxGeometry args={[0.17, 1.25, 0.12]} />
+        <meshStandardMaterial color={dark} flatShading />
+      </mesh>
+      {/* side bottle pocket */}
+      <mesh position={[0.56, 0.55, 0]} castShadow>
+        <cylinderGeometry args={[0.13, 0.13, 0.55, 10]} />
+        <meshStandardMaterial color="#256f55" flatShading />
+      </mesh>
+      {/* bedroll strapped under the pack */}
+      <mesh position={[0, 0.12, 0.1]} rotation={[0, 0, Math.PI / 2]} castShadow>
+        <cylinderGeometry args={[0.16, 0.16, 1.0, 12]} />
+        <meshStandardMaterial color="#d98c5f" flatShading />
       </mesh>
     </group>
   );
@@ -235,33 +286,37 @@ function Flag() {
 }
 
 function SoccerBall() {
-  const spots = useMemo(() => {
-    const v: [number, number, number][] = [];
-    const ico = new THREE.IcosahedronGeometry(0.4, 0);
+  const R = 0.48;
+  // black pentagons at the 12 icosahedron vertices, laid tangent to the ball
+  const pents = useMemo(() => {
+    const ico = new THREE.IcosahedronGeometry(1, 0);
     const pos = ico.attributes.position;
-    const seen = new Set<string>();
+    const seen = new Map<string, THREE.Vector3>();
     for (let i = 0; i < pos.count; i++) {
-      const x = +pos.getX(i).toFixed(2);
-      const y = +pos.getY(i).toFixed(2);
-      const z = +pos.getZ(i).toFixed(2);
-      const key = `${x},${y},${z}`;
-      if (seen.has(key)) continue;
-      seen.add(key);
-      v.push([x, y, z]);
+      const v = new THREE.Vector3(pos.getX(i), pos.getY(i), pos.getZ(i)).normalize();
+      const key = `${v.x.toFixed(2)},${v.y.toFixed(2)},${v.z.toFixed(2)}`;
+      if (!seen.has(key)) seen.set(key, v);
     }
     ico.dispose();
-    return v;
+    return Array.from(seen.values()).map((v) => {
+      const q = new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0, 0, 1), v);
+      const e = new THREE.Euler().setFromQuaternion(q);
+      return {
+        pos: [v.x * (R + 0.01), v.y * (R + 0.01), v.z * (R + 0.01)] as [number, number, number],
+        rot: [e.x, e.y, e.z] as [number, number, number],
+      };
+    });
   }, []);
   return (
-    <group position={[0, 0.4, 0]}>
+    <group position={[0, R, 0]}>
       <mesh castShadow>
-        <icosahedronGeometry args={[0.4, 2]} />
-        <meshStandardMaterial color="#f5f5ef" />
+        <sphereGeometry args={[R, 28, 22]} />
+        <meshStandardMaterial color="#f6f6f0" roughness={0.7} />
       </mesh>
-      {spots.map((s, i) => (
-        <mesh key={i} position={[s[0] * 1.0, s[1] * 1.0, s[2] * 1.0]}>
-          <sphereGeometry args={[0.09, 8, 6]} />
-          <meshStandardMaterial color="#1f2430" />
+      {pents.map((p, i) => (
+        <mesh key={i} position={p.pos} rotation={p.rot}>
+          <circleGeometry args={[0.19, 5]} />
+          <meshStandardMaterial color="#1c2230" side={THREE.DoubleSide} />
         </mesh>
       ))}
     </group>
@@ -376,22 +431,44 @@ function Mountain({
   height,
   radius,
   color,
+  night,
 }: {
   position: [number, number, number];
   height: number;
   radius: number;
   color: string;
+  night: boolean;
 }) {
+  // a band of trees on the lower slopes
+  const trees = useMemo(() => {
+    const out: { x: number; y: number; z: number; s: number }[] = [];
+    for (let i = 0; i < 22; i++) {
+      const a = Math.random() * Math.PI * 2;
+      const f = 0.04 + Math.random() * 0.34; // lower slopes only
+      const r = radius * (1 - f) * 0.97;
+      out.push({ x: Math.cos(a) * r, y: height * f, z: Math.sin(a) * r, s: 0.6 + Math.random() * 0.8 });
+    }
+    return out;
+  }, [height, radius]);
   return (
     <group position={position}>
-      <mesh castShadow receiveShadow>
-        <coneGeometry args={[radius, height, 6]} />
+      {/* peak — base sits on the ground */}
+      <mesh position={[0, height / 2, 0]} castShadow receiveShadow>
+        <coneGeometry args={[radius, height, 7]} />
         <meshStandardMaterial color={color} flatShading />
       </mesh>
-      <mesh position={[0, height * 0.32, 0]}>
-        <coneGeometry args={[radius * 0.4, height * 0.36, 6]} />
+      {/* snow cap */}
+      <mesh position={[0, height * 0.82, 0]}>
+        <coneGeometry args={[radius * 0.36, height * 0.34, 7]} />
         <meshStandardMaterial color="#eef4fa" flatShading />
       </mesh>
+      {/* forest on the slopes */}
+      {trees.map((t, i) => (
+        <mesh key={i} position={[t.x, t.y + 0.7 * t.s, t.z]} scale={t.s} castShadow>
+          <coneGeometry args={[0.6, 1.8, 6]} />
+          <meshStandardMaterial color={night ? "#1d3a2a" : "#2f6a4a"} flatShading />
+        </mesh>
+      ))}
     </group>
   );
 }
@@ -400,15 +477,15 @@ function Forest({ night }: { night: boolean }) {
   const trees = useMemo(() => {
     const out: { p: [number, number, number]; s: number }[] = [];
     let guard = 0;
-    while (out.length < 64 && guard < 600) {
+    while (out.length < 84 && guard < 900) {
       guard++;
-      const x = (Math.random() - 0.5) * 46;
-      const z = -24 + Math.random() * 32;
-      // keep off the lake footprint (x [-11,11], z [-11,3])
-      if (x > -11 && x < 11 && z > -11 && z < 3) continue;
+      const x = (Math.random() - 0.5) * 58;
+      const z = -34 + Math.random() * 42;
+      // keep off the lake (organic footprint ~ x[-13,13], z[-13,3])
+      if (x > -13 && x < 13 && z > -13 && z < 3) continue;
       // keep the near foreground clear for the objects
-      if (z > 2 && Math.abs(x) < 11) continue;
-      out.push({ p: [x, 0, z], s: 0.7 + Math.random() * 1.0 });
+      if (z > 1 && Math.abs(x) < 12) continue;
+      out.push({ p: [x, 0, z], s: 0.7 + Math.random() * 1.1 });
     }
     return out;
   }, []);
@@ -584,42 +661,38 @@ function Rabbit({ x, z }: { x: number; z: number }) {
   );
 }
 
-/* ---------- scene ---------- */
-function Scene({ night }: { night: boolean }) {
-  const sky = night ? "#0e1430" : "#bfe6f3";
+function Lake({ night }: { night: boolean }) {
+  // an organic, wobbly shoreline instead of a rectangle
+  const shape = useMemo(() => {
+    const N = 16;
+    const pts: [number, number][] = [];
+    for (let i = 0; i < N; i++) {
+      const a = (i / N) * Math.PI * 2;
+      const rx = 10 + Math.sin(a * 3 + 0.6) * 1.7 + Math.cos(a * 2) * 1.0;
+      const ry = 6 + Math.cos(a * 3) * 1.1 + Math.sin(a * 5 + 1) * 0.7;
+      pts.push([Math.cos(a) * rx, Math.sin(a) * ry]);
+    }
+    const s = new THREE.Shape();
+    const m0x = (pts[0][0] + pts[N - 1][0]) / 2;
+    const m0y = (pts[0][1] + pts[N - 1][1]) / 2;
+    s.moveTo(m0x, m0y);
+    for (let i = 0; i < N; i++) {
+      const cur = pts[i];
+      const next = pts[(i + 1) % N];
+      s.quadraticCurveTo(cur[0], cur[1], (cur[0] + next[0]) / 2, (cur[1] + next[1]) / 2);
+    }
+    s.closePath();
+    return s;
+  }, []);
   return (
-    <>
-      <color attach="background" args={[sky]} />
-      <fog attach="fog" args={[sky, 18, 48]} />
-
-      <ambientLight intensity={night ? 0.3 : 0.62} />
-      <hemisphereLight
-        args={[night ? "#22305c" : "#cdeefb", night ? "#10160f" : "#5f8a55", night ? 0.4 : 0.7]}
-      />
-      <directionalLight
-        position={[10, 14, 6]}
-        intensity={night ? 0.5 : 2.2}
-        color={night ? "#aebbe6" : "#fff2d4"}
-        castShadow
-        shadow-mapSize={[2048, 2048]}
-        shadow-camera-near={1}
-        shadow-camera-far={60}
-        shadow-camera-left={-26}
-        shadow-camera-right={26}
-        shadow-camera-top={26}
-        shadow-camera-bottom={-26}
-        shadow-bias={-0.0004}
-      />
-
-      {/* ground */}
-      <mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
-        <planeGeometry args={[140, 140]} />
-        <meshStandardMaterial color={night ? "#1d2a1c" : "#6fa86a"} />
+    <group position={[0, 0, -5]}>
+      {/* a darker sandy rim just under the water edge */}
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.02, 0]} scale={1.07}>
+        <shapeGeometry args={[shape]} />
+        <meshStandardMaterial color={night ? "#243018" : "#caa86a"} />
       </mesh>
-
-      {/* lake */}
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.02, -4]}>
-        <planeGeometry args={[22, 14]} />
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.04, 0]}>
+        <shapeGeometry args={[shape]} />
         <MeshReflectorMaterial
           resolution={512}
           mirror={0.55}
@@ -634,11 +707,51 @@ function Scene({ night }: { night: boolean }) {
           metalness={0.2}
         />
       </mesh>
+    </group>
+  );
+}
 
-      <Mountain position={[-13, 0, -20]} height={12} radius={6.5} color={night ? "#2a3550" : "#8e9fb8"} />
-      <Mountain position={[-2, 0, -24]} height={15} radius={7.5} color={night ? "#222c46" : "#8698b4"} />
-      <Mountain position={[10, 0, -21]} height={13} radius={6.8} color={night ? "#2a3550" : "#92a2bc"} />
-      <Mountain position={[18, 0, -25]} height={11} radius={6.2} color={night ? "#1f2840" : "#8090ac"} />
+/* ---------- scene ---------- */
+function Scene({ night }: { night: boolean }) {
+  const sky = night ? "#0e1430" : "#bfe6f3";
+  return (
+    <>
+      <color attach="background" args={[sky]} />
+      <fog attach="fog" args={[sky, 26, 82]} />
+
+      <ambientLight intensity={night ? 0.3 : 0.62} />
+      <hemisphereLight
+        args={[night ? "#22305c" : "#cdeefb", night ? "#10160f" : "#5f8a55", night ? 0.4 : 0.7]}
+      />
+      <directionalLight
+        position={[10, 14, 6]}
+        intensity={night ? 0.5 : 2.2}
+        color={night ? "#aebbe6" : "#fff2d4"}
+        castShadow
+        shadow-mapSize={[2048, 2048]}
+        shadow-camera-near={1}
+        shadow-camera-far={55}
+        shadow-camera-left={-18}
+        shadow-camera-right={18}
+        shadow-camera-top={18}
+        shadow-camera-bottom={-18}
+        shadow-bias={-0.0004}
+      />
+
+      {/* ground */}
+      <mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
+        <planeGeometry args={[140, 140]} />
+        <meshStandardMaterial color={night ? "#1d2a1c" : "#6fa86a"} />
+      </mesh>
+
+      <Lake night={night} />
+
+      {/* a big mountain range behind the lake */}
+      <Mountain position={[-26, 0, -30]} height={18} radius={9} color={night ? "#2a3550" : "#8e9fb8"} night={night} />
+      <Mountain position={[-14, 0, -26]} height={20} radius={9.5} color={night ? "#222c46" : "#8698b4"} night={night} />
+      <Mountain position={[-1, 0, -34]} height={26} radius={12} color={night ? "#1e2840" : "#8090ac"} night={night} />
+      <Mountain position={[13, 0, -28]} height={22} radius={10.5} color={night ? "#222c46" : "#92a2bc"} night={night} />
+      <Mountain position={[26, 0, -32]} height={19} radius={9.5} color={night ? "#2a3550" : "#8698b4"} night={night} />
 
       <Forest night={night} />
       <Clouds />
@@ -648,29 +761,29 @@ function Scene({ night }: { night: boolean }) {
       <Duck x={2.5} z={-6} rot={-1.2} />
       <Rabbit x={-9.5} z={5} />
 
-      {/* clickable objects — one per section, on the near grass */}
-      <Hotspot3D target="#about" position={[-8, 0, 3.4]} rotation={0.5}>
+      {/* clickable objects — one per section, in a near-grass arc */}
+      <Hotspot3D target="#about" position={[-7, 0, 4.3]} rotation={0.5} scale={1.2}>
         <Tent />
       </Hotspot3D>
-      <Hotspot3D target="#stack" position={[-5.2, 0, 5]} rotation={0.2}>
+      <Hotspot3D target="#stack" position={[-5, 0, 5]} rotation={0.18} scale={1.25}>
         <Backpack />
       </Hotspot3D>
-      <Hotspot3D target="#ironman" position={[-2.4, 0, 4]} rotation={-0.3}>
+      <Hotspot3D target="#ironman" position={[-3, 0, 4.3]} rotation={-0.3} scale={1.3}>
         <Bike />
       </Hotspot3D>
-      <Hotspot3D target="#contact" position={[0.3, 0, 5.6]}>
+      <Hotspot3D target="#contact" position={[-0.9, 0, 5.1]} scale={1.25}>
         <Campfire night={night} />
       </Hotspot3D>
-      <Hotspot3D target="#music" position={[2.6, 0, 4.6]}>
+      <Hotspot3D target="#music" position={[1.1, 0, 4.3]} scale={1.35}>
         <Lantern night={night} />
       </Hotspot3D>
-      <Hotspot3D target="#interests" position={[4.6, 0, 5.6]} scale={1.1}>
+      <Hotspot3D target="#interests" position={[3.1, 0, 5.1]} scale={1.45}>
         <SoccerBall />
       </Hotspot3D>
-      <Hotspot3D target="#projects" position={[6.8, 0, 4.3]} rotation={-0.4}>
+      <Hotspot3D target="#projects" position={[5.1, 0, 4.3]} rotation={-0.35} scale={1.25}>
         <LaptopLog />
       </Hotspot3D>
-      <Hotspot3D target="#awards" position={[8.6, 0, 3.2]}>
+      <Hotspot3D target="#awards" position={[7, 0, 4.3]} scale={1.15}>
         <Flag />
       </Hotspot3D>
 
@@ -693,7 +806,7 @@ export default function Clearing3D({ night }: { night: boolean }) {
     <Canvas
       shadows
       dpr={[1, 1.6]}
-      camera={{ position: [0, 9, 26], fov: 45 }}
+      camera={{ position: [0, 12, 36], fov: 48 }}
       gl={{ antialias: true }}
     >
       <Scene night={night} />
