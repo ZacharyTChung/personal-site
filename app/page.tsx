@@ -1,5 +1,5 @@
 import { Nav } from "@/components/sections/nav";
-import { ClearingScene } from "@/components/scene/clearing-scene";
+import { ClearingHero } from "@/components/scene/clearing-hero";
 import { About } from "@/components/sections/about";
 import { Stack } from "@/components/sections/stack";
 import { Projects } from "@/components/sections/projects";
@@ -15,7 +15,7 @@ export default function Home() {
     <main className="relative">
       <TrailScape />
       <Nav />
-      <ClearingScene />
+      <ClearingHero />
       <About />
       <Stack />
       <Projects />
