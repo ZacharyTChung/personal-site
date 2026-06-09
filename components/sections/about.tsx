@@ -36,7 +36,7 @@ export function About() {
         <div className="flex items-center gap-4">
           <SceneGlyph Object={TentSVG} accent="--c-pop-coral" />
           <div>
-            <SectionEyebrow accent="--c-pop-coral">Basecamp</SectionEyebrow>
+            <SectionEyebrow accent="--c-pop-coral">about me</SectionEyebrow>
             <h2 className="mt-1 font-display text-4xl font-semibold tracking-tight md:text-6xl">
               A little about me.
             </h2>
@@ -45,21 +45,18 @@ export function About() {
         <div className="mt-8 grid gap-10 md:grid-cols-5">
           <div className="md:col-span-3 space-y-5 text-lg leading-relaxed text-muted-foreground">
             <p>
-              I&apos;m a software engineer in LA — happy to move for the right
-              thing. Most of my favorite work starts as a half-baked idea and
-              ends up as something people actually use: web apps, mobile, and
-              the occasional dive into lower-level stuff when a problem needs
-              it.
+              I&apos;m a software engineer based in LA and open to relocating.
+              I like building things people actually use, mostly web and mobile
+              apps, with some lower level work when a project needs it.
             </p>
             <p>
-              Away from the keyboard I&apos;m usually running, hiking, or
-              planning the next trip. I like endurance training for the same
-              reason I like building things — a pile of ordinary days quietly
-              adds up to something you couldn&apos;t do a few months ago.
+              When I&apos;m not coding I&apos;m usually running, hiking, or
+              planning a trip. I like endurance training for the same reason I
+              like building. Small steady days add up over time.
             </p>
             <p>
-              This site is mostly a place to keep track of what I&apos;m
-              building and where I&apos;ve been.
+              This site is just a place to keep track of what I&apos;m working
+              on and where I&apos;ve been.
             </p>
           </div>
           <div className="grid grid-cols-2 gap-4 md:col-span-2">

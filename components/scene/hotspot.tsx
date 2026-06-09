@@ -46,7 +46,7 @@ export function Hotspot({ hotspot, isMobile, reduced, baseSize }: HotspotProps) 
   return (
     <button
       type="button"
-      aria-label={`${label} — ${sublabel}`}
+      aria-label={`${label}, ${sublabel}`}
       onClick={navigate}
       onPointerEnter={() => setHovered(true)}
       onPointerLeave={() => setHovered(false)}

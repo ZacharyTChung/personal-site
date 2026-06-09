@@ -152,16 +152,14 @@ export function Contact() {
     >
       <div className="relative mx-auto max-w-4xl text-center">
         <p className="text-sm uppercase tracking-[0.3em] text-muted-foreground">
-          Get in touch
+          Contact
         </p>
         <h2 className="mt-4 font-display text-5xl font-semibold tracking-tight md:text-7xl">
-          Pull up a log
-          <br />
-          <span className="text-foreground/50">by the fire.</span>
+          Get in touch.
         </h2>
         <p className="mx-auto mt-6 max-w-xl text-lg text-muted-foreground">
-          Always down to talk projects, training, or your favorite trail. Find
-          me around the fire — email&apos;s the fastest way to reach me.
+          Feel free to reach out using any of the contacts below. Email is the
+          fastest way to get me.
         </p>
 
         {/* campfire with the socials gathered around it */}
@@ -190,8 +188,8 @@ export function Contact() {
 
       <footer className="relative mt-16 border-t border-border pt-8 text-center text-xs text-muted-foreground">
         <p>
-          Built between training sessions with Next.js and Tailwind. ©{" "}
-          {new Date().getFullYear()} Zachary Chung.
+          Built with Next.js and Tailwind. © {new Date().getFullYear()} Zachary
+          Chung.
         </p>
       </footer>
     </section>

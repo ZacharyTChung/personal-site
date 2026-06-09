@@ -70,14 +70,14 @@ export function ProjectsCarousel({ projects }: { projects: Project[] }) {
             <div className="flex items-center justify-center gap-4">
               <SceneGlyph Object={LaptopLogSVG} accent="--c-pop-violet" />
               <div className="text-left">
-                <SectionEyebrow accent="--c-pop-violet">Field notes</SectionEyebrow>
+                <SectionEyebrow accent="--c-pop-violet">projects</SectionEyebrow>
                 <h2 className="mt-2 font-display text-3xl font-semibold text-foreground md:text-5xl">
                   Things I&apos;ve built lately
                 </h2>
               </div>
             </div>
             <p className="mt-4 text-sm text-muted-foreground">
-              Straight from my GitHub, so it never goes stale.
+              Pulled straight from my GitHub.
             </p>
           </>
         }

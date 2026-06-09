@@ -54,17 +54,15 @@ export function Stack() {
           <div className="flex items-center gap-4">
             <SceneGlyph Object={BackpackSVG} accent="--c-pop-teal" />
             <div>
-              <SectionEyebrow accent="--c-pop-teal">What&apos;s in my pack</SectionEyebrow>
+              <SectionEyebrow accent="--c-pop-teal">tools i use</SectionEyebrow>
               <h2 className="mt-1 font-display text-4xl font-semibold tracking-tight md:text-6xl">
-                The stack I reach for
-                <br />
-                <span className="text-foreground/50">most often.</span>
+                What I build with.
               </h2>
             </div>
           </div>
           <p className="max-w-md text-muted-foreground">
-            Not a wishlist — just the stuff I actually reach for and have
-            shipped real things with.
+            These are the tools I actually use and have shipped real projects
+            with.
           </p>
         </div>
 

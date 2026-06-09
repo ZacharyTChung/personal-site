@@ -5,8 +5,8 @@ import {
   SectionEyebrow,
 } from "@/components/ui/scene-accents";
 
-// Paste a Spotify playlist id here — the part after /playlist/ in the share
-// link (e.g. "37i9dQZF1DX0XUsuxWHRQd"). Leave empty to show the placeholder.
+// Paste a Spotify playlist id here (the part after /playlist/ in the share
+// link, e.g. "37i9dQZF1DX0XUsuxWHRQd"). Leave empty to show the placeholder.
 const PLAYLIST_ID = "";
 
 export function Music() {
@@ -20,16 +20,15 @@ export function Music() {
         <div className="flex items-center gap-4">
           <SceneGlyph Object={GuitarSVG} accent="--c-pop-pink" />
           <div>
-            <SectionEyebrow accent="--c-pop-pink">By the fire</SectionEyebrow>
+            <SectionEyebrow accent="--c-pop-pink">music</SectionEyebrow>
             <h2 className="mt-1 font-display text-4xl font-semibold tracking-tight md:text-6xl">
-              Campfire playlist.
+              What I&apos;m listening to.
             </h2>
           </div>
         </div>
 
         <p className="mt-6 max-w-xl text-muted-foreground">
-          What&apos;s usually on while I&apos;m building, or winding down at the
-          end of a long day.
+          What&apos;s usually playing while I work.
         </p>
 
         <div className="mt-8 overflow-hidden rounded-2xl border border-border bg-card">
@@ -48,10 +47,7 @@ export function Music() {
               <span className="font-hud text-[10px] uppercase tracking-widest text-[rgb(var(--c-warm-1))]">
                 ▸ Now playing
               </span>
-              <p className="text-foreground">Pull up a log — I&apos;ll put something on.</p>
-              <p className="text-sm text-muted-foreground">
-                Playlist landing here soon.
-              </p>
+              <p className="text-foreground">Playlist coming soon.</p>
             </div>
           )}
         </div>

@@ -86,7 +86,7 @@ export function ClearingScene() {
         {/* headline */}
         <div className="absolute inset-x-5 top-[8%] z-10 text-center md:inset-x-auto md:left-[7%] md:top-[14%] md:max-w-lg md:text-left">
           <p className="flex items-center justify-center gap-1.5 font-hand text-2xl text-[rgb(var(--c-warm-3))] md:justify-start md:text-3xl">
-            <Sparkle className="h-4 w-4" /> hey! i&apos;m
+            <Sparkle className="h-4 w-4" /> hi, i&apos;m
           </p>
           <h1 className="relative mt-0 inline-block font-display text-5xl font-extrabold leading-[0.9] text-[#0f3b34] [text-shadow:2px_2px_0_rgba(255,255,255,0.5)] dark:text-[#f7eede] dark:[text-shadow:2px_2px_0_rgba(0,0,0,0.4)] md:text-7xl">
             Zachary
@@ -96,9 +96,9 @@ export function ClearingScene() {
             <Burst className="absolute -right-7 -top-3 h-8 w-8 text-[rgb(var(--c-pop-gold))]" />
           </h1>
           <p className="mx-auto mt-5 max-w-xs font-medium text-[#1f4a42] dark:text-[#dccdb4] md:mx-0 md:max-w-md md:text-lg">
-            software engineer, triathlete-in-training, and full-time
-            excuse-finder to be outside. poke around — everything out here is
-            clickable.
+            I&apos;m a software engineer based in LA. When I&apos;m not coding
+            I&apos;m usually training or outside somewhere. Have a look around,
+            everything here is clickable.
           </p>
         </div>
 
@@ -144,7 +144,7 @@ export function ClearingScene() {
             hintVisible ? "opacity-100" : "opacity-0"
           }`}
         >
-          {isTouch ? "tap stuff to take a peek!" : "drag around · click stuff to peek!"}
+          {isTouch ? "Tap around to explore" : "Click around to explore"}
         </div>
 
         {/* scroll cue */}

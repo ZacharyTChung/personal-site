@@ -10,7 +10,7 @@ const interests = [
   {
     title: "soccer",
     blurb:
-      "been playing since I was a kid and never really stopped — pickup games, leagues, the occasional couch match.",
+      "I've played since I was a kid and never really stopped. Pickup games, leagues, and the occasional match on the couch.",
     image: "/images/soccer.JPEG",
     rotClass: "-rotate-3",
     tape: "--c-pop-lime",
@@ -18,13 +18,14 @@ const interests = [
   {
     title: "travel",
     blurb: "I'll go pretty much anywhere new, usually for the food and the people.",
+
     image: "/images/travel.PNG",
     rotClass: "rotate-2",
     tape: "--c-pop-sky",
   },
   {
     title: "training",
-    blurb: "swim, bike, run. most days it's just the work of showing up.",
+    blurb: "Swim, bike, run. Most days it's just about showing up.",
     image: "/images/ironman_train.JPG",
     rotClass: "-rotate-2",
     tape: "--c-pop-coral",
@@ -32,14 +33,14 @@ const interests = [
   {
     title: "hiking",
     blurb:
-      "most weekends end up on a trail somewhere — Sierras, desert, wherever there's a little elevation.",
+      "Most weekends I end up on a trail somewhere, usually the Sierras or the desert.",
     image: "/images/hiking.JPG",
     rotClass: "rotate-3",
     tape: "--c-pop-gold",
   },
   {
     title: "running",
-    blurb: "easy miles before the city's awake. a long run fixes most bad days.",
+    blurb: "Easy miles before the city wakes up. A long run fixes most bad days.",
     image: "/images/running.JPG",
     rotClass: "-rotate-1",
     tape: "--c-pop-violet",
@@ -58,7 +59,7 @@ export function Interests() {
           <div className="flex items-center gap-4">
             <SceneGlyph Object={SoccerBallSVG} accent="--c-pop-lime" />
             <div>
-              <SectionEyebrow accent="--c-pop-lime">Off the clock</SectionEyebrow>
+              <SectionEyebrow accent="--c-pop-lime">outside of work</SectionEyebrow>
               <h2 className="mt-1 font-display text-4xl font-semibold tracking-tight md:text-6xl">
                 What I do outside
                 <br />
@@ -67,8 +68,7 @@ export function Interests() {
             </div>
           </div>
           <p className="max-w-md text-muted-foreground">
-            A few snapshots from the camera roll. Some reset me, some humble me,
-            and all of them keep me sane.
+            A few things I like to do when I&apos;m not working.
           </p>
         </div>
 

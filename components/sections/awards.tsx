@@ -8,7 +8,7 @@ import {
 
 const awards = [
   {
-    title: "3rd Place — SoCal Claude Hackathon",
+    title: "3rd Place, SoCal Claude Hackathon",
     org: "UCLA · USC · Caltech",
     date: "April 2026",
     note: "Built a voice-driven iPhone agent that runs multi-step tasks across apps and reads each step out loud for blind and low-vision users.",
@@ -38,7 +38,7 @@ export function Awards() {
         <div className="flex items-center gap-4">
           <SceneGlyph Object={FlagSVG} accent="--c-pop-gold" />
           <div>
-            <SectionEyebrow accent="--c-pop-gold">Trophy shelf</SectionEyebrow>
+            <SectionEyebrow accent="--c-pop-gold">awards</SectionEyebrow>
             <h2 className="mt-1 font-display text-4xl font-semibold tracking-tight md:text-6xl">
               A few wins.
             </h2>

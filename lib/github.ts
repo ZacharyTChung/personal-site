@@ -144,6 +144,15 @@ async function fetchRepo(name: string): Promise<GhRepo | null> {
   }
 }
 
+// Strip em/en dashes, double hyphens, and semicolons from copy.
+function clean(s: string): string {
+  return s
+    .replace(/\s*[—–]\s*/g, ", ")
+    .replace(/\s*--\s*/g, ", ")
+    .replace(/\s*;\s*/g, ", ")
+    .trim();
+}
+
 export async function getProjects(): Promise<Project[]> {
   return Promise.all(
     CURATED.map(async (o): Promise<Project> => {
@@ -154,7 +163,7 @@ export async function getProjects(): Promise<Project[]> {
         slug: o.repo,
         title: o.title,
         mark: o.mark,
-        description: liveDesc || o.blurb || "",
+        description: clean(liveDesc || o.blurb || ""),
         tags: o.tags,
         gradient: o.gradient,
         href: homepage,

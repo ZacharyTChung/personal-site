@@ -19,20 +19,20 @@ export function IronmanSection() {
           <div className="flex items-center gap-4">
             <SceneGlyph Object={BikeSVG} accent="--c-pop-sky" />
             <div>
-              <SectionEyebrow accent="--c-pop-sky">The route</SectionEyebrow>
+              <SectionEyebrow accent="--c-pop-sky">goals</SectionEyebrow>
               <h2 className="mt-1 font-display text-4xl font-semibold tracking-tight md:text-6xl">
                 What I&apos;m chasing.
               </h2>
             </div>
           </div>
           <p className="mt-6 max-w-lg text-lg leading-relaxed text-muted-foreground">
-            Right now it&apos;s my first half-Ironman: a 1.2-mile swim, 56 on
-            the bike, then a 13.1 run. No shortcut to that one — you just keep
-            showing up.
+            Right now I&apos;m training for my first half Ironman. That&apos;s a
+            1.2 mile swim, a 56 mile bike, and a 13.1 mile run. There&apos;s no
+            shortcut, you just keep showing up.
           </p>
           <p className="mt-4 max-w-lg text-lg leading-relaxed text-muted-foreground">
-            Same goes for most of what I build. The good parts are usually
-            buried somewhere in the boring middle.
+            Building things works the same way. Steady work over time is what
+            gets it done.
           </p>
         </div>
 

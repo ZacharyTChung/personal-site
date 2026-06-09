@@ -25,14 +25,14 @@ const caveat = Caveat({
 });
 
 export const metadata: Metadata = {
-  title: "Zachary Chung — software engineer in LA",
+  title: "Zachary Chung, Software Engineer",
   description:
-    "I'm a software engineer in LA. I build web and mobile apps, train for triathlons, and spend a lot of time outside. Have a look around.",
+    "I'm a software engineer based in LA. I build web and mobile apps, train for triathlons, and spend a lot of time outside.",
   metadataBase: new URL("https://zacharychung.dev"),
   openGraph: {
     title: "Zachary Chung",
     description:
-      "Software engineer in LA who builds things and trains a little too much.",
+      "Software engineer based in LA. I build things and spend time outside.",
     type: "website",
   },
 };
