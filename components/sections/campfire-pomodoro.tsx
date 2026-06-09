@@ -6,31 +6,31 @@ import { Play, Pause, RotateCcw, Volume2, VolumeX } from "lucide-react";
 const FOCUS = 25 * 60;
 const BREAK = 5 * 60;
 
-/** Synthesize a soft campfire (warm hiss + random crackles) with Web Audio. */
+/** Synthesize a soft, subtle campfire (gentle hiss + occasional crackles). */
 function createFire(ctx: AudioContext) {
   const master = ctx.createGain();
   master.gain.value = 0;
   master.connect(ctx.destination);
 
-  // base hiss: looping white noise through a lowpass
+  // base hiss: looping white noise through a warm lowpass, kept quiet
   const size = ctx.sampleRate * 2;
   const buf = ctx.createBuffer(1, size, ctx.sampleRate);
-  const ch = buf.getChannelData(0);
-  for (let i = 0; i < size; i++) ch[i] = Math.random() * 2 - 1;
+  const data = buf.getChannelData(0);
+  for (let i = 0; i < size; i++) data[i] = Math.random() * 2 - 1;
   const noise = ctx.createBufferSource();
   noise.buffer = buf;
   noise.loop = true;
   const lp = ctx.createBiquadFilter();
   lp.type = "lowpass";
-  lp.frequency.value = 880;
+  lp.frequency.value = 720;
   const hiss = ctx.createGain();
-  hiss.gain.value = 0.05;
+  hiss.gain.value = 0.025;
   noise.connect(lp);
   lp.connect(hiss);
   hiss.connect(master);
   noise.start();
 
-  // random crackles
+  // occasional soft crackles
   let stopped = false;
   const crackle = () => {
     if (stopped) return;
@@ -43,22 +43,22 @@ function createFire(ctx: AudioContext) {
     src.buffer = cbuf;
     const bp = ctx.createBiquadFilter();
     bp.type = "bandpass";
-    bp.frequency.value = 1100 + Math.random() * 2600;
-    bp.Q.value = 0.7;
+    bp.frequency.value = 700 + Math.random() * 1500;
+    bp.Q.value = 0.6;
     const g = ctx.createGain();
     const t = ctx.currentTime;
     g.gain.setValueAtTime(0.0001, t);
-    g.gain.linearRampToValueAtTime(0.12 + Math.random() * 0.14, t + 0.005);
+    g.gain.linearRampToValueAtTime(0.03 + Math.random() * 0.05, t + 0.01);
     g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
     src.connect(bp);
     bp.connect(g);
     g.connect(master);
     src.start();
-    window.setTimeout(crackle, 40 + Math.random() * 280);
+    window.setTimeout(crackle, 220 + Math.random() * 600);
   };
   crackle();
 
-  master.gain.linearRampToValueAtTime(0.9, ctx.currentTime + 0.4);
+  master.gain.linearRampToValueAtTime(0.55, ctx.currentTime + 0.6);
 
   return {
     stop() {
@@ -95,9 +95,9 @@ const STARS = [
 function Pine({ className }: { className?: string }) {
   return (
     <svg viewBox="0 0 40 64" className={className} aria-hidden="true">
-      <rect x="17" y="48" width="6" height="16" fill="#13201a" />
-      <path d="M20 4 L6 30 L34 30 Z" fill="#16271f" />
-      <path d="M20 22 L3 52 L37 52 Z" fill="#13201a" />
+      <rect x="17" y="48" width="6" height="16" fill="#3a2a1c" />
+      <path d="M20 4 L6 30 L34 30 Z" fill="rgb(var(--s-pine-mid))" />
+      <path d="M20 22 L3 52 L37 52 Z" fill="rgb(var(--s-pine-near))" />
     </svg>
   );
 }
@@ -121,7 +121,6 @@ export function CampfirePomodoro() {
     if (left === 0) setRunning(false);
   }, [left]);
 
-  // campfire audio while sound is on and the timer is running
   useEffect(() => {
     if (!(sound && running)) return;
     const Ctor =
@@ -149,26 +148,39 @@ export function CampfirePomodoro() {
 
   return (
     <div className="relative overflow-hidden">
-      {/* dusk campsite sky */}
+      {/* sky — daytime in light mode, dusk at night (follows the site theme) */}
       <div
         className="absolute inset-0"
         style={{
           background:
-            "linear-gradient(to bottom, #1b2742 0%, #2a3a52 55%, #33455b 100%)",
+            "linear-gradient(to bottom, rgb(var(--s-sky-top)), rgb(var(--s-sky-bottom)))",
         }}
       />
-      {/* stars */}
-      {STARS.map(([x, y], i) => (
-        <span
-          key={i}
-          className="absolute h-[3px] w-[3px] rounded-full bg-white/70"
-          style={{ left: `${x}%`, top: `${y}%` }}
-        />
-      ))}
-      {/* moon */}
-      <div className="absolute right-[12%] top-[12%] h-8 w-8 rounded-full bg-[#e9eef6] opacity-80 shadow-[0_0_24px_rgba(220,232,248,0.5)]" />
+      {/* stars (night only) */}
+      <div className="absolute inset-0 hidden dark:block">
+        {STARS.map(([x, y], i) => (
+          <span
+            key={i}
+            className="absolute h-[3px] w-[3px] rounded-full bg-white/70"
+            style={{ left: `${x}%`, top: `${y}%` }}
+          />
+        ))}
+      </div>
+      {/* sun (light) / moon (dark) */}
+      <div
+        className="absolute right-[12%] top-[12%] h-8 w-8 rounded-full dark:hidden"
+        style={{
+          background:
+            "radial-gradient(circle at 42% 38%, #fff6da, rgb(var(--s-sun)))",
+          boxShadow: "0 0 22px rgba(255,210,90,0.5)",
+        }}
+      />
+      <div className="absolute right-[12%] top-[12%] hidden h-8 w-8 rounded-full bg-[#e9eef6] shadow-[0_0_24px_rgba(220,232,248,0.5)] dark:block" />
       {/* ground */}
-      <div className="absolute inset-x-0 bottom-0 h-[26%] bg-[#1f2b22]" />
+      <div
+        className="absolute inset-x-0 bottom-0 h-[26%]"
+        style={{ background: "rgb(var(--s-ground))" }}
+      />
       {/* flanking pines */}
       <Pine className="absolute bottom-[16%] left-[4%] h-24 w-14" />
       <Pine className="absolute bottom-[18%] left-[15%] h-16 w-10" />
@@ -177,7 +189,7 @@ export function CampfirePomodoro() {
 
       <div className="relative z-10 flex flex-col items-center gap-5 px-6 py-10">
         {/* mode toggle */}
-        <div className="flex rounded-full border border-white/15 bg-white/5 p-1 font-hand text-lg">
+        <div className="flex rounded-full border border-foreground/15 bg-foreground/5 p-1 font-hand text-lg backdrop-blur-sm">
           {(["focus", "break"] as const).map((m) => (
             <button
               key={m}
@@ -185,8 +197,8 @@ export function CampfirePomodoro() {
               onClick={() => pick(m)}
               className={`rounded-full px-5 py-0.5 transition-colors ${
                 mode === m
-                  ? "bg-[rgb(var(--c-warm-1)/0.25)] text-[#ffd9a0]"
-                  : "text-white/55 hover:text-white/85"
+                  ? "bg-[rgb(var(--c-warm-1)/0.22)] text-[rgb(var(--c-warm-3))] dark:text-[#ffd9a0]"
+                  : "text-foreground/55 hover:text-foreground/85"
               }`}
             >
               {m}
@@ -215,7 +227,7 @@ export function CampfirePomodoro() {
             [122, 152],
             [144, 142],
           ].map(([cx, cy]) => (
-            <ellipse key={cx} cx={cx} cy={cy} rx="11" ry="7" fill="#3a3631" />
+            <ellipse key={cx} cx={cx} cy={cy} rx="11" ry="7" fill="#4a4640" />
           ))}
           <rect x="64" y="132" width="72" height="12" rx="6" fill="#6b4226" transform="rotate(11 100 138)" />
           <rect x="64" y="132" width="72" height="12" rx="6" fill="#7d4f2d" transform="rotate(-11 100 138)" />
@@ -240,10 +252,10 @@ export function CampfirePomodoro() {
 
         {/* timer */}
         <div className="text-center">
-          <p className="font-display text-6xl font-bold tabular-nums text-[#f5ecda] md:text-7xl">
+          <p className="font-display text-6xl font-bold tabular-nums text-foreground md:text-7xl">
             {mm}:{ss}
           </p>
-          <p className="mt-1 font-hand text-xl text-white/60">
+          <p className="mt-1 font-hand text-xl text-foreground/60">
             {done
               ? mode === "focus"
                 ? "nice work, take a break"
@@ -260,7 +272,7 @@ export function CampfirePomodoro() {
             type="button"
             onClick={() => setRunning((r) => !r)}
             disabled={done}
-            className="flex items-center gap-2 rounded-full border-2 border-[rgb(var(--c-warm-1)/0.5)] bg-[rgb(var(--c-warm-1)/0.18)] px-6 py-2 font-hand text-xl text-[#ffd9a0] transition-transform hover:-translate-y-0.5 disabled:opacity-40"
+            className="flex items-center gap-2 rounded-full border-2 border-[rgb(var(--c-warm-1)/0.5)] bg-[rgb(var(--c-warm-1)/0.18)] px-6 py-2 font-hand text-xl text-[rgb(var(--c-warm-3))] transition-transform hover:-translate-y-0.5 disabled:opacity-40 dark:text-[#ffd9a0]"
           >
             {running ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
             {running ? "pause" : "start"}
@@ -272,7 +284,7 @@ export function CampfirePomodoro() {
               setRunning(false);
             }}
             aria-label="Reset timer"
-            className="flex h-10 w-10 items-center justify-center rounded-full border-2 border-white/15 text-white/60 transition-colors hover:text-white"
+            className="flex h-10 w-10 items-center justify-center rounded-full border-2 border-foreground/15 text-foreground/60 transition-colors hover:text-foreground"
           >
             <RotateCcw className="h-4 w-4" />
           </button>
@@ -282,15 +294,17 @@ export function CampfirePomodoro() {
             aria-label={sound ? "Mute campfire" : "Play campfire sound"}
             className={`flex h-10 w-10 items-center justify-center rounded-full border-2 transition-colors ${
               sound
-                ? "border-[rgb(var(--c-warm-1)/0.5)] text-[#ffd9a0]"
-                : "border-white/15 text-white/60 hover:text-white"
+                ? "border-[rgb(var(--c-warm-1)/0.5)] text-[rgb(var(--c-warm-3))] dark:text-[#ffd9a0]"
+                : "border-foreground/15 text-foreground/60 hover:text-foreground"
             }`}
           >
             {sound ? <Volume2 className="h-4 w-4" /> : <VolumeX className="h-4 w-4" />}
           </button>
         </div>
-        <p className="font-hand text-base text-white/45">
-          {sound ? "crackle on (plays while the timer runs)" : "tap the speaker for fire sounds"}
+        <p className="font-hand text-base text-foreground/45">
+          {sound
+            ? "crackle on (plays while the timer runs)"
+            : "tap the speaker for fire sounds"}
         </p>
       </div>
     </div>
