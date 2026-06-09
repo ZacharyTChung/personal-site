@@ -1,5 +1,7 @@
 # Zachary Chung — Personal Site
 
+**Live site: [zacharychung.vercel.app](https://zacharychung.vercel.app)**
+
 Modern personal site built with Next.js 14 (App Router), TypeScript, Tailwind CSS, and 21st.dev / shadcn components.
 
 ## Stack
@@ -50,7 +52,9 @@ personal-site/
 └── package.json
 ```
 
-## Setup
+## Run locally (development)
+
+To view the site, just visit [zacharychung.vercel.app](https://zacharychung.vercel.app). The steps below are only for local development.
 
 ```bash
 cd personal-site
@@ -58,7 +62,7 @@ npm install
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000).
+This starts a dev server at [http://localhost:3000](http://localhost:3000).
 
 ## Personalization checklist
 
