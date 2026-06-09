@@ -51,6 +51,15 @@ export function TrailScape() {
 
   return (
     <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
+      {/* color wash that carries the clearing's ground color into the
+          sections below, fading to the page background */}
+      <div
+        className="absolute inset-x-0 top-0"
+        style={{
+          height: Math.round(vh * 2.2),
+          background: `linear-gradient(to bottom, rgb(var(--s-ground) / 0.45) 0px, rgb(var(--s-ground) / 0.45) ${Math.round(vh)}px, rgb(var(--s-ground) / 0) ${Math.round(vh * 2.2)}px)`,
+        }}
+      />
       <svg
         width="100%"
         height="100%"

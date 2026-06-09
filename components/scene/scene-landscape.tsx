@@ -272,8 +272,12 @@ export function SceneLandscape({
         })}
       </motion.svg>
 
-      {/* dissolve the scene gradually into the page below for a smooth blend */}
-      <div className="absolute inset-x-0 bottom-0 h-[34%] bg-gradient-to-b from-transparent via-background/55 to-background" />
+      {/* paper-grain texture over the whole scene */}
+      <div className="grain-tex pointer-events-none absolute inset-0 opacity-50 mix-blend-soft-light" />
+
+      {/* fade the scene into the section color-wash below (light green in
+          light mode, dark green at night) so the seam blends */}
+      <div className="absolute inset-x-0 bottom-0 h-[34%] bg-gradient-to-b from-transparent to-[#cfe0c8] dark:to-[#1c2620]" />
     </div>
   );
 }
