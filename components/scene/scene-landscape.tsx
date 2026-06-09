@@ -132,6 +132,7 @@ export function SceneLandscape({
         <path
           d="M0 50 L5 40 L10 50 L16 38 L22 50 L28 42 L34 50 L41 37 L47 50 L53 41 L60 50 L66 39 L72 50 L79 42 L85 50 L91 38 L97 50 L100 45 L100 100 L0 100 Z"
           fill="rgb(var(--s-pine-far))"
+          opacity="0.82"
         />
       </motion.svg>
 
@@ -147,6 +148,15 @@ export function SceneLandscape({
           fill="rgb(var(--s-pine-mid))"
         />
       </motion.svg>
+
+      {/* atmospheric haze pooling at the treeline so distant hills recede */}
+      <div
+        className="absolute inset-x-0 top-[40%] h-[20%]"
+        style={{
+          background:
+            "linear-gradient(to bottom, transparent, rgb(var(--s-sky-bottom) / 0.6))",
+        }}
+      />
 
       {/* lake */}
       <motion.svg
@@ -185,6 +195,24 @@ export function SceneLandscape({
             }}
           />
         ))}
+        {/* bright shoreline */}
+        <rect x="0" y="56" width="100" height="2" fill="rgba(255,255,255,0.16)" />
+        {/* sun / moon reflection shimmer */}
+        {[
+          [59, 7],
+          [61, 5],
+          [63, 3.4],
+          [65, 2],
+        ].map(([cy, rx], i) => (
+          <ellipse
+            key={`refl${i}`}
+            cx="74"
+            cy={cy}
+            rx={rx}
+            ry="0.7"
+            fill="rgba(255,255,255,0.4)"
+          />
+        ))}
       </motion.svg>
 
       {/* near framing pines (left + right), parallax with the ground */}
@@ -208,9 +236,15 @@ export function SceneLandscape({
         className="absolute inset-0 h-full w-full"
         style={{ x: groundX }}
       >
+        <defs>
+          <linearGradient id="ground-g" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stopColor="rgb(var(--s-ground))" />
+            <stop offset="1" stopColor="rgb(var(--s-ground-shadow))" />
+          </linearGradient>
+        </defs>
         <path
           d="M0 66 C20 62 38 64 50 63 C66 62 82 65 100 63 L100 100 L0 100 Z"
-          fill="rgb(var(--s-ground))"
+          fill="url(#ground-g)"
         />
         {/* sunlit grass rim */}
         <path
@@ -219,12 +253,6 @@ export function SceneLandscape({
           stroke="#dcffe4"
           strokeWidth="0.8"
           opacity="0.5"
-        />
-        {/* soft contour shadow */}
-        <path
-          d="M0 80 C28 76 60 82 100 78 L100 100 L0 100 Z"
-          fill="rgb(var(--s-ground-shadow))"
-          opacity="0.45"
         />
       </motion.svg>
 
