@@ -6,6 +6,7 @@ import {
   Instance,
   MeshReflectorMaterial,
   RoundedBox,
+  Html,
 } from "@react-three/drei";
 import { EffectComposer, Bloom } from "@react-three/postprocessing";
 import { useMemo, useRef, useState, type ReactNode } from "react";
@@ -25,11 +26,11 @@ function Rig() {
     const t = Math.min(1, e / INTRO);
     const k = 1 - Math.pow(1 - t, 3); // ease-out
     const rx = state.pointer.x * 1.1 * k;
-    const ry = 7.6 + state.pointer.y * 0.6 * k;
-    const rz = 16.5;
+    const ry = 8.4 + state.pointer.y * 0.6 * k;
+    const rz = 19;
     const sx = 0,
-      sy = 15,
-      sz = 30;
+      sy = 16,
+      sz = 34;
     const cx = sx + (rx - sx) * k;
     const cy = sy + (ry - sy) * k;
     const cz = sz + (rz - sz) * k;
@@ -37,7 +38,7 @@ function Rig() {
     state.camera.position.x += (cx - state.camera.position.x) * f;
     state.camera.position.y += (cy - state.camera.position.y) * f;
     state.camera.position.z += (cz - state.camera.position.z) * f;
-    state.camera.lookAt(0, 0.2, -4);
+    state.camera.lookAt(0, 0.4, -4.5);
   });
   return null;
 }
@@ -45,15 +46,19 @@ function Rig() {
 /* ---------- clickable wrapper (hover lift + cursor) ---------- */
 function Hotspot3D({
   target,
+  label,
   position,
   rotation = 0,
   scale = 1,
+  tagHeight = 2.9,
   children,
 }: {
   target: string;
+  label: string;
   position: [number, number, number];
   rotation?: number;
   scale?: number;
+  tagHeight?: number;
   children: ReactNode;
 }) {
   const ref = useRef<THREE.Group>(null);
@@ -86,6 +91,21 @@ function Hotspot3D({
       >
         {children}
       </group>
+      {hovered && (
+        <Html
+          position={[0, tagHeight, 0]}
+          center
+          pointerEvents="none"
+          zIndexRange={[40, 0]}
+        >
+          <div className="flex -translate-y-1/2 flex-col items-center">
+            <span className="whitespace-nowrap rounded-full bg-[rgb(var(--c-bg-2)/0.96)] px-3.5 py-1 font-hand text-lg leading-none text-foreground shadow-lg ring-1 ring-[rgb(var(--c-fg)/0.12)]">
+              {label}
+            </span>
+            <span className="-mt-px h-2 w-2 rotate-45 bg-[rgb(var(--c-bg-2)/0.96)] ring-1 ring-[rgb(var(--c-fg)/0.12)]" />
+          </div>
+        </Html>
+      )}
     </group>
   );
 }
@@ -762,28 +782,28 @@ function Scene({ night }: { night: boolean }) {
       <Rabbit x={-9.5} z={5} />
 
       {/* clickable objects — one per section, spread across a near-grass arc */}
-      <Hotspot3D target="#about" position={[-10, 0, 5.4]} rotation={0.6} scale={1.2}>
+      <Hotspot3D target="#about" label="About" position={[-10, 0, 5.4]} rotation={0.6} scale={1.2}>
         <Tent />
       </Hotspot3D>
-      <Hotspot3D target="#stack" position={[-7.4, 0, 4.5]} rotation={0.45} scale={1.25}>
+      <Hotspot3D target="#stack" label="Stack" position={[-7.4, 0, 4.5]} rotation={0.45} scale={1.25}>
         <Backpack />
       </Hotspot3D>
-      <Hotspot3D target="#ironman" position={[-4.8, 0, 3.9]} rotation={0.2} scale={1.3}>
+      <Hotspot3D target="#ironman" label="Goals" position={[-4.8, 0, 3.9]} rotation={0.2} scale={1.3}>
         <Bike />
       </Hotspot3D>
-      <Hotspot3D target="#contact" position={[-1.7, 0, 3.5]} scale={1.25}>
+      <Hotspot3D target="#contact" label="Contact" position={[-1.7, 0, 3.5]} scale={1.25}>
         <Campfire night={night} />
       </Hotspot3D>
-      <Hotspot3D target="#music" position={[1.7, 0, 3.5]} scale={1.35}>
+      <Hotspot3D target="#music" label="Focus" position={[1.7, 0, 3.5]} scale={1.35}>
         <Lantern night={night} />
       </Hotspot3D>
-      <Hotspot3D target="#interests" position={[4.8, 0, 3.9]} scale={1.45}>
+      <Hotspot3D target="#interests" label="Interests" position={[4.8, 0, 3.9]} scale={1.45}>
         <SoccerBall />
       </Hotspot3D>
-      <Hotspot3D target="#projects" position={[7.4, 0, 4.5]} rotation={-0.45} scale={1.25}>
+      <Hotspot3D target="#projects" label="Projects" position={[7.4, 0, 4.5]} rotation={-0.45} scale={1.25}>
         <LaptopLog />
       </Hotspot3D>
-      <Hotspot3D target="#awards" position={[10, 0, 5.4]} rotation={-0.25} scale={1.15}>
+      <Hotspot3D target="#awards" label="Awards" position={[10, 0, 5.4]} rotation={-0.25} scale={1.15} tagHeight={3.4}>
         <Flag />
       </Hotspot3D>
 
@@ -806,7 +826,7 @@ export default function Clearing3D({ night }: { night: boolean }) {
     <Canvas
       shadows
       dpr={[1, 1.6]}
-      camera={{ position: [0, 15, 30], fov: 48 }}
+      camera={{ position: [0, 16, 34], fov: 49 }}
       gl={{ antialias: true }}
     >
       <Scene night={night} />
