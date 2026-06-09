@@ -301,7 +301,7 @@ export function SceneLandscape({
       </motion.svg>
 
       {/* paper-grain texture over the whole scene */}
-      <div className="grain-tex pointer-events-none absolute inset-0 opacity-50 mix-blend-soft-light" />
+      <div className="grain-tex pointer-events-none absolute inset-0 opacity-[0.7] mix-blend-soft-light" />
 
       {/* fade the scene into the section color-wash below (light green in
           light mode, dark green at night) so the seam blends */}

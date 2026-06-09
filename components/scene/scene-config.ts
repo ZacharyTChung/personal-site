@@ -124,8 +124,8 @@ export const HOTSPOTS: SceneHotspot[] = [
   {
     id: "music",
     targetId: "#music",
-    label: "Music",
-    sublabel: "what i listen to",
+    label: "Focus",
+    sublabel: "campfire pomodoro",
     x: 22,
     y: 86,
     xMobile: 70,

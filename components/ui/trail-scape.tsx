@@ -49,6 +49,29 @@ export function TrailScape() {
   }
   const band = Math.max(32, w * 0.03);
 
+  // faint topographic contour clusters down the page (map-like texture)
+  const contours: React.ReactNode[] = [];
+  let ci = 0;
+  for (let cy = vh * 0.55; cy < h - 80; cy += vh * 0.8, ci++) {
+    const cx = ci % 2 === 0 ? w * 0.17 : w * 0.83;
+    const rot = ci % 2 === 0 ? -12 : 14;
+    for (let r = 0; r < 5; r++) {
+      contours.push(
+        <ellipse
+          key={`ct${ci}-${r}`}
+          cx={cx}
+          cy={cy}
+          rx={46 + r * 40}
+          ry={30 + r * 26}
+          fill="none"
+          stroke="rgb(var(--c-fg) / 0.07)"
+          strokeWidth="1.3"
+          transform={`rotate(${rot} ${cx} ${cy})`}
+        />,
+      );
+    }
+  }
+
   return (
     <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
       {/* color wash that carries the clearing's ground color into the
@@ -67,6 +90,7 @@ export function TrailScape() {
         preserveAspectRatio="none"
         aria-hidden="true"
       >
+        {contours}
         <path
           d={d}
           fill="none"
