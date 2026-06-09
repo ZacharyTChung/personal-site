@@ -57,21 +57,26 @@ export function ClearingHero() {
       </div>
 
       {/* headline overlay (non-interactive so clicks reach the 3D objects) */}
-      <div className="pointer-events-none absolute inset-x-5 top-[8%] z-10 text-center [text-shadow:0_1px_10px_rgba(0,0,0,0.25)] md:inset-x-auto md:left-[7%] md:top-[14%] md:max-w-lg md:text-left">
-        <p className="flex items-center justify-center gap-1.5 font-hand text-2xl text-[rgb(var(--c-warm-3))] md:justify-start md:text-3xl">
-          <Sparkle className="h-4 w-4" /> hi, i&apos;m
-        </p>
-        <h1 className="relative mt-0 inline-block font-display text-5xl font-extrabold leading-[0.9] text-[#0f3b34] dark:text-[#f7eede] md:text-7xl">
-          Zachary
-          <br />
-          Chung
-          <Squiggle className="mt-1 h-3 w-44 text-[rgb(var(--c-pop-coral))] md:w-64" />
-          <Burst className="absolute -right-7 -top-3 h-8 w-8 text-[rgb(var(--c-pop-gold))]" />
-        </h1>
-        <p className="mx-auto mt-5 max-w-xs font-medium text-[#1f4a42] dark:text-[#dccdb4] md:mx-0 md:max-w-md md:text-lg">
-          I&apos;m a software engineer based in LA. Move your mouse to look
-          around, and click anything in the clearing to explore.
-        </p>
+      <div className="pointer-events-none absolute inset-x-5 top-[9%] z-10 flex justify-center md:inset-x-auto md:left-[6%] md:top-[16%] md:justify-start">
+        <div className="relative inline-block max-w-[19rem] rounded-[1.6rem] bg-[rgb(var(--c-bg-2)/0.5)] px-5 py-4 text-center shadow-[0_6px_28px_rgba(0,0,0,0.14)] ring-1 ring-[rgb(var(--c-fg)/0.08)] backdrop-blur-lg md:text-left">
+          {/* a couple of little bubbles */}
+          <span className="absolute -left-2.5 -top-2.5 h-5 w-5 rounded-full bg-[rgb(var(--c-bg-2)/0.5)] ring-1 ring-[rgb(var(--c-fg)/0.08)] backdrop-blur-lg" />
+          <span className="absolute -bottom-2.5 right-8 h-3.5 w-3.5 rounded-full bg-[rgb(var(--c-bg-2)/0.5)] ring-1 ring-[rgb(var(--c-fg)/0.08)] backdrop-blur-lg" />
+
+          <p className="flex items-center justify-center gap-1.5 font-hand text-xl text-[rgb(var(--c-warm-3))] md:justify-start md:text-2xl">
+            <Sparkle className="h-4 w-4" /> hi, i&apos;m
+          </p>
+          <h1 className="relative mt-0 inline-block font-display text-4xl font-extrabold leading-[0.9] text-foreground md:text-6xl">
+            Zachary
+            <br />
+            Chung
+            <Squiggle className="mt-1 h-3 w-36 text-[rgb(var(--c-pop-coral))] md:w-52" />
+            <Burst className="absolute -right-6 -top-2 h-7 w-7 text-[rgb(var(--c-pop-gold))]" />
+          </h1>
+          <p className="mt-3 text-sm font-medium text-foreground/75 md:text-base">
+            Software engineer in LA. Click anything in the clearing to explore.
+          </p>
+        </div>
       </div>
 
       {/* scroll cue */}

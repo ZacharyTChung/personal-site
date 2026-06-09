@@ -24,12 +24,12 @@ function Rig() {
     const e = state.clock.elapsedTime;
     const t = Math.min(1, e / INTRO);
     const k = 1 - Math.pow(1 - t, 3); // ease-out
-    const rx = state.pointer.x * 2.2 * k;
-    const ry = 4.6 + state.pointer.y * 0.9 * k;
-    const rz = 18;
+    const rx = state.pointer.x * 1.1 * k;
+    const ry = 7.6 + state.pointer.y * 0.6 * k;
+    const rz = 16.5;
     const sx = 0,
-      sy = 12,
-      sz = 36;
+      sy = 15,
+      sz = 30;
     const cx = sx + (rx - sx) * k;
     const cy = sy + (ry - sy) * k;
     const cz = sz + (rz - sz) * k;
@@ -37,7 +37,7 @@ function Rig() {
     state.camera.position.x += (cx - state.camera.position.x) * f;
     state.camera.position.y += (cy - state.camera.position.y) * f;
     state.camera.position.z += (cz - state.camera.position.z) * f;
-    state.camera.lookAt(0, 0.6, -5);
+    state.camera.lookAt(0, 0.2, -4);
   });
   return null;
 }
@@ -761,29 +761,29 @@ function Scene({ night }: { night: boolean }) {
       <Duck x={2.5} z={-6} rot={-1.2} />
       <Rabbit x={-9.5} z={5} />
 
-      {/* clickable objects — one per section, in a near-grass arc */}
-      <Hotspot3D target="#about" position={[-7, 0, 4.3]} rotation={0.5} scale={1.2}>
+      {/* clickable objects — one per section, spread across a near-grass arc */}
+      <Hotspot3D target="#about" position={[-10, 0, 5.4]} rotation={0.6} scale={1.2}>
         <Tent />
       </Hotspot3D>
-      <Hotspot3D target="#stack" position={[-5, 0, 5]} rotation={0.18} scale={1.25}>
+      <Hotspot3D target="#stack" position={[-7.4, 0, 4.5]} rotation={0.45} scale={1.25}>
         <Backpack />
       </Hotspot3D>
-      <Hotspot3D target="#ironman" position={[-3, 0, 4.3]} rotation={-0.3} scale={1.3}>
+      <Hotspot3D target="#ironman" position={[-4.8, 0, 3.9]} rotation={0.2} scale={1.3}>
         <Bike />
       </Hotspot3D>
-      <Hotspot3D target="#contact" position={[-0.9, 0, 5.1]} scale={1.25}>
+      <Hotspot3D target="#contact" position={[-1.7, 0, 3.5]} scale={1.25}>
         <Campfire night={night} />
       </Hotspot3D>
-      <Hotspot3D target="#music" position={[1.1, 0, 4.3]} scale={1.35}>
+      <Hotspot3D target="#music" position={[1.7, 0, 3.5]} scale={1.35}>
         <Lantern night={night} />
       </Hotspot3D>
-      <Hotspot3D target="#interests" position={[3.1, 0, 5.1]} scale={1.45}>
+      <Hotspot3D target="#interests" position={[4.8, 0, 3.9]} scale={1.45}>
         <SoccerBall />
       </Hotspot3D>
-      <Hotspot3D target="#projects" position={[5.1, 0, 4.3]} rotation={-0.35} scale={1.25}>
+      <Hotspot3D target="#projects" position={[7.4, 0, 4.5]} rotation={-0.45} scale={1.25}>
         <LaptopLog />
       </Hotspot3D>
-      <Hotspot3D target="#awards" position={[7, 0, 4.3]} scale={1.15}>
+      <Hotspot3D target="#awards" position={[10, 0, 5.4]} rotation={-0.25} scale={1.15}>
         <Flag />
       </Hotspot3D>
 
@@ -806,7 +806,7 @@ export default function Clearing3D({ night }: { night: boolean }) {
     <Canvas
       shadows
       dpr={[1, 1.6]}
-      camera={{ position: [0, 12, 36], fov: 48 }}
+      camera={{ position: [0, 15, 30], fov: 48 }}
       gl={{ antialias: true }}
     >
       <Scene night={night} />
