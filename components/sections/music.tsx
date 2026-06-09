@@ -28,7 +28,7 @@ export function Music() {
           A little focus timer. Start a session and keep the fire going.
         </p>
 
-        <div className="mt-8 overflow-hidden rounded-2xl border border-border bg-card">
+        <div className="mt-8 overflow-hidden rounded-2xl border border-border shadow-lg">
           <CampfirePomodoro />
         </div>
       </div>

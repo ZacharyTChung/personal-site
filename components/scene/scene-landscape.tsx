@@ -134,6 +134,23 @@ export function SceneLandscape({
           fill="rgb(var(--s-pine-far))"
           opacity="0.82"
         />
+        {/* snow caps on the peaks */}
+        {(
+          [
+            [5, 40],
+            [16, 38],
+            [41, 37],
+            [66, 39],
+            [91, 38],
+          ] as const
+        ).map(([px, py]) => (
+          <path
+            key={px}
+            d={`M${px} ${py} L${px - 2.4} ${py + 5} L${px + 2.4} ${py + 5} Z`}
+            fill="#f2f6fa"
+            opacity="0.9"
+          />
+        ))}
       </motion.svg>
 
       {/* mid forest */}

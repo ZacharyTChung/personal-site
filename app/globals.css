@@ -29,17 +29,18 @@
     --c-pop-pink: 232 146 196;
     --c-pop-sky: 132 190 222;
 
-    /* scene — soft daytime clearing by a lake (muted, pastel) */
-    --s-sky-top: 146 198 230;
-    --s-sky-bottom: 224 239 246;
-    --s-sun: 255 218 130;
-    --s-pine-far: 128 180 144;
-    --s-pine-mid: 96 164 118;
-    --s-pine-near: 70 142 100;
-    --s-water: 130 186 210;
-    --s-water-deep: 92 154 188;
-    --s-ground: 156 200 158;
-    --s-ground-shadow: 116 172 126;
+    /* scene — Banff / Lake Louise: turquoise glacial lake, alpine sky,
+       hazy grey-blue distant mountains, deep evergreen forest */
+    --s-sky-top: 116 168 212;
+    --s-sky-bottom: 206 228 236;
+    --s-sun: 255 224 150;
+    --s-pine-far: 150 166 186;
+    --s-pine-mid: 74 122 100;
+    --s-pine-near: 40 92 70;
+    --s-water: 80 196 188;
+    --s-water-deep: 38 150 158;
+    --s-ground: 146 190 152;
+    --s-ground-shadow: 100 158 116;
 
     --background: 42 60% 97%;
     --foreground: 24 18% 16%;
@@ -94,8 +95,8 @@
     --s-pine-far: 40 48 52;
     --s-pine-mid: 27 35 37;
     --s-pine-near: 15 21 22;
-    --s-water: 42 56 72;
-    --s-water-deep: 20 28 42;
+    --s-water: 38 84 92;
+    --s-water-deep: 22 52 60;
     --s-ground: 30 37 30;
     --s-ground-shadow: 15 20 15;
 
