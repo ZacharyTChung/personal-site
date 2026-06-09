@@ -4,37 +4,121 @@
 
 @layer base {
   :root {
-    /* dark — soft charcoal + warm cream + honey amber */
-    --c-bg-1: 22 22 23;
-    --c-bg-2: 32 32 33;
-    --c-bg-3: 46 46 48;
-    --c-fg: 240 234 222;
-    --c-accent-1: 218 212 200;
-    --c-accent-2: 168 162 150;
-    --c-accent-3: 118 112 102;
-    --c-warm-1: 224 178 110;
-    --c-warm-2: 196 148 80;
-    --c-warm-3: 156 112 50;
+    /* bright & poppy daylight — warm cream canvas, ink text, vivid accents */
+    --c-bg-1: 253 250 244;
+    --c-bg-2: 255 255 255;
+    --c-bg-3: 244 238 228;
+    --c-fg: 38 34 30;
+    --c-accent-1: 78 70 62;
+    --c-accent-2: 124 116 106;
+    --c-accent-3: 168 160 150;
+    --c-warm-1: 255 153 51;
+    --c-warm-2: 255 116 84;
+    --c-warm-3: 232 88 56;
 
-    --background: 220 4% 9%;
+    /* dirt trail + a soft ground wash for the continuous landscape */
+    --c-trail: 198 162 116;
+    --c-land: 214 236 197;
+
+    /* pop accents — softened/pastel so they're lively but not neon */
+    --c-pop-coral: 236 130 122;
+    --c-pop-teal: 96 186 198;
+    --c-pop-violet: 158 142 226;
+    --c-pop-gold: 234 188 96;
+    --c-pop-lime: 124 188 132;
+    --c-pop-pink: 232 146 196;
+    --c-pop-sky: 132 190 222;
+
+    /* scene — Banff / Lake Louise: turquoise glacial lake, alpine sky,
+       hazy grey-blue distant mountains, deep evergreen forest */
+    --s-sky-top: 116 168 212;
+    --s-sky-bottom: 206 228 236;
+    --s-sun: 255 224 150;
+    --s-pine-far: 150 166 186;
+    --s-pine-mid: 74 122 100;
+    --s-pine-near: 40 92 70;
+    --s-water: 80 196 188;
+    --s-water-deep: 38 150 158;
+    --s-ground: 146 190 152;
+    --s-ground-shadow: 100 158 116;
+
+    --background: 42 60% 97%;
+    --foreground: 24 18% 16%;
+    --card: 0 0% 100%;
+    --card-foreground: 24 18% 16%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 24 18% 16%;
+    --primary: 24 18% 16%;
+    --primary-foreground: 42 60% 98%;
+    --secondary: 40 32% 93%;
+    --secondary-foreground: 24 18% 16%;
+    --muted: 40 32% 93%;
+    --muted-foreground: 28 10% 40%;
+    --accent: 24 100% 58%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 36 30% 87%;
+    --input: 36 30% 87%;
+    --ring: 24 100% 58%;
+    --radius: 0.875rem;
+  }
+
+  /* dark mode — cozy night version of the world */
+  .dark {
+    --c-bg-1: 22 22 25;
+    --c-bg-2: 32 32 36;
+    --c-bg-3: 46 46 52;
+    --c-fg: 240 234 222;
+    --c-accent-1: 214 208 198;
+    --c-accent-2: 168 162 152;
+    --c-accent-3: 120 114 104;
+    --c-warm-1: 255 168 70;
+    --c-warm-2: 244 122 86;
+    --c-warm-3: 224 92 62;
+
+    --c-trail: 104 84 60;
+    --c-land: 26 40 30;
+
+    --c-pop-coral: 255 122 122;
+    --c-pop-teal: 56 214 232;
+    --c-pop-violet: 172 144 255;
+    --c-pop-gold: 255 205 72;
+    --c-pop-lime: 110 222 130;
+    --c-pop-pink: 255 138 212;
+    --c-pop-sky: 110 210 255;
+
+    /* night clearing */
+    --s-sky-top: 18 19 28;
+    --s-sky-bottom: 44 36 40;
+    --s-sun: 255 214 138;
+    --s-pine-far: 40 48 52;
+    --s-pine-mid: 27 35 37;
+    --s-pine-near: 15 21 22;
+    --s-water: 38 84 92;
+    --s-water-deep: 22 52 60;
+    --s-ground: 30 37 30;
+    --s-ground-shadow: 15 20 15;
+
+    --background: 222 16% 11%;
     --foreground: 38 36% 92%;
-    --card: 220 4% 12%;
+    --card: 222 14% 15%;
     --card-foreground: 38 36% 92%;
-    --popover: 220 4% 12%;
+    --popover: 222 14% 15%;
     --popover-foreground: 38 36% 92%;
     --primary: 38 36% 92%;
-    --primary-foreground: 220 4% 9%;
-    --secondary: 220 4% 16%;
+    --primary-foreground: 222 16% 11%;
+    --secondary: 222 12% 20%;
     --secondary-foreground: 38 36% 92%;
-    --muted: 220 4% 16%;
-    --muted-foreground: 36 12% 70%;
-    --accent: 36 56% 60%;
-    --accent-foreground: 220 4% 12%;
-    --destructive: 0 50% 50%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 220 4% 20%;
-    --input: 220 4% 20%;
-    --ring: 36 40% 60%;
+    --muted: 222 12% 20%;
+    --muted-foreground: 36 14% 72%;
+    --accent: 24 100% 62%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 60% 55%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 222 12% 24%;
+    --input: 222 12% 24%;
+    --ring: 24 100% 62%;
     --radius: 0.875rem;
   }
 }
@@ -52,16 +136,30 @@
   body {
     @apply bg-background text-foreground antialiased;
     background-image:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.62'/%3E%3C/svg%3E"),
       radial-gradient(
-        circle at 15% 0%,
-        rgb(var(--c-accent-2) / 0.06),
-        transparent 55%
+        circle at 10% 0%,
+        rgb(var(--c-pop-teal) / 0.09),
+        transparent 48%
       ),
       radial-gradient(
-        circle at 85% 100%,
-        rgb(var(--c-warm-2) / 0.05),
+        circle at 90% 6%,
+        rgb(var(--c-pop-coral) / 0.09),
+        transparent 48%
+      ),
+      radial-gradient(
+        circle at 50% 100%,
+        rgb(var(--c-pop-gold) / 0.07),
         transparent 55%
       );
+    background-repeat: repeat, no-repeat, no-repeat, no-repeat;
+    background-size: 180px 180px, auto, auto, auto;
+  }
+
+  /* paper-grain texture overlay (used on the hero scene) */
+  .grain-tex {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
+    background-size: 200px 200px;
   }
   ::selection {
     @apply bg-foreground/20 text-foreground;
@@ -78,6 +176,24 @@
   will-change: transform;
 }
 
+@keyframes flame-flicker {
+  0%, 100% { transform: scaleY(1) scaleX(1); opacity: 0.9; }
+  50% { transform: scaleY(1.1) scaleX(0.94); opacity: 1; }
+}
+.flame {
+  transform-origin: 50% 100%;
+  animation: flame-flicker 1.6s ease-in-out infinite;
+}
+.flame-mid { animation-duration: 2.1s; animation-delay: 0.3s; }
+.flame-core { animation-duration: 1.2s; animation-delay: 0.15s; }
+
+@keyframes ember-rise {
+  0% { transform: translateY(0) scale(1); opacity: 0; }
+  20% { opacity: 1; }
+  100% { transform: translateY(-26px) scale(0.4); opacity: 0; }
+}
+.ember { animation: ember-rise 3s ease-out infinite; }
+
 /* subtle grain overlay */
 .grain::before {
   content: "";
@@ -88,4 +204,19 @@
   opacity: 0.03;
   mix-blend-mode: overlay;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* honor the OS "reduce motion" setting site-wide */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
 }

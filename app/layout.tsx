@@ -1,29 +1,38 @@
 import type { Metadata } from "next";
-import { Inter, Fraunces } from "next/font/google";
+import { Nunito, Baloo_2, Caveat } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({
+// friendly rounded body
+const nunito = Nunito({
   subsets: ["latin"],
   variable: "--font-sans",
   display: "swap",
 });
 
-const fraunces = Fraunces({
+// chunky rounded headings
+const baloo = Baloo_2({
   subsets: ["latin"],
   variable: "--font-display",
   display: "swap",
-  axes: ["SOFT", "opsz"],
+});
+
+// handwritten accents (eyebrows, doodle labels, captions)
+const caveat = Caveat({
+  subsets: ["latin"],
+  weight: ["400", "600", "700"],
+  variable: "--font-hand",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "Zachary Chung. Engineer, athlete, explorer",
+  title: "Zachary Chung, Software Engineer",
   description:
-    "Personal site of Zachary Chung. Software engineer based in Los Angeles, open to relocating. Building things, training for an Ironman, and finding any excuse to be outside.",
+    "I'm a software engineer based in LA. I build web and mobile apps, train for triathlons, and spend a lot of time outside.",
   metadataBase: new URL("https://zacharychung.dev"),
   openGraph: {
     title: "Zachary Chung",
     description:
-      "Engineer, athlete, explorer. Building things and chasing mountains.",
+      "Software engineer based in LA. I build things and spend time outside.",
     type: "website",
   },
 };
@@ -34,16 +43,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="dark">
+    <html lang="en">
       <head>
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){try{if('scrollRestoration' in history){history.scrollRestoration='manual';}window.scrollTo(0,0);}catch(e){}})();`,
+            __html: `(function(){try{if('scrollRestoration' in history){history.scrollRestoration='manual';}window.scrollTo(0,0);var t=localStorage.getItem('theme');if(t==='dark'||(!t&&window.matchMedia('(prefers-color-scheme: dark)').matches)){document.documentElement.classList.add('dark');}}catch(e){}})();`,
           }}
         />
       </head>
       <body
-        className={`${inter.variable} ${fraunces.variable} font-sans grain`}
+        className={`${nunito.variable} ${baloo.variable} ${caveat.variable} font-sans`}
       >
         {children}
       </body>
