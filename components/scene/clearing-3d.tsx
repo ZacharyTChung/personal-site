@@ -388,89 +388,97 @@ function Flag() {
 
 function SoccerBall() {
   const R = 0.48;
-  // The black pentagons are painted directly onto the sphere's surface (per
-  // face) so they curve with the ball and blend in, instead of being flat
-  // discs floating tangent to it.
+  // The real soccer ball: an actual truncated icosahedron built from the
+  // icosahedron by cutting each vertex at 1/3 of every edge. That yields 12
+  // flat pentagon panels (black) and 20 flat hexagon panels (white), with
+  // clean straight panel edges.
   const geo = useMemo(() => {
-    // 12 pentagon centers = the icosahedron's vertices
-    const ico = new THREE.IcosahedronGeometry(1, 0);
-    const vp = ico.attributes.position;
-    const centers: THREE.Vector3[] = [];
-    const seen = new Set<string>();
-    for (let i = 0; i < vp.count; i++) {
-      const v = new THREE.Vector3(vp.getX(i), vp.getY(i), vp.getZ(i)).normalize();
-      const key = `${v.x.toFixed(3)},${v.y.toFixed(3)},${v.z.toFixed(3)}`;
-      if (!seen.has(key)) {
-        seen.add(key);
-        centers.push(v);
-      }
-    }
-    ico.dispose();
+    const t = (1 + Math.sqrt(5)) / 2;
+    const V = [
+      [0, 1, t], [0, 1, -t], [0, -1, t], [0, -1, -t],
+      [1, t, 0], [1, -t, 0], [-1, t, 0], [-1, -t, 0],
+      [t, 0, 1], [t, 0, -1], [-t, 0, 1], [-t, 0, -1],
+    ].map((p) => new THREE.Vector3(p[0], p[1], p[2]));
 
-    const g = new THREE.IcosahedronGeometry(R, 5).toNonIndexed();
-    const pos = g.attributes.position;
-    const colors: number[] = [];
-    const normals: number[] = [];
-    const black = new THREE.Color("#1c2230");
-    const white = new THREE.Color("#f6f6f0");
-    const a = new THREE.Vector3();
-    const b = new THREE.Vector3();
-    const c = new THREE.Vector3();
-    const cen = new THREE.Vector3();
-    const up = new THREE.Vector3();
-    const t1 = new THREE.Vector3();
-    const t2 = new THREE.Vector3();
-    const d = new THREE.Vector3();
-    const SEG = (2 * Math.PI) / 5;
-    const APOTHEM = 0.34; // angular center-to-edge radius of each pentagon
-
-    for (let f = 0; f < pos.count; f += 3) {
-      a.fromBufferAttribute(pos, f);
-      b.fromBufferAttribute(pos, f + 1);
-      c.fromBufferAttribute(pos, f + 2);
-      cen.copy(a).add(b).add(c).normalize();
-
-      // nearest pentagon centre
-      let best = centers[0];
-      let bestDot = -1;
-      for (const ce of centers) {
-        const dot = cen.dot(ce);
-        if (dot > bestDot) {
-          bestDot = dot;
-          best = ce;
+    // adjacency: icosahedron edges have squared length 4
+    const adj: number[][] = V.map(() => []);
+    for (let i = 0; i < 12; i++)
+      for (let j = i + 1; j < 12; j++)
+        if (Math.abs(V[i].distanceToSquared(V[j]) - 4) < 0.5) {
+          adj[i].push(j);
+          adj[j].push(i);
         }
+
+    // triangular faces = mutually adjacent triples
+    const faces: [number, number, number][] = [];
+    for (let i = 0; i < 12; i++)
+      for (const j of adj[i])
+        if (j > i)
+          for (const k of adj[j])
+            if (k > j && adj[i].includes(k)) faces.push([i, j, k]);
+
+    // truncation point on edge a->b, sitting 1/3 of the way from a
+    const tp = (a: number, b: number) =>
+      V[a].clone().addScaledVector(V[b].clone().sub(V[a]), 1 / 3);
+
+    const positions: number[] = [];
+    const colors: number[] = [];
+    const black = new THREE.Color("#16181f");
+    const white = new THREE.Color("#f3f3ec");
+
+    const addPanel = (
+      pts: THREE.Vector3[],
+      center: THREE.Vector3,
+      color: THREE.Color,
+    ) => {
+      const cn = center.clone().normalize();
+      let ref = new THREE.Vector3(0, 1, 0);
+      if (Math.abs(cn.dot(ref)) > 0.95) ref = new THREE.Vector3(1, 0, 0);
+      const t1 = ref.clone().cross(cn).normalize();
+      const t2 = cn.clone().cross(t1).normalize();
+      // order the panel's points around its centre
+      const ordered = pts
+        .map((p) => {
+          const d = p.clone().sub(center);
+          return { p, ang: Math.atan2(d.dot(t2), d.dot(t1)) };
+        })
+        .sort((m, n) => m.ang - n.ang)
+        .map((o) => o.p);
+      // triangle fan, forcing outward winding
+      for (let i = 1; i < ordered.length - 1; i++) {
+        const a = ordered[0];
+        let b = ordered[i];
+        let c = ordered[i + 1];
+        const nrm = b.clone().sub(a).cross(c.clone().sub(a));
+        if (nrm.dot(cn) < 0) [b, c] = [c, b];
+        for (const v of [a, b, c]) positions.push(v.x, v.y, v.z);
+        for (let k = 0; k < 3; k++) colors.push(color.r, color.g, color.b);
       }
-      const ang = Math.acos(Math.min(1, Math.max(-1, bestDot)));
+    };
 
-      // build a tangent frame at that centre and read the azimuth, then test
-      // against a regular-pentagon boundary so the patch is a real pentagon
-      up.set(0, 1, 0);
-      if (Math.abs(best.dot(up)) > 0.99) up.set(1, 0, 0);
-      t1.copy(up).cross(best).normalize();
-      t2.copy(best).cross(t1).normalize();
-      d.copy(cen).addScaledVector(best, -bestDot);
-      const theta = Math.atan2(d.dot(t2), d.dot(t1));
-      const phi = (((theta % SEG) + SEG) % SEG) - SEG / 2;
-      const boundary = APOTHEM / Math.cos(phi);
-      const col = ang < boundary ? black : white;
-
-      for (let k = 0; k < 3; k++) colors.push(col.r, col.g, col.b);
-      // smooth radial normals so the ball still shades like a sphere
-      a.normalize();
-      b.normalize();
-      c.normalize();
-      normals.push(a.x, a.y, a.z, b.x, b.y, b.z, c.x, c.y, c.z);
+    // 12 pentagons, one around each icosahedron vertex
+    for (let i = 0; i < 12; i++) {
+      addPanel(adj[i].map((j) => tp(i, j)), V[i].clone(), black);
+    }
+    // 20 hexagons, one per icosahedron face (both truncation points per edge)
+    for (const [i, j, k] of faces) {
+      const pts = [tp(i, j), tp(j, i), tp(j, k), tp(k, j), tp(k, i), tp(i, k)];
+      addPanel(pts, V[i].clone().add(V[j]).add(V[k]), white);
     }
 
+    const g = new THREE.BufferGeometry();
+    g.setAttribute("position", new THREE.Float32BufferAttribute(positions, 3));
     g.setAttribute("color", new THREE.Float32BufferAttribute(colors, 3));
-    g.setAttribute("normal", new THREE.Float32BufferAttribute(normals, 3));
+    const s = R / Math.hypot(positions[0], positions[1], positions[2]);
+    g.scale(s, s, s);
+    g.computeVertexNormals();
     return g;
   }, []);
 
   return (
     <group position={[0, R, 0]}>
       <mesh geometry={geo} castShadow>
-        <meshStandardMaterial vertexColors roughness={0.55} />
+        <meshStandardMaterial vertexColors flatShading roughness={0.6} />
       </mesh>
     </group>
   );
