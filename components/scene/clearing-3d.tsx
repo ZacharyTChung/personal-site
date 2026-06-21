@@ -11,6 +11,7 @@ import {
 import { EffectComposer, Bloom } from "@react-three/postprocessing";
 import { useMemo, useRef, useState, type ReactNode } from "react";
 import * as THREE from "three";
+import type { MotionValue } from "framer-motion";
 
 const go = (id: string) => () =>
   document.querySelector(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -18,27 +19,57 @@ const setCursor = (on: boolean) => {
   document.body.style.cursor = on ? "pointer" : "";
 };
 
-/* ---------- camera: intro fly-in, then pointer drift ---------- */
-function Rig() {
-  const INTRO = 2.8;
-  useFrame((state) => {
-    const e = state.clock.elapsedTime;
-    const t = Math.min(1, e / INTRO);
-    const k = 1 - Math.pow(1 - t, 3); // ease-out
-    const rx = state.pointer.x * 1.1 * k;
-    const ry = 8.4 + state.pointer.y * 0.6 * k;
-    const rz = 19;
-    const sx = 0,
-      sy = 16,
-      sz = 34;
-    const cx = sx + (rx - sx) * k;
-    const cy = sy + (ry - sy) * k;
-    const cz = sz + (rz - sz) * k;
-    const f = t < 1 ? 0.12 : 0.04;
-    state.camera.position.x += (cx - state.camera.position.x) * f;
-    state.camera.position.y += (cy - state.camera.position.y) * f;
-    state.camera.position.z += (cz - state.camera.position.z) * f;
-    state.camera.lookAt(0, 0.4, -4.5);
+/* ---------- camera journey ----------
+   The camera glides along these stops as the page scrolls: a wide
+   establishing aerial, a slow descent into the clearing, a left-to-right
+   sweep past the landmarks, a gaze up the mountains, then a pull-back to a
+   wide dusk view. Scroll progress (0..1) drives the position along the path. */
+type Waypoint = { pos: [number, number, number]; look: [number, number, number] };
+const WAYPOINTS: Waypoint[] = [
+  { pos: [0, 16, 40], look: [0, 2.5, -6] }, // 0 establishing aerial
+  { pos: [-12, 3.4, 12], look: [-9, 1.1, 4.6] }, // 1 tent / about
+  { pos: [-6, 2.8, 10.6], look: [-5.4, 1, 3.9] }, // 2 pack + bike
+  { pos: [-1.7, 2.3, 8.6], look: [-1.7, 0.9, 3.1] }, // 3 campfire
+  { pos: [5, 2.8, 10.6], look: [5.4, 1, 3.9] }, // 4 lantern / ball / laptop
+  { pos: [9.5, 4.2, 13], look: [3, 7, -22] }, // 5 gaze up the mountains
+  { pos: [0, 14, 36], look: [0, 2, -8] }, // 6 pull back, wide
+];
+
+const clamp01 = (v: number) => (v < 0 ? 0 : v > 1 ? 1 : v);
+const lerp = (a: number, b: number, f: number) => a + (b - a) * f;
+const smooth = (t: number) => t * t * (3 - 2 * t); // smoothstep
+
+function JourneyRig({ progress }: { progress?: MotionValue<number> }) {
+  const desired = useRef(new THREE.Vector3(0, 16, 40));
+  const lookAt = useRef(new THREE.Vector3(0, 2.5, -6));
+  const tmp = useRef(new THREE.Vector3());
+  useFrame((state, delta) => {
+    const p = progress ? clamp01(progress.get()) : 0;
+    const N = WAYPOINTS.length;
+    const seg = p * (N - 1);
+    const i = Math.min(Math.floor(seg), N - 2);
+    const f = smooth(seg - i);
+    const a = WAYPOINTS[i];
+    const b = WAYPOINTS[i + 1];
+    const t = state.clock.elapsedTime;
+
+    // pointer drift + a slow idle bob keep the frame alive even when still
+    desired.current.set(
+      lerp(a.pos[0], b.pos[0], f) + state.pointer.x * 1.1,
+      lerp(a.pos[1], b.pos[1], f) + state.pointer.y * 0.5 + Math.sin(t * 0.5) * 0.12,
+      lerp(a.pos[2], b.pos[2], f),
+    );
+    tmp.current.set(
+      lerp(a.look[0], b.look[0], f),
+      lerp(a.look[1], b.look[1], f),
+      lerp(a.look[2], b.look[2], f),
+    );
+
+    // frame-rate independent damping toward the target for a cinematic glide
+    const al = 1 - Math.exp(-3.4 * delta);
+    state.camera.position.lerp(desired.current, al);
+    lookAt.current.lerp(tmp.current, al);
+    state.camera.lookAt(lookAt.current);
   });
   return null;
 }
@@ -62,14 +93,39 @@ function Hotspot3D({
   children: ReactNode;
 }) {
   const ref = useRef<THREE.Group>(null);
+  const ringRef = useRef<THREE.Mesh>(null);
+  const labelRef = useRef<HTMLDivElement>(null);
   const [hovered, setHovered] = useState(false);
-  useFrame(() => {
-    if (!ref.current) return;
-    const ts = hovered ? scale * 1.12 : scale;
-    ref.current.scale.x += (ts - ref.current.scale.x) * 0.18;
-    ref.current.scale.y = ref.current.scale.z = ref.current.scale.x;
-    const ty = hovered ? 0.25 : 0;
-    ref.current.position.y += (ty - ref.current.position.y) * 0.18;
+  const world = useMemo(
+    () => new THREE.Vector3(position[0], tagHeight, position[2]),
+    [position, tagHeight],
+  );
+  const phase = useMemo(() => Math.abs(position[0]) * 1.7, [position]);
+  useFrame((state) => {
+    const t = state.clock.elapsedTime;
+    if (ref.current) {
+      const ts = hovered ? scale * 1.12 : scale;
+      ref.current.scale.x += (ts - ref.current.scale.x) * 0.18;
+      ref.current.scale.y = ref.current.scale.z = ref.current.scale.x;
+      // a soft idle bob makes the objects feel alive and touchable
+      const ty = (hovered ? 0.3 : 0) + Math.sin(t * 1.4 + phase) * 0.05;
+      ref.current.position.y += (ty - ref.current.position.y) * 0.18;
+    }
+    // pulsing ground ring marks every object as an interactive hotspot
+    if (ringRef.current) {
+      const pulse = 0.5 + 0.5 * Math.sin(t * 2.2 + phase);
+      const s = 1 + pulse * 0.12;
+      ringRef.current.scale.set(s, s, s);
+      (ringRef.current.material as THREE.MeshBasicMaterial).opacity =
+        (hovered ? 0.85 : 0.32) + pulse * 0.16;
+    }
+    // labels fade in as the camera travels close, then full on hover
+    if (labelRef.current) {
+      const d = state.camera.position.distanceTo(world);
+      let o = (30 - d) / (30 - 13);
+      o = o < 0 ? 0 : o > 1 ? 1 : o;
+      labelRef.current.style.opacity = String(hovered ? 1 : o);
+    }
   });
   return (
     <group position={position} rotation={[0, rotation, 0]}>
@@ -91,21 +147,46 @@ function Hotspot3D({
       >
         {children}
       </group>
-      {hovered && (
-        <Html
-          position={[0, tagHeight, 0]}
-          center
-          pointerEvents="none"
-          zIndexRange={[40, 0]}
+
+      {/* glowing ground ring — a clear "you can click me" marker */}
+      <mesh ref={ringRef} rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.04, 0]}>
+        <ringGeometry args={[0.95, 1.18, 40]} />
+        <meshBasicMaterial
+          color="#ffb84a"
+          transparent
+          opacity={0.32}
+          side={THREE.DoubleSide}
+          depthWrite={false}
+          toneMapped={false}
+        />
+      </mesh>
+
+      {/* always-mounted label; opacity driven per-frame (no re-render) */}
+      <Html position={[0, tagHeight, 0]} center pointerEvents="none" zIndexRange={[40, 0]}>
+        <div
+          ref={labelRef}
+          style={{ opacity: 0 }}
+          className="flex -translate-y-1/2 flex-col items-center"
         >
-          <div className="flex -translate-y-1/2 flex-col items-center">
-            <span className="whitespace-nowrap rounded-full bg-[rgb(var(--c-bg-2)/0.96)] px-3.5 py-1 font-hand text-lg leading-none text-foreground shadow-lg ring-1 ring-[rgb(var(--c-fg)/0.12)]">
-              {label}
-            </span>
-            <span className="-mt-px h-2 w-2 rotate-45 bg-[rgb(var(--c-bg-2)/0.96)] ring-1 ring-[rgb(var(--c-fg)/0.12)]" />
-          </div>
-        </Html>
-      )}
+          <span
+            className={`flex items-center gap-1 whitespace-nowrap rounded-full px-3.5 py-1 font-hand text-lg leading-none shadow-lg ring-1 transition-colors ${
+              hovered
+                ? "bg-[rgb(var(--c-warm-1))] text-white ring-[rgb(var(--c-warm-1))]"
+                : "bg-[rgb(var(--c-bg-2)/0.96)] text-foreground ring-[rgb(var(--c-fg)/0.12)]"
+            }`}
+          >
+            {label}
+            <span aria-hidden>→</span>
+          </span>
+          <span
+            className={`-mt-px h-2 w-2 rotate-45 ring-1 ${
+              hovered
+                ? "bg-[rgb(var(--c-warm-1))] ring-[rgb(var(--c-warm-1))]"
+                : "bg-[rgb(var(--c-bg-2)/0.96)] ring-[rgb(var(--c-fg)/0.12)]"
+            }`}
+          />
+        </div>
+      </Html>
     </group>
   );
 }
@@ -307,38 +388,90 @@ function Flag() {
 
 function SoccerBall() {
   const R = 0.48;
-  // black pentagons at the 12 icosahedron vertices, laid tangent to the ball
-  const pents = useMemo(() => {
+  // The black pentagons are painted directly onto the sphere's surface (per
+  // face) so they curve with the ball and blend in, instead of being flat
+  // discs floating tangent to it.
+  const geo = useMemo(() => {
+    // 12 pentagon centers = the icosahedron's vertices
     const ico = new THREE.IcosahedronGeometry(1, 0);
-    const pos = ico.attributes.position;
-    const seen = new Map<string, THREE.Vector3>();
-    for (let i = 0; i < pos.count; i++) {
-      const v = new THREE.Vector3(pos.getX(i), pos.getY(i), pos.getZ(i)).normalize();
-      const key = `${v.x.toFixed(2)},${v.y.toFixed(2)},${v.z.toFixed(2)}`;
-      if (!seen.has(key)) seen.set(key, v);
+    const vp = ico.attributes.position;
+    const centers: THREE.Vector3[] = [];
+    const seen = new Set<string>();
+    for (let i = 0; i < vp.count; i++) {
+      const v = new THREE.Vector3(vp.getX(i), vp.getY(i), vp.getZ(i)).normalize();
+      const key = `${v.x.toFixed(3)},${v.y.toFixed(3)},${v.z.toFixed(3)}`;
+      if (!seen.has(key)) {
+        seen.add(key);
+        centers.push(v);
+      }
     }
     ico.dispose();
-    return Array.from(seen.values()).map((v) => {
-      const q = new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0, 0, 1), v);
-      const e = new THREE.Euler().setFromQuaternion(q);
-      return {
-        pos: [v.x * (R + 0.01), v.y * (R + 0.01), v.z * (R + 0.01)] as [number, number, number],
-        rot: [e.x, e.y, e.z] as [number, number, number],
-      };
-    });
+
+    const g = new THREE.IcosahedronGeometry(R, 5).toNonIndexed();
+    const pos = g.attributes.position;
+    const colors: number[] = [];
+    const normals: number[] = [];
+    const black = new THREE.Color("#1c2230");
+    const white = new THREE.Color("#f6f6f0");
+    const a = new THREE.Vector3();
+    const b = new THREE.Vector3();
+    const c = new THREE.Vector3();
+    const cen = new THREE.Vector3();
+    const up = new THREE.Vector3();
+    const t1 = new THREE.Vector3();
+    const t2 = new THREE.Vector3();
+    const d = new THREE.Vector3();
+    const SEG = (2 * Math.PI) / 5;
+    const APOTHEM = 0.34; // angular center-to-edge radius of each pentagon
+
+    for (let f = 0; f < pos.count; f += 3) {
+      a.fromBufferAttribute(pos, f);
+      b.fromBufferAttribute(pos, f + 1);
+      c.fromBufferAttribute(pos, f + 2);
+      cen.copy(a).add(b).add(c).normalize();
+
+      // nearest pentagon centre
+      let best = centers[0];
+      let bestDot = -1;
+      for (const ce of centers) {
+        const dot = cen.dot(ce);
+        if (dot > bestDot) {
+          bestDot = dot;
+          best = ce;
+        }
+      }
+      const ang = Math.acos(Math.min(1, Math.max(-1, bestDot)));
+
+      // build a tangent frame at that centre and read the azimuth, then test
+      // against a regular-pentagon boundary so the patch is a real pentagon
+      up.set(0, 1, 0);
+      if (Math.abs(best.dot(up)) > 0.99) up.set(1, 0, 0);
+      t1.copy(up).cross(best).normalize();
+      t2.copy(best).cross(t1).normalize();
+      d.copy(cen).addScaledVector(best, -bestDot);
+      const theta = Math.atan2(d.dot(t2), d.dot(t1));
+      const phi = (((theta % SEG) + SEG) % SEG) - SEG / 2;
+      const boundary = APOTHEM / Math.cos(phi);
+      const col = ang < boundary ? black : white;
+
+      for (let k = 0; k < 3; k++) colors.push(col.r, col.g, col.b);
+      // smooth radial normals so the ball still shades like a sphere
+      a.normalize();
+      b.normalize();
+      c.normalize();
+      normals.push(a.x, a.y, a.z, b.x, b.y, b.z, c.x, c.y, c.z);
+    }
+
+    g.setAttribute("color", new THREE.Float32BufferAttribute(colors, 3));
+    g.setAttribute("normal", new THREE.Float32BufferAttribute(normals, 3));
+    return g;
   }, []);
+
   return (
     <group position={[0, R, 0]}>
-      <mesh castShadow>
-        <sphereGeometry args={[R, 28, 22]} />
-        <meshStandardMaterial color="#f6f6f0" roughness={0.7} />
+      <mesh geometry={geo} castShadow>
+        <meshStandardMaterial vertexColors roughness={0.55} />
       </mesh>
-      {pents.map((p, i) => (
-        <mesh key={i} position={p.pos} rotation={p.rot}>
-          <circleGeometry args={[0.19, 5]} />
-          <meshStandardMaterial color="#1c2230" side={THREE.DoubleSide} />
-        </mesh>
-      ))}
     </group>
   );
 }
@@ -459,34 +592,59 @@ function Mountain({
   color: string;
   night: boolean;
 }) {
-  // a band of trees on the lower slopes
+  // irregular, faceted peak with snow baked in along the real silhouette so
+  // it doesn't read like a party hat — and recedes into the sky at night
+  const geo = useMemo(() => {
+    const g = new THREE.ConeGeometry(radius, height, 9, 5);
+    const pos = g.attributes.position as THREE.BufferAttribute;
+    const v = new THREE.Vector3();
+    const colors: number[] = [];
+    const rock = new THREE.Color(color);
+    const snow = new THREE.Color(night ? "#46506a" : "#eef4fa");
+    for (let i = 0; i < pos.count; i++) {
+      v.fromBufferAttribute(pos, i);
+      const yn = (v.y + height / 2) / height; // 0 base .. 1 tip
+      const s1 = Math.sin(i * 12.9898) * 43758.5453;
+      const r1 = s1 - Math.floor(s1);
+      const s2 = Math.sin(i * 78.233) * 24634.6334;
+      const r2 = s2 - Math.floor(s2);
+      // jitter the side rings (leave the base ring and apex alone)
+      if (yn > 0.001 && yn < 0.999) {
+        const j = (1 - yn) * radius * 0.22;
+        v.x += (r1 - 0.5) * j * 2;
+        v.z += (r2 - 0.5) * j * 2;
+        pos.setXYZ(i, v.x, v.y, v.z);
+      }
+      const snowLine = 0.66 + (r1 - 0.5) * 0.16;
+      const c = yn > snowLine ? snow : rock;
+      colors.push(c.r, c.g, c.b);
+    }
+    g.setAttribute("color", new THREE.Float32BufferAttribute(colors, 3));
+    g.computeVertexNormals();
+    return g;
+  }, [height, radius, color, night]);
+
+  // a light scatter of trees on the lower slopes
   const trees = useMemo(() => {
     const out: { x: number; y: number; z: number; s: number }[] = [];
-    for (let i = 0; i < 22; i++) {
+    for (let i = 0; i < 12; i++) {
       const a = Math.random() * Math.PI * 2;
-      const f = 0.04 + Math.random() * 0.34; // lower slopes only
-      const r = radius * (1 - f) * 0.97;
-      out.push({ x: Math.cos(a) * r, y: height * f, z: Math.sin(a) * r, s: 0.6 + Math.random() * 0.8 });
+      const f = 0.04 + Math.random() * 0.24; // lower slopes only
+      const r = radius * (1 - f) * 0.88;
+      out.push({ x: Math.cos(a) * r, y: height * f, z: Math.sin(a) * r, s: 0.6 + Math.random() * 0.7 });
     }
     return out;
   }, [height, radius]);
+
   return (
     <group position={position}>
-      {/* peak — base sits on the ground */}
-      <mesh position={[0, height / 2, 0]} castShadow receiveShadow>
-        <coneGeometry args={[radius, height, 7]} />
-        <meshStandardMaterial color={color} flatShading />
+      <mesh geometry={geo} position={[0, height / 2, 0]} castShadow receiveShadow>
+        <meshStandardMaterial vertexColors flatShading roughness={1} />
       </mesh>
-      {/* snow cap */}
-      <mesh position={[0, height * 0.82, 0]}>
-        <coneGeometry args={[radius * 0.36, height * 0.34, 7]} />
-        <meshStandardMaterial color="#eef4fa" flatShading />
-      </mesh>
-      {/* forest on the slopes */}
       {trees.map((t, i) => (
-        <mesh key={i} position={[t.x, t.y + 0.7 * t.s, t.z]} scale={t.s} castShadow>
-          <coneGeometry args={[0.6, 1.8, 6]} />
-          <meshStandardMaterial color={night ? "#1d3a2a" : "#2f6a4a"} flatShading />
+        <mesh key={i} position={[t.x, t.y + 0.6 * t.s, t.z]} scale={t.s} castShadow>
+          <coneGeometry args={[0.55, 1.6, 6]} />
+          <meshStandardMaterial color={night ? "#16271c" : "#2f6a4a"} flatShading />
         </mesh>
       ))}
     </group>
@@ -561,14 +719,24 @@ function Clouds() {
   );
 }
 
-function Birds() {
+function Birds({
+  speed = 1.6,
+  span = 44,
+  y = 9,
+  baseZ = -14,
+}: {
+  speed?: number;
+  span?: number;
+  y?: number;
+  baseZ?: number;
+}) {
   const ref = useRef<THREE.Group>(null);
   const wings = useRef<THREE.Group[]>([]);
   useFrame((s) => {
     const t = s.clock.elapsedTime;
     if (ref.current) {
-      ref.current.position.x = ((t * 1.6) % 44) - 22;
-      ref.current.position.y = 9 + Math.sin(t * 0.6) * 0.6;
+      ref.current.position.x = ((t * speed) % span) - span / 2;
+      ref.current.position.y = y + Math.sin(t * 0.6) * 0.6;
     }
     wings.current.forEach((w, i) => {
       if (w) w.rotation.z = Math.sin(t * 8 + i) * 0.5;
@@ -577,9 +745,9 @@ function Birds() {
   return (
     <group ref={ref}>
       {[
-        [0, 0, -14],
-        [2.5, 0.8, -15],
-        [-2, 1.2, -16],
+        [0, 0, baseZ],
+        [2.5, 0.8, baseZ - 1],
+        [-2, 1.2, baseZ - 2],
       ].map((p, i) => (
         <group
           key={i}
@@ -597,6 +765,102 @@ function Birds() {
             <meshStandardMaterial color="#33414d" />
           </mesh>
         </group>
+      ))}
+    </group>
+  );
+}
+
+/* drifting motes — soft pollen by day, glowing fireflies by night */
+function Fireflies({ night, count = 70 }: { night: boolean; count?: number }) {
+  const mesh = useRef<THREE.InstancedMesh>(null);
+  const dummy = useMemo(() => new THREE.Object3D(), []);
+  const seeds = useMemo(
+    () =>
+      Array.from({ length: count }, () => ({
+        x: (Math.random() - 0.5) * 40,
+        y: 0.6 + Math.random() * 6,
+        z: -12 + Math.random() * 22,
+        r: 0.6 + Math.random() * 1.6,
+        sx: 0.2 + Math.random() * 0.5,
+        sy: 0.4 + Math.random() * 0.8,
+        sz: 0.2 + Math.random() * 0.5,
+        phase: Math.random() * Math.PI * 2,
+      })),
+    [count],
+  );
+  useFrame((s) => {
+    if (!mesh.current) return;
+    const t = s.clock.elapsedTime;
+    seeds.forEach((p, i) => {
+      dummy.position.set(
+        p.x + Math.sin(t * p.sx + p.phase) * p.r,
+        p.y + Math.sin(t * p.sy + p.phase) * 0.6,
+        p.z + Math.cos(t * p.sz + p.phase) * p.r,
+      );
+      const tw = 0.5 + 0.5 * Math.sin(t * 3 + p.phase);
+      dummy.scale.setScalar(0.04 + tw * (night ? 0.06 : 0.04));
+      dummy.updateMatrix();
+      mesh.current!.setMatrixAt(i, dummy.matrix);
+    });
+    mesh.current.instanceMatrix.needsUpdate = true;
+  });
+  return (
+    <instancedMesh ref={mesh} args={[undefined, undefined, count]}>
+      <sphereGeometry args={[1, 6, 6]} />
+      <meshBasicMaterial
+        color={night ? "#ffe79a" : "#fff6cf"}
+        transparent
+        opacity={night ? 0.95 : 0.55}
+        toneMapped={false}
+      />
+    </instancedMesh>
+  );
+}
+
+/* a few autumn leaves tumbling down through the clearing */
+function Leaves({ count = 16 }: { count?: number }) {
+  const refs = useRef<THREE.Mesh[]>([]);
+  const palette = ["#e0843f", "#d8a23a", "#c2703a", "#7c9a4a", "#e6b35a"];
+  const seeds = useMemo(
+    () =>
+      Array.from({ length: count }, (_, i) => ({
+        x: (Math.random() - 0.5) * 42,
+        z: -10 + Math.random() * 22,
+        top: 6 + Math.random() * 6,
+        speed: 0.5 + Math.random() * 0.6,
+        sway: 0.5 + Math.random() * 1.1,
+        phase: Math.random() * 6,
+        spin: 0.6 + Math.random() * 1.2,
+        color: palette[i % palette.length],
+      })),
+    [count],
+  );
+  useFrame((s) => {
+    const t = s.clock.elapsedTime;
+    refs.current.forEach((m, i) => {
+      if (!m) return;
+      const p = seeds[i];
+      const fall = (t * p.speed + p.phase) % (p.top + 0.6);
+      m.position.set(
+        p.x + Math.sin(t * p.sway + p.phase) * 1.2,
+        p.top - fall + 0.1,
+        p.z + Math.cos(t * p.sway * 0.7 + p.phase) * 0.8,
+      );
+      m.rotation.set(t * 1.3 + p.phase, t * 0.6, p.phase + t * p.spin);
+    });
+  });
+  return (
+    <group>
+      {seeds.map((p, i) => (
+        <mesh
+          key={i}
+          ref={(el) => {
+            if (el) refs.current[i] = el;
+          }}
+        >
+          <planeGeometry args={[0.34, 0.22]} />
+          <meshStandardMaterial color={p.color} side={THREE.DoubleSide} flatShading />
+        </mesh>
       ))}
     </group>
   );
@@ -732,7 +996,7 @@ function Lake({ night }: { night: boolean }) {
 }
 
 /* ---------- scene ---------- */
-function Scene({ night }: { night: boolean }) {
+function Scene({ night, progress }: { night: boolean; progress?: MotionValue<number> }) {
   const sky = night ? "#0e1430" : "#bfe6f3";
   return (
     <>
@@ -767,15 +1031,18 @@ function Scene({ night }: { night: boolean }) {
       <Lake night={night} />
 
       {/* a big mountain range behind the lake */}
-      <Mountain position={[-26, 0, -30]} height={18} radius={9} color={night ? "#2a3550" : "#8e9fb8"} night={night} />
-      <Mountain position={[-14, 0, -26]} height={20} radius={9.5} color={night ? "#222c46" : "#8698b4"} night={night} />
-      <Mountain position={[-1, 0, -34]} height={26} radius={12} color={night ? "#1e2840" : "#8090ac"} night={night} />
-      <Mountain position={[13, 0, -28]} height={22} radius={10.5} color={night ? "#222c46" : "#92a2bc"} night={night} />
-      <Mountain position={[26, 0, -32]} height={19} radius={9.5} color={night ? "#2a3550" : "#8698b4"} night={night} />
+      <Mountain position={[-26, 0, -30]} height={18} radius={9} color={night ? "#1a2236" : "#8e9fb8"} night={night} />
+      <Mountain position={[-14, 0, -26]} height={20} radius={9.5} color={night ? "#171e30" : "#8698b4"} night={night} />
+      <Mountain position={[-1, 0, -34]} height={25} radius={11.5} color={night ? "#141a2b" : "#8090ac"} night={night} />
+      <Mountain position={[13, 0, -28]} height={22} radius={10.5} color={night ? "#171e30" : "#92a2bc"} night={night} />
+      <Mountain position={[26, 0, -32]} height={19} radius={9.5} color={night ? "#1a2236" : "#8698b4"} night={night} />
 
       <Forest night={night} />
       <Clouds />
       <Birds />
+      <Birds speed={1.1} span={36} y={6} baseZ={-9} />
+      <Fireflies night={night} />
+      <Leaves />
       <Lilypads />
       <Duck x={-3} z={-3} rot={0.6} />
       <Duck x={2.5} z={-6} rot={-1.2} />
@@ -807,7 +1074,7 @@ function Scene({ night }: { night: boolean }) {
         <Flag />
       </Hotspot3D>
 
-      <Rig />
+      <JourneyRig progress={progress} />
 
       <EffectComposer>
         <Bloom
@@ -821,15 +1088,21 @@ function Scene({ night }: { night: boolean }) {
   );
 }
 
-export default function Clearing3D({ night }: { night: boolean }) {
+export default function Clearing3D({
+  night,
+  progress,
+}: {
+  night: boolean;
+  progress?: MotionValue<number>;
+}) {
   return (
     <Canvas
       shadows
       dpr={[1, 1.6]}
-      camera={{ position: [0, 16, 34], fov: 49 }}
+      camera={{ position: [0, 16, 40], fov: 49 }}
       gl={{ antialias: true }}
     >
-      <Scene night={night} />
+      <Scene night={night} progress={progress} />
     </Canvas>
   );
 }
