@@ -2,13 +2,13 @@
 
 import { useEffect, useRef, useState } from "react";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
-import { ArrowDown } from "lucide-react";
 import { useReducedMotionSafe } from "@/lib/use-reduced-motion";
 import { SceneLandscape } from "./scene-landscape";
 import { Hotspot } from "./hotspot";
 import { CampDog } from "./camp-dog";
 import { Sparkle, Squiggle, Burst } from "@/components/ui/doodles";
 import { HOTSPOTS, DEPTH } from "./scene-config";
+import type { SectionKey } from "./section-keys";
 
 /** SSR-safe media query hook (false until mounted). */
 function useMediaQuery(query: string): boolean {
@@ -23,7 +23,11 @@ function useMediaQuery(query: string): boolean {
   return matches;
 }
 
-export function ClearingScene() {
+export function ClearingScene({
+  onSelect,
+}: {
+  onSelect?: (k: SectionKey) => void;
+}) {
   const ref = useRef<HTMLElement>(null);
   const reduced = useReducedMotionSafe();
   const isTouch = useMediaQuery("(pointer: coarse)");
@@ -114,6 +118,7 @@ export function ClearingScene() {
               isMobile={isNarrow}
               reduced={reduced}
               baseSize={baseSize}
+              onSelect={onSelect}
             />
           ))}
 
@@ -147,15 +152,6 @@ export function ClearingScene() {
           {isTouch ? "Tap around to explore" : "Click around to explore"}
         </div>
 
-        {/* scroll cue */}
-        <a
-          href="#about"
-          aria-label="Skip the scene and read on"
-          className="absolute bottom-5 right-5 z-20 hidden items-center gap-1.5 font-hand text-xl text-[#0f3b34] transition-opacity hover:opacity-70 dark:text-[#dccdb4] md:flex"
-        >
-          scroll!
-          <ArrowDown className="h-4 w-4 animate-bounce" />
-        </a>
       </section>
 
       {/* mobile legend — guarantees every section is reachable (also the
@@ -167,12 +163,13 @@ export function ClearingScene() {
         <ul className="flex flex-wrap justify-center gap-2">
           {HOTSPOTS.map((h) => (
             <li key={h.id}>
-              <a
-                href={h.targetId}
+              <button
+                type="button"
+                onClick={() => onSelect?.(h.id as SectionKey)}
                 className="inline-block rounded-full border border-border bg-card px-3 py-1.5 text-sm text-foreground"
               >
                 {h.label}
-              </a>
+              </button>
             </li>
           ))}
         </ul>

@@ -12,9 +12,8 @@ import { EffectComposer, Bloom } from "@react-three/postprocessing";
 import { useMemo, useRef, useState, type ReactNode } from "react";
 import * as THREE from "three";
 import type { MotionValue } from "framer-motion";
+import type { SectionKey } from "./section-keys";
 
-const go = (id: string) => () =>
-  document.querySelector(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
 const setCursor = (on: boolean) => {
   document.body.style.cursor = on ? "pointer" : "";
 };
@@ -76,20 +75,22 @@ function JourneyRig({ progress }: { progress?: MotionValue<number> }) {
 
 /* ---------- clickable wrapper (hover lift + cursor) ---------- */
 function Hotspot3D({
-  target,
+  section,
   label,
   position,
   rotation = 0,
   scale = 1,
   tagHeight = 2.9,
+  onSelect,
   children,
 }: {
-  target: string;
+  section: SectionKey;
   label: string;
   position: [number, number, number];
   rotation?: number;
   scale?: number;
   tagHeight?: number;
+  onSelect?: (k: SectionKey) => void;
   children: ReactNode;
 }) {
   const ref = useRef<THREE.Group>(null);
@@ -133,7 +134,7 @@ function Hotspot3D({
         ref={ref}
         onClick={(e) => {
           e.stopPropagation();
-          go(target)();
+          onSelect?.(section);
         }}
         onPointerOver={(e) => {
           e.stopPropagation();
@@ -593,12 +594,14 @@ function Mountain({
   radius,
   color,
   night,
+  treeCount = 12,
 }: {
   position: [number, number, number];
   height: number;
   radius: number;
   color: string;
   night: boolean;
+  treeCount?: number;
 }) {
   // irregular, faceted peak with snow baked in along the real silhouette so
   // it doesn't read like a party hat — and recedes into the sky at night
@@ -635,14 +638,14 @@ function Mountain({
   // a light scatter of trees on the lower slopes
   const trees = useMemo(() => {
     const out: { x: number; y: number; z: number; s: number }[] = [];
-    for (let i = 0; i < 12; i++) {
+    for (let i = 0; i < treeCount; i++) {
       const a = Math.random() * Math.PI * 2;
       const f = 0.04 + Math.random() * 0.24; // lower slopes only
       const r = radius * (1 - f) * 0.88;
       out.push({ x: Math.cos(a) * r, y: height * f, z: Math.sin(a) * r, s: 0.6 + Math.random() * 0.7 });
     }
     return out;
-  }, [height, radius]);
+  }, [height, radius, treeCount]);
 
   return (
     <group position={position}>
@@ -663,15 +666,15 @@ function Forest({ night }: { night: boolean }) {
   const trees = useMemo(() => {
     const out: { p: [number, number, number]; s: number }[] = [];
     let guard = 0;
-    while (out.length < 84 && guard < 900) {
+    while (out.length < 240 && guard < 3200) {
       guard++;
-      const x = (Math.random() - 0.5) * 58;
+      const x = (Math.random() - 0.5) * 176; // a forest belt spanning the full width
       const z = -34 + Math.random() * 42;
-      // keep off the lake (organic footprint ~ x[-13,13], z[-13,3])
-      if (x > -13 && x < 13 && z > -13 && z < 3) continue;
+      // keep off the (larger) lake
+      if (x > -14 && x < 14 && z > -16 && z < 2) continue;
       // keep the near foreground clear for the objects
-      if (z > 1 && Math.abs(x) < 12) continue;
-      out.push({ p: [x, 0, z], s: 0.7 + Math.random() * 1.1 });
+      if (z > 1.5 && Math.abs(x) < 12) continue;
+      out.push({ p: [x, 0, z], s: 0.7 + Math.random() * 1.2 });
     }
     return out;
   }, []);
@@ -874,81 +877,96 @@ function Leaves({ count = 16 }: { count?: number }) {
   );
 }
 
-function Lilypads() {
-  const pads = useMemo(() => {
-    const out: { x: number; z: number; r: number; flower: boolean }[] = [];
-    for (let i = 0; i < 7; i++) {
-      out.push({
-        x: (Math.random() - 0.5) * 14,
-        z: -9 + Math.random() * 9,
-        r: 0.32 + Math.random() * 0.22,
-        flower: Math.random() > 0.55,
-      });
-    }
-    return out;
+/* gentle life in the lake — lily pads with lotus, edge reeds, a few rocks */
+function LakeLife({ night }: { night: boolean }) {
+  const { pads, reeds, rocks } = useMemo(() => {
+    const cx = 0;
+    const cz = -6.5;
+    const rx = 12;
+    const rz = 6.5;
+    const at = (rr: number, a: number) => ({
+      x: cx + Math.cos(a) * rx * rr,
+      z: cz + Math.sin(a) * rz * rr,
+    });
+    const pads = Array.from({ length: 9 }, () => ({
+      ...at(0.15 + Math.random() * 0.65, Math.random() * Math.PI * 2),
+      r: 0.34 + Math.random() * 0.24,
+      lotus: Math.random() > 0.45,
+    }));
+    const reeds = Array.from({ length: 4 }, (_, i) => ({
+      ...at(0.82 + Math.random() * 0.12, Math.random() * Math.PI * 2),
+      n: 3 + Math.floor(Math.random() * 3),
+      seed: i + 1,
+    }));
+    const rocks = Array.from({ length: 3 }, (_, i) => ({
+      ...at(0.45 + Math.random() * 0.35, Math.random() * Math.PI * 2),
+      s: 0.4 + Math.random() * 0.4,
+      seed: i + 1,
+    }));
+    return { pads, reeds, rocks };
   }, []);
   return (
     <group>
       {pads.map((p, i) => (
-        <group key={i} position={[p.x, 0.05, p.z]}>
+        <group key={`p${i}`} position={[p.x, 0.07, p.z]}>
           <mesh rotation={[-Math.PI / 2, 0, 0]}>
-            <circleGeometry args={[p.r, 16]} />
-            <meshStandardMaterial color="#3e8e5a" flatShading />
+            <circleGeometry args={[p.r, 18]} />
+            <meshStandardMaterial color={night ? "#27613f" : "#3e8e5a"} flatShading side={THREE.DoubleSide} />
           </mesh>
-          {p.flower && (
-            <mesh position={[0, 0.06, 0]}>
-              <sphereGeometry args={[0.09, 8, 6]} />
-              <meshStandardMaterial color="#f08fb8" />
-            </mesh>
+          {p.lotus && (
+            <group position={[0, 0.05, 0]}>
+              <mesh scale={[1, 0.5, 1]}>
+                <sphereGeometry args={[0.12, 8, 6]} />
+                <meshStandardMaterial
+                  color={night ? "#d27aa2" : "#f3a0c4"}
+                  emissive={night ? "#d27aa2" : "#000000"}
+                  emissiveIntensity={night ? 0.3 : 0}
+                />
+              </mesh>
+              <mesh position={[0, 0.06, 0]}>
+                <sphereGeometry args={[0.04, 6, 5]} />
+                <meshStandardMaterial color={night ? "#d6b25a" : "#f6d24a"} />
+              </mesh>
+            </group>
           )}
         </group>
       ))}
-    </group>
-  );
-}
-
-function Duck({ x, z, rot }: { x: number; z: number; rot: number }) {
-  const ref = useRef<THREE.Group>(null);
-  useFrame((s) => {
-    if (ref.current) ref.current.position.y = 0.12 + Math.sin(s.clock.elapsedTime * 1.4 + x) * 0.04;
-  });
-  return (
-    <group ref={ref} position={[x, 0.12, z]} rotation={[0, rot, 0]}>
-      <mesh scale={[0.42, 0.3, 0.32]} castShadow>
-        <sphereGeometry args={[1, 12, 10]} />
-        <meshStandardMaterial color="#8a6a4a" flatShading />
-      </mesh>
-      <mesh position={[0.26, 0.2, 0]} castShadow>
-        <sphereGeometry args={[0.15, 12, 10]} />
-        <meshStandardMaterial color="#5a4632" flatShading />
-      </mesh>
-      <mesh position={[0.42, 0.17, 0]} rotation={[0, 0, -Math.PI / 2]}>
-        <coneGeometry args={[0.05, 0.13, 8]} />
-        <meshStandardMaterial color="#e0a23a" />
-      </mesh>
-    </group>
-  );
-}
-
-function Rabbit({ x, z }: { x: number; z: number }) {
-  return (
-    <group position={[x, 0, z]}>
-      <mesh position={[0, 0.22, 0]} scale={[0.32, 0.26, 0.42]} castShadow>
-        <sphereGeometry args={[1, 10, 8]} />
-        <meshStandardMaterial color="#cdbfae" flatShading />
-      </mesh>
-      <mesh position={[0, 0.32, 0.2]} castShadow>
-        <sphereGeometry args={[0.16, 10, 8]} />
-        <meshStandardMaterial color="#cdbfae" flatShading />
-      </mesh>
-      <mesh position={[-0.05, 0.55, 0.2]} rotation={[0.2, 0, -0.12]} castShadow>
-        <capsuleGeometry args={[0.04, 0.22, 4, 8]} />
-        <meshStandardMaterial color="#cdbfae" />
-      </mesh>
-      <mesh position={[0.05, 0.55, 0.2]} rotation={[0.2, 0, 0.12]} castShadow>
-        <capsuleGeometry args={[0.04, 0.22, 4, 8]} />
-        <meshStandardMaterial color="#cdbfae" />
-      </mesh>
+      {reeds.map((r, i) => (
+        <group key={`r${i}`} position={[r.x, 0, r.z]}>
+          {Array.from({ length: r.n }).map((_, j) => {
+            const fr = Math.sin((r.seed * 7 + j * 3) * 12.9898) * 43758.5453;
+            const a = fr - Math.floor(fr);
+            const h = 0.9 + a * 0.8;
+            const off = (j - (r.n - 1) / 2) * 0.13;
+            return (
+              <group key={j} position={[off, 0, (a - 0.5) * 0.2]}>
+                <mesh position={[0, h / 2, 0]}>
+                  <cylinderGeometry args={[0.02, 0.035, h, 5]} />
+                  <meshStandardMaterial color={night ? "#2c5036" : "#4f8f54"} flatShading />
+                </mesh>
+                {a > 0.45 && (
+                  <mesh position={[0, h, 0]}>
+                    <capsuleGeometry args={[0.05, 0.16, 4, 8]} />
+                    <meshStandardMaterial color={night ? "#5a3f28" : "#7d5230"} flatShading />
+                  </mesh>
+                )}
+              </group>
+            );
+          })}
+        </group>
+      ))}
+      {rocks.map((r, i) => (
+        <mesh
+          key={`k${i}`}
+          position={[r.x, 0.02, r.z]}
+          scale={[r.s, r.s * 0.5, r.s]}
+          rotation={[0, r.seed, 0]}
+          castShadow
+        >
+          <icosahedronGeometry args={[1, 0]} />
+          <meshStandardMaterial color={night ? "#4a4742" : "#8c8276"} flatShading />
+        </mesh>
+      ))}
     </group>
   );
 }
@@ -960,8 +978,8 @@ function Lake({ night }: { night: boolean }) {
     const pts: [number, number][] = [];
     for (let i = 0; i < N; i++) {
       const a = (i / N) * Math.PI * 2;
-      const rx = 10 + Math.sin(a * 3 + 0.6) * 1.7 + Math.cos(a * 2) * 1.0;
-      const ry = 6 + Math.cos(a * 3) * 1.1 + Math.sin(a * 5 + 1) * 0.7;
+      const rx = 13.5 + Math.sin(a * 3 + 0.6) * 2.2 + Math.cos(a * 2) * 1.4;
+      const ry = 8 + Math.cos(a * 3) * 1.5 + Math.sin(a * 5 + 1) * 0.9;
       pts.push([Math.cos(a) * rx, Math.sin(a) * ry]);
     }
     const s = new THREE.Shape();
@@ -977,7 +995,7 @@ function Lake({ night }: { night: boolean }) {
     return s;
   }, []);
   return (
-    <group position={[0, 0, -5]}>
+    <group position={[0, 0, -6.5]}>
       {/* a darker sandy rim just under the water edge */}
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.02, 0]} scale={1.07}>
         <shapeGeometry args={[shape]} />
@@ -1003,82 +1021,243 @@ function Lake({ night }: { night: boolean }) {
   );
 }
 
+/* a glowing moon that lifts the whole scene in dark mode */
+function Moon() {
+  return (
+    <group position={[24, 27, -38]}>
+      <mesh>
+        <sphereGeometry args={[3.2, 24, 24]} />
+        <meshBasicMaterial color="#eef2ff" toneMapped={false} />
+      </mesh>
+      <mesh>
+        <sphereGeometry args={[4.8, 24, 24]} />
+        <meshBasicMaterial color="#9fb0e6" transparent opacity={0.16} toneMapped={false} />
+      </mesh>
+      <pointLight color="#cdd8ff" intensity={1.1} distance={140} decay={0} />
+    </group>
+  );
+}
+
+/* wildflowers — a stem, a flat ring of petals, and a golden centre */
+function GroundDetail({ night }: { night: boolean }) {
+  const flowers = useMemo(() => {
+    const out: { p: [number, number, number]; c: number }[] = [];
+    let g = 0;
+    while (out.length < 230 && g < 5000) {
+      g++;
+      const x = (Math.random() - 0.5) * 68;
+      const z = -24 + Math.random() * 48; // reaches into the near foreground
+      if (x > -14 && x < 14 && z > -16 && z < 2) continue; // off the lake
+      if (z > 2.6 && z < 6.4 && Math.abs(x) < 12) continue; // off the object row
+      out.push({ p: [x, 0, z], c: Math.floor(Math.random() * 4) });
+    }
+    return out;
+  }, []);
+  const petalColors = night
+    ? ["#d782b0", "#d06a6a", "#a99ce0", "#e6ecff"]
+    : ["#ef7fb0", "#ec6a6a", "#a99ae8", "#fbfdff"];
+  const byColor = [0, 1, 2, 3].map((c) => flowers.filter((f) => f.c === c));
+  return (
+    <group>
+      {/* stems */}
+      {flowers.length > 0 && (
+        <Instances limit={flowers.length}>
+          <cylinderGeometry args={[0.014, 0.014, 0.36, 5]} />
+          <meshStandardMaterial color={night ? "#33543a" : "#4f8f54"} />
+          {flowers.map((f, i) => (
+            <Instance key={i} position={[f.p[0], 0.18, f.p[2]]} />
+          ))}
+        </Instances>
+      )}
+      {/* flat disc of petals */}
+      {byColor.map((list, ci) =>
+        list.length > 0 ? (
+          <Instances key={ci} limit={list.length}>
+            <sphereGeometry args={[0.17, 9, 6]} />
+            <meshStandardMaterial
+              color={petalColors[ci]}
+              emissive={petalColors[ci]}
+              emissiveIntensity={night ? 0.35 : 0}
+            />
+            {list.map((f, i) => (
+              <Instance key={i} position={[f.p[0], 0.38, f.p[2]]} scale={[1, 0.3, 1]} />
+            ))}
+          </Instances>
+        ) : null,
+      )}
+      {/* golden centre */}
+      {flowers.length > 0 && (
+        <Instances limit={flowers.length}>
+          <sphereGeometry args={[0.055, 6, 5]} />
+          <meshStandardMaterial
+            color={night ? "#d6b25a" : "#f6d24a"}
+            emissive={night ? "#d6b25a" : "#000000"}
+            emissiveIntensity={night ? 0.3 : 0}
+          />
+          {flowers.map((f, i) => (
+            <Instance key={i} position={[f.p[0], 0.41, f.p[2]]} />
+          ))}
+        </Instances>
+      )}
+    </group>
+  );
+}
+
+/* layered rows of sharp cone peaks spanning the full width. The far row is
+   tall and densely overlapping so it reads as a solid backdrop (no sky-holes),
+   while the nearer rows give crisp foreground peaks. */
+const MOUNTAIN_PEAKS = (() => {
+  const rnd = (i: number, s: number) => {
+    const v = Math.sin(i * 12.9898 + s * 78.233) * 43758.5453;
+    return v - Math.floor(v);
+  };
+  const out: { x: number; z: number; h: number; r: number; t: number; row: number }[] = [];
+  const rows = [
+    { z: -52, n: 9, span: 170, hmin: 30, hmax: 42, rmin: 18, rmax: 22, t: 0 },
+    { z: -39, n: 8, span: 150, hmin: 22, hmax: 31, rmin: 13, rmax: 16, t: 0 },
+    { z: -26, n: 8, span: 132, hmin: 15, hmax: 23, rmin: 11, rmax: 14, t: 5 },
+  ];
+  rows.forEach((R, ri) => {
+    for (let i = 0; i < R.n; i++) {
+      const tt = i / (R.n - 1);
+      const x = -R.span / 2 + R.span * tt + (rnd(i, ri) - 0.5) * (R.span / R.n) * 0.5;
+      out.push({
+        x,
+        z: R.z + (rnd(i, ri + 9) - 0.5) * 4,
+        h: R.hmin + rnd(i, ri + 3) * (R.hmax - R.hmin),
+        r: R.rmin + rnd(i, ri + 5) * (R.rmax - R.rmin),
+        t: R.t,
+        row: ri,
+      });
+    }
+  });
+  return out;
+})();
+
+// per-row peak colours: far rows hazier/lighter, near row a touch deeper
+const PEAK_DAY = ["#9aa8c2", "#8a9ab4", "#7c8da8"];
+const PEAK_NIGHT = ["#2e3c66", "#28345a", "#222e4e"];
+
+/* ground tinted into soft green biomes (forest floor, meadow, mossy ground)
+   so the landscape reads as varied regions rather than one flat oasis lawn */
+function BiomeGround({ night }: { night: boolean }) {
+  const geo = useMemo(() => {
+    const N = 96;
+    const g = new THREE.PlaneGeometry(220, 220, N, N);
+    g.rotateX(-Math.PI / 2);
+    const pos = g.attributes.position as THREE.BufferAttribute;
+    const colors: number[] = [];
+    const lush = new THREE.Color(night ? "#2a3d22" : "#6fa86a");
+    const forest = new THREE.Color(night ? "#22341d" : "#5c9356");
+    const meadow = new THREE.Color(night ? "#33442a" : "#82b46a");
+    const moss = new THREE.Color(night ? "#2a3326" : "#7f9070");
+    for (let i = 0; i < pos.count; i++) {
+      const x = pos.getX(i);
+      const z = pos.getZ(i);
+      let base = lush;
+      if (z < -24) base = moss; // mossy ground right at the mountain feet
+      else if (x < -26) base = forest; // forest floor on the left
+      else if (Math.abs(x) < 26) base = meadow; // meadow across the clearing + foreground
+      const hsh = Math.sin(x * 0.9 + z * 0.7) * 0.5 + 0.5;
+      const m = 0.92 + hsh * 0.14;
+      colors.push(base.r * m, base.g * m, base.b * m);
+    }
+    g.setAttribute("color", new THREE.Float32BufferAttribute(colors, 3));
+    return g;
+  }, [night]);
+  return (
+    <mesh geometry={geo} receiveShadow>
+      <meshStandardMaterial vertexColors roughness={1} />
+    </mesh>
+  );
+}
+
 /* ---------- scene ---------- */
-function Scene({ night, progress }: { night: boolean; progress?: MotionValue<number> }) {
-  const sky = night ? "#0e1430" : "#bfe6f3";
+function Scene({
+  night,
+  progress,
+  onSelect,
+}: {
+  night: boolean;
+  progress?: MotionValue<number>;
+  onSelect?: (k: SectionKey) => void;
+}) {
+  const sky = night ? "#1a2347" : "#bfe6f3";
   return (
     <>
       <color attach="background" args={[sky]} />
-      <fog attach="fog" args={[sky, 26, 82]} />
+      <fog attach="fog" args={[sky, 32, 100]} />
 
-      <ambientLight intensity={night ? 0.3 : 0.62} />
+      <ambientLight intensity={night ? 0.58 : 0.62} />
       <hemisphereLight
-        args={[night ? "#22305c" : "#cdeefb", night ? "#10160f" : "#5f8a55", night ? 0.4 : 0.7]}
+        args={[night ? "#3c4d86" : "#cdeefb", night ? "#1e2c1e" : "#5f8a55", night ? 0.75 : 0.7]}
       />
       <directionalLight
-        position={[10, 14, 6]}
-        intensity={night ? 0.5 : 2.2}
-        color={night ? "#aebbe6" : "#fff2d4"}
+        position={[10, 16, 6]}
+        intensity={night ? 1.05 : 2.2}
+        color={night ? "#c4cef2" : "#fff2d4"}
         castShadow
         shadow-mapSize={[2048, 2048]}
         shadow-camera-near={1}
-        shadow-camera-far={55}
-        shadow-camera-left={-18}
-        shadow-camera-right={18}
-        shadow-camera-top={18}
-        shadow-camera-bottom={-18}
+        shadow-camera-far={62}
+        shadow-camera-left={-22}
+        shadow-camera-right={22}
+        shadow-camera-top={22}
+        shadow-camera-bottom={-22}
         shadow-bias={-0.0004}
       />
+      {night && <Moon />}
 
-      {/* ground */}
-      <mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
-        <planeGeometry args={[140, 140]} />
-        <meshStandardMaterial color={night ? "#1d2a1c" : "#6fa86a"} />
-      </mesh>
+      <BiomeGround night={night} />
 
       <Lake night={night} />
 
-      {/* a big mountain range behind the lake */}
-      <Mountain position={[-26, 0, -30]} height={18} radius={9} color={night ? "#1a2236" : "#8e9fb8"} night={night} />
-      <Mountain position={[-14, 0, -26]} height={20} radius={9.5} color={night ? "#171e30" : "#8698b4"} night={night} />
-      <Mountain position={[-1, 0, -34]} height={25} radius={11.5} color={night ? "#141a2b" : "#8090ac"} night={night} />
-      <Mountain position={[13, 0, -28]} height={22} radius={10.5} color={night ? "#171e30" : "#92a2bc"} night={night} />
-      <Mountain position={[26, 0, -32]} height={19} radius={9.5} color={night ? "#1a2236" : "#8698b4"} night={night} />
+      {/* sharp cone peaks — three dense overlapping rows so no canyons or
+          gaps show between them */}
+      {MOUNTAIN_PEAKS.map((p, i) => (
+        <Mountain
+          key={i}
+          position={[p.x, 0, p.z]}
+          height={p.h}
+          radius={p.r}
+          color={night ? PEAK_NIGHT[p.row] : PEAK_DAY[p.row]}
+          night={night}
+          treeCount={p.t}
+        />
+      ))}
 
       <Forest night={night} />
+      <GroundDetail night={night} />
       <Clouds />
       <Birds />
       <Birds speed={1.1} span={36} y={6} baseZ={-9} />
-      <Fireflies night={night} />
+      <Fireflies night={night} count={night ? 110 : 70} />
       <Leaves />
-      <Lilypads />
-      <Duck x={-3} z={-3} rot={0.6} />
-      <Duck x={2.5} z={-6} rot={-1.2} />
-      <Rabbit x={-9.5} z={5} />
+      <LakeLife night={night} />
 
       {/* clickable objects — one per section, spread across a near-grass arc */}
-      <Hotspot3D target="#about" label="About" position={[-10, 0, 5.4]} rotation={0.6} scale={1.2}>
+      <Hotspot3D section="about" label="About" onSelect={onSelect} position={[-10, 0, 5.4]} rotation={0.6} scale={1.2}>
         <Tent />
       </Hotspot3D>
-      <Hotspot3D target="#stack" label="Stack" position={[-7.4, 0, 4.5]} rotation={0.45} scale={1.25}>
+      <Hotspot3D section="stack" label="Stack" onSelect={onSelect} position={[-7.4, 0, 4.5]} rotation={0.45} scale={1.25}>
         <Backpack />
       </Hotspot3D>
-      <Hotspot3D target="#ironman" label="Goals" position={[-4.8, 0, 3.9]} rotation={0.2} scale={1.3}>
+      <Hotspot3D section="ironman" label="Goals" onSelect={onSelect} position={[-4.8, 0, 3.9]} rotation={0.2} scale={1.3}>
         <Bike />
       </Hotspot3D>
-      <Hotspot3D target="#contact" label="Contact" position={[-1.7, 0, 3.5]} scale={1.25}>
+      <Hotspot3D section="contact" label="Contact" onSelect={onSelect} position={[-1.7, 0, 3.5]} scale={1.25}>
         <Campfire night={night} />
       </Hotspot3D>
-      <Hotspot3D target="#music" label="Focus" position={[1.7, 0, 3.5]} scale={1.35}>
+      <Hotspot3D section="music" label="Focus" onSelect={onSelect} position={[1.7, 0, 3.5]} scale={1.35}>
         <Lantern night={night} />
       </Hotspot3D>
-      <Hotspot3D target="#interests" label="Interests" position={[4.8, 0, 3.9]} scale={1.45}>
+      <Hotspot3D section="interests" label="Interests" onSelect={onSelect} position={[4.8, 0, 3.9]} scale={1.45}>
         <SoccerBall />
       </Hotspot3D>
-      <Hotspot3D target="#projects" label="Projects" position={[7.4, 0, 4.5]} rotation={-0.45} scale={1.25}>
+      <Hotspot3D section="projects" label="Projects" onSelect={onSelect} position={[7.4, 0, 4.5]} rotation={-0.45} scale={1.25}>
         <LaptopLog />
       </Hotspot3D>
-      <Hotspot3D target="#awards" label="Awards" position={[10, 0, 5.4]} rotation={-0.25} scale={1.15} tagHeight={3.4}>
+      <Hotspot3D section="awards" label="Awards" onSelect={onSelect} position={[10, 0, 5.4]} rotation={-0.25} scale={1.15} tagHeight={3.4}>
         <Flag />
       </Hotspot3D>
 
@@ -1099,9 +1278,11 @@ function Scene({ night, progress }: { night: boolean; progress?: MotionValue<num
 export default function Clearing3D({
   night,
   progress,
+  onSelect,
 }: {
   night: boolean;
   progress?: MotionValue<number>;
+  onSelect?: (k: SectionKey) => void;
 }) {
   return (
     <Canvas
@@ -1110,7 +1291,7 @@ export default function Clearing3D({
       camera={{ position: [0, 16, 40], fov: 49 }}
       gl={{ antialias: true }}
     >
-      <Scene night={night} progress={progress} />
+      <Scene night={night} progress={progress} onSelect={onSelect} />
     </Canvas>
   );
 }

@@ -1,0 +1,34 @@
+/** Each interactive object in the clearing maps to one section, shown in a panel. */
+export type SectionKey =
+  | "about"
+  | "stack"
+  | "projects"
+  | "awards"
+  | "interests"
+  | "music"
+  | "ironman"
+  | "contact";
+
+/** Short label shown in the nav. */
+export const SECTION_LABELS: Record<SectionKey, string> = {
+  about: "About",
+  stack: "Stack",
+  projects: "Projects",
+  awards: "Awards",
+  interests: "Interests",
+  music: "Focus",
+  ironman: "Goals",
+  contact: "Contact",
+};
+
+/** Order of the links in the top nav. */
+export const NAV_ORDER: SectionKey[] = [
+  "about",
+  "stack",
+  "projects",
+  "awards",
+  "interests",
+  "music",
+  "ironman",
+  "contact",
+];

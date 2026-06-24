@@ -4,43 +4,16 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
+import { NAV_ORDER, SECTION_LABELS, type SectionKey } from "@/components/scene/section-keys";
 
-const links = [
-  { href: "#about", label: "About" },
-  { href: "#stack", label: "Stack" },
-  { href: "#projects", label: "Projects" },
-  { href: "#awards", label: "Awards" },
-  { href: "#interests", label: "Interests" },
-  { href: "#music", label: "Focus" },
-  { href: "#ironman", label: "Goals" },
-  { href: "#contact", label: "Contact" },
-];
-
-export function Nav() {
+export function Nav({ onSelect }: { onSelect?: (k: SectionKey) => void }) {
   const [scrolled, setScrolled] = useState(false);
-  const [active, setActive] = useState("");
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
     onScroll();
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
-  useEffect(() => {
-    const els = links
-      .map((l) => document.getElementById(l.href.slice(1)))
-      .filter((el): el is HTMLElement => el !== null);
-    const obs = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((e) => {
-          if (e.isIntersecting) setActive(e.target.id);
-        });
-      },
-      { rootMargin: "-45% 0px -50% 0px" },
-    );
-    els.forEach((el) => obs.observe(el));
-    return () => obs.disconnect();
   }, []);
 
   return (
@@ -59,51 +32,36 @@ export function Nav() {
         )}
       >
         <Link href="#top" className="flex items-center gap-2">
-          <span className="font-hud text-[10px] text-[rgb(var(--c-warm-1))]">
-            ▲
-          </span>
+          <span className="font-hud text-[10px] text-[rgb(var(--c-warm-1))]">▲</span>
           <span className="font-display text-lg tracking-tight text-foreground">
             Zachary Chung
           </span>
         </Link>
 
         <ul className="hidden items-center gap-0.5 md:flex">
-          {links.map((l) => {
-            const isActive = active === l.href.slice(1);
-            return (
-              <li key={l.href}>
-                <a
-                  href={l.href}
-                  className={cn(
-                    "group flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-sm transition-colors",
-                    isActive
-                      ? "bg-[rgb(var(--c-warm-1)/0.12)] text-foreground"
-                      : "text-muted-foreground hover:text-foreground",
-                  )}
-                >
-                  <span
-                    className={cn(
-                      "h-1.5 w-1.5 rounded-full transition-colors",
-                      isActive
-                        ? "bg-[rgb(var(--c-warm-1))]"
-                        : "bg-foreground/25 group-hover:bg-foreground/50",
-                    )}
-                  />
-                  {l.label}
-                </a>
-              </li>
-            );
-          })}
+          {NAV_ORDER.map((key) => (
+            <li key={key}>
+              <button
+                type="button"
+                onClick={() => onSelect?.(key)}
+                className="group flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground"
+              >
+                <span className="h-1.5 w-1.5 rounded-full bg-foreground/25 transition-colors group-hover:bg-[rgb(var(--c-warm-1))]" />
+                {SECTION_LABELS[key]}
+              </button>
+            </li>
+          ))}
         </ul>
 
         <div className="flex items-center gap-2">
           <ThemeToggle />
-          <a
-            href="#contact"
+          <button
+            type="button"
+            onClick={() => onSelect?.("contact")}
             className="rounded-full border-2 border-[rgb(var(--c-warm-1)/0.55)] bg-[rgb(var(--c-warm-1)/0.15)] px-4 py-1 font-hand text-lg leading-none text-[rgb(var(--c-warm-1))] transition-transform hover:-rotate-2 hover:scale-105"
           >
             say hi!
-          </a>
+          </button>
         </div>
       </nav>
     </header>

@@ -7,6 +7,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { useReducedMotionSafe } from "@/lib/use-reduced-motion";
 import { ClearingScene } from "./clearing-scene";
 import { Sparkle, Squiggle, Burst } from "@/components/ui/doodles";
+import type { SectionKey } from "./section-keys";
 
 const Clearing3D = dynamic(() => import("./clearing-3d"), { ssr: false });
 
@@ -29,7 +30,11 @@ const STOPS = 7;
 // scroll height (in svh) allotted to each stop
 const STOP_VH = 62;
 
-export function ClearingHero() {
+export function ClearingHero({
+  onSelect,
+}: {
+  onSelect?: (k: SectionKey) => void;
+}) {
   const reduced = useReducedMotionSafe();
   const [mounted, setMounted] = useState(false);
   const [use3D, setUse3D] = useState(false);
@@ -55,13 +60,19 @@ export function ClearingHero() {
 
   // SSR + small screens + reduced-motion + no WebGL → the illustrated 2D scene
   if (!mounted || !use3D) {
-    return <ClearingScene />;
+    return <ClearingScene onSelect={onSelect} />;
   }
 
-  return <Journey night={night} />;
+  return <Journey night={night} onSelect={onSelect} />;
 }
 
-function Journey({ night }: { night: boolean }) {
+function Journey({
+  night,
+  onSelect,
+}: {
+  night: boolean;
+  onSelect?: (k: SectionKey) => void;
+}) {
   const ref = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -98,7 +109,7 @@ function Journey({ night }: { night: boolean }) {
       style={{ height: `${STOPS * STOP_VH}svh` }}
     >
       <div className="sticky top-0 h-[100svh] w-full overflow-hidden">
-        <Clearing3D night={night} progress={scrollYProgress} />
+        <Clearing3D night={night} progress={scrollYProgress} onSelect={onSelect} />
 
         {/* gentle scrim keeps the headline legible over the world */}
         <div className="pointer-events-none absolute inset-0 z-[5] bg-gradient-to-b from-[rgb(var(--c-bg-1)/0.22)] via-transparent to-[rgb(var(--c-bg-1)/0.28)]" />
@@ -156,15 +167,14 @@ function Journey({ night }: { night: boolean }) {
           Click any glowing object to visit that section
         </motion.div>
 
-        {/* skip the journey */}
-        <a
-          href="#about"
-          aria-label="Skip the journey and read on"
-          className="absolute bottom-5 right-5 z-20 hidden items-center gap-1.5 font-hand text-xl text-[#0f3b34] transition-opacity hover:opacity-70 dark:text-[#dccdb4] md:flex"
+        {/* decorative scroll cue */}
+        <div
+          aria-hidden
+          className="absolute bottom-5 right-5 z-20 hidden items-center gap-1.5 font-hand text-xl text-[#0f3b34] dark:text-[#dccdb4] md:flex"
         >
           scroll!
           <ArrowDown className="h-4 w-4 animate-bounce" />
-        </a>
+        </div>
       </div>
     </section>
   );

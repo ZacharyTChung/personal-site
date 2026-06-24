@@ -4,6 +4,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import type { SceneHotspot } from "./scene-config";
+import type { SectionKey } from "./section-keys";
 
 interface HotspotProps {
   hotspot: SceneHotspot;
@@ -13,6 +14,8 @@ interface HotspotProps {
   reduced: boolean;
   /** base object width in px (before per-object scale) */
   baseSize: number;
+  /** open this section's detail panel */
+  onSelect?: (k: SectionKey) => void;
 }
 
 const BRACKETS = [
@@ -22,8 +25,8 @@ const BRACKETS = [
   "right-0 bottom-0 border-r-2 border-b-2",
 ];
 
-export function Hotspot({ hotspot, isMobile, reduced, baseSize }: HotspotProps) {
-  const { label, sublabel, targetId, x, y, xMobile, yMobile, scale, Object } =
+export function Hotspot({ hotspot, isMobile, reduced, baseSize, onSelect }: HotspotProps) {
+  const { id, label, sublabel, x, y, xMobile, yMobile, scale, Object } =
     hotspot;
   const [hovered, setHovered] = useState(false);
   const [focused, setFocused] = useState(false);
@@ -33,15 +36,7 @@ export function Hotspot({ hotspot, isMobile, reduced, baseSize }: HotspotProps) 
   const top = isMobile && yMobile != null ? yMobile : y;
   const size = baseSize * scale;
 
-  const navigate = () => {
-    const target = document.querySelector(targetId);
-    if (!target) return;
-    target.scrollIntoView({
-      behavior: reduced ? "auto" : "smooth",
-      block: "start",
-    });
-    history.pushState(null, "", targetId);
-  };
+  const navigate = () => onSelect?.(id as SectionKey);
 
   return (
     <button
