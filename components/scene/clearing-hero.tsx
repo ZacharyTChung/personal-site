@@ -58,12 +58,44 @@ export function ClearingHero({
     return () => obs.disconnect();
   }, [reduced]);
 
-  // SSR + small screens + reduced-motion + no WebGL → the illustrated 2D scene
-  if (!mounted || !use3D) {
+  // First paint (before we know the device) shows a neutral sky placeholder
+  // that matches the 3D sky + headline, so desktop never flashes the old 2D
+  // scene before the 3D world mounts.
+  if (!mounted) {
+    return <HeroPlaceholder />;
+  }
+  // small screens / reduced-motion / no WebGL → the illustrated 2D scene
+  if (!use3D) {
     return <ClearingScene onSelect={onSelect} />;
   }
-
   return <Journey night={night} onSelect={onSelect} />;
+}
+
+/** Matches the 3D scene's sky colour and headline so the swap is seamless. */
+function HeroPlaceholder() {
+  return (
+    <section
+      id="top"
+      className="relative h-[100svh] w-full overflow-hidden bg-[#bfe6f3] dark:bg-[#1a2347]"
+    >
+      <div className="absolute inset-x-5 top-[10%] z-10 text-center md:inset-x-auto md:left-[6%] md:top-[16%] md:max-w-xl md:text-left">
+        <p className="flex items-center justify-center gap-1.5 font-hand text-2xl text-[rgb(var(--c-warm-3))] md:justify-start md:text-3xl">
+          <Sparkle className="h-4 w-4" /> hi, i&apos;m
+        </p>
+        <h1 className="relative mt-0 inline-block font-display text-5xl font-extrabold leading-[0.9] text-foreground [text-shadow:0_2px_22px_rgb(var(--c-bg-1)/0.5)] md:text-7xl">
+          Zachary
+          <br />
+          Chung
+          <Squiggle className="mt-1 h-3 w-44 text-[rgb(var(--c-pop-coral))] md:w-64" />
+          <Burst className="absolute -right-7 -top-3 h-8 w-8 text-[rgb(var(--c-pop-gold))]" />
+        </h1>
+        <p className="mx-auto mt-4 max-w-sm text-base font-medium text-foreground/80 [text-shadow:0_1px_10px_rgb(var(--c-bg-1)/0.5)] md:mx-0 md:max-w-md md:text-lg">
+          Software engineer in LA. Scroll to drift through the clearing, or
+          click any glowing object to jump to that section.
+        </p>
+      </div>
+    </section>
+  );
 }
 
 function Journey({
