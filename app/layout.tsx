@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Nunito, Baloo_2, Caveat } from "next/font/google";
 import "./globals.css";
 
@@ -28,13 +28,20 @@ export const metadata: Metadata = {
   title: "Zachary Chung, Software Engineer",
   description:
     "I'm a software engineer based in LA. I build web and mobile apps, train for triathlons, and spend a lot of time outside.",
-  metadataBase: new URL("https://zacharychung.dev"),
+  metadataBase: new URL("https://zacharychung.vercel.app"),
   openGraph: {
     title: "Zachary Chung",
     description:
       "Software engineer based in LA. I build things and spend time outside.",
     type: "website",
   },
+};
+
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#fcf9f3" },
+    { media: "(prefers-color-scheme: dark)", color: "#181a21" },
+  ],
 };
 
 export default function RootLayout({
