@@ -61,6 +61,12 @@ export default function RootLayout({
       <body
         className={`${nunito.variable} ${baloo.variable} ${caveat.variable} font-sans`}
       >
+        <a
+          href="#main"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:border-2 focus:border-foreground/20 focus:bg-background focus:px-4 focus:py-2 focus:text-sm focus:text-foreground focus:shadow-md"
+        >
+          Skip to content
+        </a>
         {children}
       </body>
     </html>

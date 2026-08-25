@@ -32,3 +32,8 @@ export const NAV_ORDER: SectionKey[] = [
   "ironman",
   "contact",
 ];
+
+/** True when a URL hash names one of the section panels. */
+export function isSectionKey(value: string): value is SectionKey {
+  return (NAV_ORDER as string[]).includes(value);
+}

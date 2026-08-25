@@ -28,7 +28,7 @@ export default async function Home() {
   };
 
   return (
-    <main className="relative">
+    <main id="main" className="relative">
       <SiteExperience sections={sections} />
     </main>
   );

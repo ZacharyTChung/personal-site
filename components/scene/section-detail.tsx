@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, type ReactNode } from "react";
+import { useEffect, useRef, type ReactNode } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { X } from "lucide-react";
 import type { SectionKey } from "./section-keys";
@@ -20,7 +20,9 @@ export function SectionDetail({
   sections: Record<SectionKey, ReactNode>;
   onClose: () => void;
 }) {
-  // close on Escape and lock the page scroll while a panel is open
+  const panelRef = useRef<HTMLDivElement>(null);
+
+  // close on Escape, lock the page scroll, and move focus into the panel
   useEffect(() => {
     if (!selected) return;
     const onKey = (e: KeyboardEvent) => {
@@ -29,6 +31,7 @@ export function SectionDetail({
     window.addEventListener("keydown", onKey);
     const prev = document.body.style.overflow;
     document.body.style.overflow = "hidden";
+    panelRef.current?.focus();
     return () => {
       window.removeEventListener("keydown", onKey);
       document.body.style.overflow = prev;
@@ -53,7 +56,9 @@ export function SectionDetail({
           <div className="fixed inset-0 -z-10 bg-[rgb(var(--c-bg-1)/0.55)] backdrop-blur-md" />
 
           <motion.div
-            className="relative my-4 w-full max-w-3xl overflow-hidden rounded-[1.6rem] border border-border bg-background shadow-2xl"
+            ref={panelRef}
+            tabIndex={-1}
+            className="relative my-4 w-full max-w-3xl overflow-hidden rounded-[1.6rem] border border-border bg-background shadow-2xl outline-none"
             initial={{ opacity: 0, y: 28, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.98 }}
