@@ -158,8 +158,8 @@ export function Contact() {
           Get in touch.
         </h2>
         <p className="mx-auto mt-6 max-w-xl text-lg text-muted-foreground">
-          Feel free to reach out using any of the contacts below. Email is the
-          fastest way to get me.
+          I&apos;m looking for software engineering and technical product
+          roles. Email is the fastest way to reach me.
         </p>
 
         {/* campfire with the socials gathered around it */}

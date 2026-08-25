@@ -25,7 +25,7 @@ const interests = [
   },
   {
     title: "training",
-    blurb: "Swim, bike, run. Most days it's just about showing up.",
+    blurb: "Swim, bike, run. First 70.3 in December.",
     image: "/images/ironman_train.JPG",
     rotClass: "-rotate-2",
     tape: "--c-pop-coral",

@@ -40,7 +40,7 @@ export function Awards() {
           <div>
             <SectionEyebrow accent="--c-pop-gold">awards</SectionEyebrow>
             <h2 className="mt-1 font-display text-4xl font-semibold tracking-tight md:text-6xl">
-              A few wins.
+              Recognition.
             </h2>
           </div>
         </div>

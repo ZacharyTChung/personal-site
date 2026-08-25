@@ -21,18 +21,13 @@ export function IronmanSection() {
             <div>
               <SectionEyebrow accent="--c-pop-sky">goals</SectionEyebrow>
               <h2 className="mt-1 font-display text-4xl font-semibold tracking-tight md:text-6xl">
-                What I&apos;m chasing.
+                Ironman 70.3.
               </h2>
             </div>
           </div>
           <p className="mt-6 max-w-lg text-lg leading-relaxed text-muted-foreground">
-            Right now I&apos;m training for my first half Ironman. That&apos;s a
-            1.2 mile swim, a 56 mile bike, and a 13.1 mile run. There&apos;s no
-            shortcut, you just keep showing up.
-          </p>
-          <p className="mt-4 max-w-lg text-lg leading-relaxed text-muted-foreground">
-            Building things works the same way. Steady work over time is what
-            gets it done.
+            I&apos;m training for my first half Ironman this December in La
+            Quinta: a 1.2 mile swim, a 56 mile bike, and a 13.1 mile run.
           </p>
         </div>
 

@@ -100,9 +100,8 @@ export function ClearingScene({
             <Burst className="absolute -right-7 -top-3 h-8 w-8 text-[rgb(var(--c-pop-gold))]" />
           </h1>
           <p className="mx-auto mt-5 max-w-xs font-medium text-[#1f4a42] dark:text-[#dccdb4] md:mx-0 md:max-w-md md:text-lg">
-            I&apos;m a software engineer based in LA. When I&apos;m not coding
-            I&apos;m usually training or outside somewhere. Have a look around,
-            everything here is clickable.
+            Software engineer in LA, working across engineering and product.
+            Everything in the clearing is clickable.
           </p>
         </div>
 

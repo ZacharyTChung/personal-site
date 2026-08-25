@@ -25,7 +25,8 @@ export function Music() {
         </div>
 
         <p className="mt-6 max-w-xl text-muted-foreground">
-          A little focus timer. Start a session and keep the fire going.
+          A pomodoro timer I built into the site. Start a session and the
+          fire burns until time is up.
         </p>
 
         <div className="mt-8 overflow-hidden rounded-2xl border border-border shadow-lg">

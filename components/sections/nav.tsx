@@ -78,7 +78,7 @@ export function Nav({ onSelect }: { onSelect?: (k: SectionKey) => void }) {
             onClick={() => pick("contact")}
             className="rounded-full border-2 border-[rgb(var(--c-warm-1)/0.55)] bg-[rgb(var(--c-warm-1)/0.15)] px-4 py-1 font-hand text-lg leading-none text-[rgb(var(--c-warm-1))] transition-transform hover:-rotate-2 hover:scale-105"
           >
-            say hi!
+            get in touch
           </button>
           <button
             type="button"

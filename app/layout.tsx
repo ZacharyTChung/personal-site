@@ -27,12 +27,12 @@ const caveat = Caveat({
 export const metadata: Metadata = {
   title: "Zachary Chung, Software Engineer",
   description:
-    "I'm a software engineer based in LA. I build web and mobile apps, train for triathlons, and spend a lot of time outside.",
+    "Software engineer in LA working across engineering and product. Projects, stack, and how to get in touch.",
   metadataBase: new URL("https://zacharychung.vercel.app"),
   openGraph: {
     title: "Zachary Chung",
     description:
-      "Software engineer based in LA. I build things and spend time outside.",
+      "Software engineer in LA working across engineering and product.",
     type: "website",
   },
 };

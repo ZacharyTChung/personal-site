@@ -33,12 +33,12 @@ const groups = [
   {
     icon: Sparkles,
     label: "AI Tools",
-    items: ["GitHub Copilot", "Claude"],
+    items: ["Claude API", "GitHub Copilot"],
   },
   {
     icon: Wrench,
     label: "Other",
-    items: ["Firebase", "Git", "VS Code", "Microsoft Office"],
+    items: ["Firebase", "Git", "Vercel"],
   },
 ];
 
@@ -56,13 +56,12 @@ export function Stack() {
             <div>
               <SectionEyebrow accent="--c-pop-teal">tools i use</SectionEyebrow>
               <h2 className="mt-1 font-display text-4xl font-semibold tracking-tight md:text-6xl">
-                What I build with.
+                Stack.
               </h2>
             </div>
           </div>
           <p className="max-w-md text-muted-foreground">
-            These are the tools I actually use and have shipped real projects
-            with.
+            The languages and tools behind the projects on this site.
           </p>
         </div>
 

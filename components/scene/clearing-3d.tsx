@@ -680,9 +680,12 @@ function Mountain({
   );
 }
 
+const TREE_GREENS_DAY = ["#2f6a4a", "#3a7a52", "#28603f", "#437f4e"];
+const TREE_GREENS_NIGHT = ["#1d3a2a", "#234531", "#183322", "#2a4a33"];
+
 function Forest({ night }: { night: boolean }) {
   const trees = useMemo(() => {
-    const out: { p: [number, number, number]; s: number }[] = [];
+    const out: { p: [number, number, number]; s: number; c: number }[] = [];
     let guard = 0;
     while (out.length < 240 && guard < 3200) {
       guard++;
@@ -692,10 +695,21 @@ function Forest({ night }: { night: boolean }) {
       if (x > -14 && x < 14 && z > -16 && z < 2) continue;
       // keep the near foreground clear for the objects
       if (z > 1.5 && Math.abs(x) < 12) continue;
-      out.push({ p: [x, 0, z], s: 0.7 + Math.random() * 1.2 });
+      out.push({
+        p: [x, 0, z],
+        s: 0.7 + Math.random() * 1.2,
+        c: Math.floor(Math.random() * 4),
+      });
     }
     return out;
   }, []);
+  const greens = night ? TREE_GREENS_NIGHT : TREE_GREENS_DAY;
+  // three stacked foliage tiers per pine, with the green varying per tree
+  const tiers: Array<{ r: number; h: number; y: number }> = [
+    { r: 0.8, h: 1.5, y: 1.05 },
+    { r: 0.58, h: 1.2, y: 1.9 },
+    { r: 0.36, h: 0.95, y: 2.65 },
+  ];
   return (
     <group>
       <Instances limit={trees.length} castShadow>
@@ -705,13 +719,20 @@ function Forest({ night }: { night: boolean }) {
           <Instance key={i} position={[t.p[0], 0.35 * t.s, t.p[2]]} scale={t.s} />
         ))}
       </Instances>
-      <Instances limit={trees.length} castShadow>
-        <coneGeometry args={[0.75, 2.4, 7]} />
-        <meshStandardMaterial color={night ? "#1d3a2a" : "#2f6a4a"} flatShading />
-        {trees.map((t, i) => (
-          <Instance key={i} position={[t.p[0], 1.6 * t.s, t.p[2]]} scale={t.s} />
-        ))}
-      </Instances>
+      {tiers.map((tier, ti) => (
+        <Instances key={ti} limit={trees.length} castShadow>
+          <coneGeometry args={[tier.r, tier.h, 7]} />
+          <meshStandardMaterial color="#ffffff" flatShading />
+          {trees.map((t, i) => (
+            <Instance
+              key={i}
+              color={greens[t.c]}
+              position={[t.p[0], tier.y * t.s, t.p[2]]}
+              scale={t.s}
+            />
+          ))}
+        </Instances>
+      ))}
     </group>
   );
 }
@@ -854,9 +875,10 @@ function Leaves({ count = 16 }: { count?: number }) {
   const seeds = useMemo(
     () =>
       Array.from({ length: count }, (_, i) => ({
-        x: (Math.random() - 0.5) * 42,
-        z: -10 + Math.random() * 22,
-        top: 6 + Math.random() * 6,
+        // fall near the tree line at the sides and back, not over open grass
+        x: (Math.random() < 0.5 ? -1 : 1) * (14 + Math.random() * 18),
+        z: -26 + Math.random() * 28,
+        top: 3.5 + Math.random() * 3,
         speed: 0.5 + Math.random() * 0.6,
         sway: 0.5 + Math.random() * 1.1,
         phase: Math.random() * 6,
@@ -888,7 +910,7 @@ function Leaves({ count = 16 }: { count?: number }) {
             if (el) refs.current[i] = el;
           }}
         >
-          <planeGeometry args={[0.34, 0.22]} />
+          <planeGeometry args={[0.26, 0.17]} />
           <meshStandardMaterial color={p.color} side={THREE.DoubleSide} flatShading />
         </mesh>
       ))}
@@ -1015,10 +1037,15 @@ function Lake({ night }: { night: boolean }) {
   }, []);
   return (
     <group position={[0, 0, -6.5]}>
-      {/* a darker sandy rim just under the water edge */}
+      {/* a soft sandy rim just under the water edge */}
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.02, 0]} scale={1.07}>
         <shapeGeometry args={[shape]} />
-        <meshStandardMaterial color={night ? "#243018" : "#caa86a"} />
+        <meshStandardMaterial color={night ? "#2c3a22" : "#d9c491"} />
+      </mesh>
+      {/* pale shallows peeking out around the deep water */}
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.02, 0]} scale={1.035}>
+        <shapeGeometry args={[shape]} />
+        <meshStandardMaterial color={night ? "#1d545c" : "#7fd0c9"} />
       </mesh>
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.04, 0]}>
         <shapeGeometry args={[shape]} />
@@ -1060,16 +1087,35 @@ function Moon() {
 /* wildflowers — a stem, a flat ring of petals, and a golden centre */
 function GroundDetail({ night }: { night: boolean }) {
   const flowers = useMemo(() => {
-    const out: { p: [number, number, number]; c: number }[] = [];
+    const out: { p: [number, number, number]; c: number; s: number }[] = [];
+    // wildflowers grow in drifts, not confetti: pick patch centres and
+    // scatter a handful around each, mostly sharing the patch colour
+    const centers: [number, number, number][] = [];
     let g = 0;
-    while (out.length < 230 && g < 5000) {
+    while (centers.length < 12 && g < 500) {
       g++;
-      const x = (Math.random() - 0.5) * 68;
-      const z = -24 + Math.random() * 48; // reaches into the near foreground
-      if (x > -14 && x < 14 && z > -16 && z < 2) continue; // off the lake
-      if (z > 2.6 && z < 6.4 && Math.abs(x) < 12) continue; // off the object row
-      out.push({ p: [x, 0, z], c: Math.floor(Math.random() * 4) });
+      const x = (Math.random() - 0.5) * 64;
+      const z = -22 + Math.random() * 44;
+      if (x > -17 && x < 17 && z > -18 && z < 4) continue; // off the lake
+      if (z > 1.5 && z < 7.5 && Math.abs(x) < 14) continue; // off the object row
+      centers.push([x, z, Math.floor(Math.random() * 4)]);
     }
+    centers.forEach(([cx, cz, patchColor]) => {
+      const n = 9 + Math.floor(Math.random() * 8);
+      for (let i = 0; i < n; i++) {
+        const a = Math.random() * Math.PI * 2;
+        const r = Math.pow(Math.random(), 0.6) * 2.8;
+        const x = cx + Math.cos(a) * r;
+        const z = cz + Math.sin(a) * r * 0.75;
+        if (x > -14 && x < 14 && z > -16 && z < 2) continue;
+        if (z > 2.6 && z < 6.4 && Math.abs(x) < 12) continue;
+        out.push({
+          p: [x, 0, z],
+          c: Math.random() < 0.75 ? patchColor : Math.floor(Math.random() * 4),
+          s: 0.7 + Math.random() * 0.5,
+        });
+      }
+    });
     return out;
   }, []);
   const petalColors = night
@@ -1084,7 +1130,7 @@ function GroundDetail({ night }: { night: boolean }) {
           <cylinderGeometry args={[0.014, 0.014, 0.36, 5]} />
           <meshStandardMaterial color={night ? "#33543a" : "#4f8f54"} />
           {flowers.map((f, i) => (
-            <Instance key={i} position={[f.p[0], 0.18, f.p[2]]} />
+            <Instance key={i} position={[f.p[0], 0.18 * f.s, f.p[2]]} scale={f.s} />
           ))}
         </Instances>
       )}
@@ -1099,7 +1145,11 @@ function GroundDetail({ night }: { night: boolean }) {
               emissiveIntensity={night ? 0.35 : 0}
             />
             {list.map((f, i) => (
-              <Instance key={i} position={[f.p[0], 0.38, f.p[2]]} scale={[1, 0.3, 1]} />
+              <Instance
+                key={i}
+                position={[f.p[0], 0.38 * f.s, f.p[2]]}
+                scale={[f.s, 0.3 * f.s, f.s]}
+              />
             ))}
           </Instances>
         ) : null,
@@ -1114,7 +1164,7 @@ function GroundDetail({ night }: { night: boolean }) {
             emissiveIntensity={night ? 0.3 : 0}
           />
           {flowers.map((f, i) => (
-            <Instance key={i} position={[f.p[0], 0.41, f.p[2]]} />
+            <Instance key={i} position={[f.p[0], 0.41 * f.s, f.p[2]]} scale={f.s} />
           ))}
         </Instances>
       )}
@@ -1284,7 +1334,7 @@ function Scene({
       <Birds />
       <Birds speed={1.1} span={36} y={6} baseZ={-9} />
       <Fireflies night={night} count={night ? 110 : 70} />
-      <Leaves />
+      <Leaves count={10} />
       <LakeLife night={night} />
 
       {/* clickable objects — one per section, spread across a near-grass arc */}

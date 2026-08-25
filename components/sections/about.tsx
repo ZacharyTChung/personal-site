@@ -1,27 +1,27 @@
-import { Code2, Mountain, Bike, Globe } from "lucide-react";
+import { Code2, ClipboardList, Bike, Globe } from "lucide-react";
 import { TentSVG } from "@/components/scene/scene-objects";
 import { SceneGlyph, SectionGlow, SectionEyebrow } from "@/components/ui/scene-accents";
 
 const stats = [
   {
     icon: Code2,
-    label: "Engineer",
+    label: "Engineering",
     value: "Full-stack, mobile, systems",
   },
   {
-    icon: Mountain,
-    label: "Hiker",
-    value: "Anywhere with a trail",
+    icon: ClipboardList,
+    label: "Product",
+    value: "Scoping, specs, metrics",
   },
   {
     icon: Bike,
-    label: "Triathlete",
+    label: "Triathlon",
     value: "70.3 in December",
   },
   {
     icon: Globe,
-    label: "Traveler",
-    value: "Always planning the next trip",
+    label: "Travel",
+    value: "Planning the next trip",
   },
 ];
 
@@ -38,25 +38,25 @@ export function About() {
           <div>
             <SectionEyebrow accent="--c-pop-coral">about me</SectionEyebrow>
             <h2 className="mt-1 font-display text-4xl font-semibold tracking-tight md:text-6xl">
-              A little about me.
+              About me.
             </h2>
           </div>
         </div>
         <div className="mt-8 grid gap-10 md:grid-cols-5">
           <div className="md:col-span-3 space-y-5 text-lg leading-relaxed text-muted-foreground">
             <p>
-              I&apos;m a software engineer based in LA and open to relocating.
-              I like building things people actually use, mostly web and mobile
-              apps, with some lower level work when a project needs it.
+              I&apos;m a software engineer based in LA, open to relocating. I
+              build web and mobile apps end to end, and I go lower level when
+              the problem calls for it.
             </p>
             <p>
-              When I&apos;m not coding I&apos;m usually running, hiking, or
-              planning a trip. I like endurance training for the same reason I
-              like building. Small steady days add up over time.
+              I care about the product side as much as the code: what to
+              build, who it&apos;s for, and how to tell if it worked. I&apos;m
+              looking for software engineering and technical product roles.
             </p>
             <p>
-              This site is just a place to keep track of what I&apos;m working
-              on and where I&apos;ve been.
+              Outside of work I&apos;m training for my first half Ironman and
+              planning my next trip.
             </p>
           </div>
           <div className="grid grid-cols-2 gap-4 md:col-span-2">

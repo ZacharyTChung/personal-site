@@ -92,8 +92,9 @@ function HeroPlaceholder() {
           <Burst className="absolute -right-7 -top-3 h-8 w-8 text-[rgb(var(--c-pop-gold))]" />
         </h1>
         <p className="mx-auto mt-4 max-w-sm text-base font-medium text-foreground/80 [text-shadow:0_1px_10px_rgb(var(--c-bg-1)/0.5)] md:mx-0 md:max-w-md md:text-lg">
-          Software engineer in LA. Scroll to drift through the clearing, or
-          click any glowing object to jump to that section.
+          Software engineer in LA, working across engineering and product.
+          Scroll to move through the clearing, or click an object to open
+          that section.
         </p>
       </div>
     </section>
@@ -164,8 +165,9 @@ function Journey({
             <Burst className="absolute -right-7 -top-3 h-8 w-8 text-[rgb(var(--c-pop-gold))]" />
           </h1>
           <p className="mx-auto mt-4 max-w-sm text-base font-medium text-foreground/80 [text-shadow:0_1px_10px_rgb(var(--c-bg-1)/0.5)] md:mx-0 md:max-w-md md:text-lg">
-            Software engineer in LA. Scroll to drift through the clearing, or
-            click any glowing object to jump to that section.
+            Software engineer in LA, working across engineering and product.
+            Scroll to move through the clearing, or click an object to open
+            that section.
           </p>
         </motion.div>
 
@@ -198,7 +200,7 @@ function Journey({
           style={{ opacity: introOpacity }}
           className="pointer-events-none absolute bottom-6 left-1/2 z-20 -translate-x-1/2 whitespace-nowrap rounded-full border border-[rgb(var(--c-fg)/0.12)] bg-[rgb(var(--c-bg-2)/0.85)] px-4 py-1.5 font-hand text-base text-foreground/80 shadow-sm backdrop-blur-sm"
         >
-          Click any glowing object to visit that section
+          Click an object to open that section
         </motion.div>
 
         {/* decorative scroll cue */}
@@ -206,7 +208,7 @@ function Journey({
           aria-hidden
           className="absolute bottom-5 right-5 z-20 hidden items-center gap-1.5 font-hand text-xl text-[#0f3b34] dark:text-[#dccdb4] md:flex"
         >
-          scroll!
+          scroll
           <ArrowDown className="h-4 w-4 animate-bounce" />
         </div>
       </div>

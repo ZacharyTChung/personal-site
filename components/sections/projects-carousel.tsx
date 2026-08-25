@@ -77,7 +77,7 @@ export function ProjectsCarousel({ projects }: { projects: Project[] }) {
               </div>
             </div>
             <p className="mt-4 text-sm text-muted-foreground">
-              Pulled straight from my GitHub.
+              Descriptions and stats sync from GitHub.
             </p>
           </>
         }
