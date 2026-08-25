@@ -30,7 +30,7 @@ export function Hero() {
           <p className="mx-auto mt-6 max-w-xl text-base text-muted-foreground md:text-lg">
             Most of what I build started with a problem I ran into myself.
             When I&apos;m not at a screen, I&apos;m probably swimming, biking,
-            or running — chasing a half-Ironman in December.
+            or running, chasing a half-Ironman in December.
           </p>
 
           <div className="mt-8 flex flex-wrap items-center justify-center gap-4">

@@ -37,6 +37,18 @@ export const metadata: Metadata = {
   },
 };
 
+const personJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "Zachary Chung",
+  jobTitle: "Software Engineer",
+  url: "https://zacharychung.vercel.app",
+  sameAs: [
+    "https://github.com/ZacharyTChung",
+    "https://www.linkedin.com/in/zachary-chung-07012a319/",
+  ],
+};
+
 export const viewport: Viewport = {
   themeColor: [
     { media: "(prefers-color-scheme: light)", color: "#fcf9f3" },
@@ -61,6 +73,10 @@ export default function RootLayout({
       <body
         className={`${nunito.variable} ${baloo.variable} ${caveat.variable} font-sans`}
       >
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
+        />
         <a
           href="#main"
           className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:border-2 focus:border-foreground/20 focus:bg-background focus:px-4 focus:py-2 focus:text-sm focus:text-foreground focus:shadow-md"
