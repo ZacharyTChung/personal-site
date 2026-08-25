@@ -594,6 +594,7 @@ function Mountain({
   radius,
   color,
   night,
+  seed = 0,
   treeCount = 12,
 }: {
   position: [number, number, number];
@@ -601,39 +602,56 @@ function Mountain({
   radius: number;
   color: string;
   night: boolean;
+  seed?: number;
   treeCount?: number;
 }) {
-  // irregular, faceted peak with snow baked in along the real silhouette so
-  // it doesn't read like a party hat — and recedes into the sky at night
+  // faceted peak with ridge lines running down the slopes and snow blended in
+  // along the silhouette — and it recedes into the sky at night.
+  // All displacement is a function of the vertex's original position, so the
+  // cone's duplicated seam vertices move together and the surface never tears.
   const geo = useMemo(() => {
-    const g = new THREE.ConeGeometry(radius, height, 9, 5);
+    const g = new THREE.ConeGeometry(radius, height, 10, 6);
     const pos = g.attributes.position as THREE.BufferAttribute;
     const v = new THREE.Vector3();
     const colors: number[] = [];
     const rock = new THREE.Color(color);
-    const snow = new THREE.Color(night ? "#46506a" : "#eef4fa");
+    const snow = new THREE.Color(night ? "#525e80" : "#eef4fa");
+    const tint = new THREE.Color();
+    const phase = seed * 2.399;
+    const hash = (a: number, b: number, c: number) => {
+      const s = Math.sin(a * 12.9898 + b * 78.233 + c * 37.719 + phase) * 43758.5453;
+      return s - Math.floor(s);
+    };
     for (let i = 0; i < pos.count; i++) {
       v.fromBufferAttribute(pos, i);
       const yn = (v.y + height / 2) / height; // 0 base .. 1 tip
-      const s1 = Math.sin(i * 12.9898) * 43758.5453;
-      const r1 = s1 - Math.floor(s1);
-      const s2 = Math.sin(i * 78.233) * 24634.6334;
-      const r2 = s2 - Math.floor(s2);
-      // jitter the side rings (leave the base ring and apex alone)
-      if (yn > 0.001 && yn < 0.999) {
-        const j = (1 - yn) * radius * 0.22;
-        v.x += (r1 - 0.5) * j * 2;
-        v.z += (r2 - 0.5) * j * 2;
-        pos.setXYZ(i, v.x, v.y, v.z);
+      const theta = Math.atan2(v.z, v.x);
+      // coherent ridges: the radial bulge depends on the angle around the
+      // peak, so facets line up into spurs instead of random crumple
+      const ridge =
+        Math.sin(theta * 3 + phase) * 0.5 +
+        Math.sin(theta * 7 + phase * 2.1) * 0.3 +
+        Math.sin(theta * 11 + phase * 4.7) * 0.2;
+      const crumple = hash(v.x, v.y, v.z) - 0.5;
+      const rs = 1 + ridge * 0.13 + crumple * 0.1;
+      v.x *= rs;
+      v.z *= rs;
+      // uneven ring heights, but keep the base on the ground and the tip sharp
+      if (yn > 0.05 && yn < 0.9) {
+        v.y += (hash(v.z, v.x, v.y) - 0.5) * height * 0.05;
       }
-      const snowLine = 0.66 + (r1 - 0.5) * 0.16;
-      const c = yn > snowLine ? snow : rock;
-      colors.push(c.r, c.g, c.b);
+      pos.setXYZ(i, v.x, v.y, v.z);
+      // soft snow band that dips and rises with the ridges
+      const snowLine = 0.62 + ridge * 0.05 + crumple * 0.06;
+      const t = Math.min(1, Math.max(0, (yn - snowLine) / 0.1));
+      // slightly darker feet fading lighter toward the summit adds depth
+      tint.copy(rock).multiplyScalar(0.86 + yn * 0.24).lerp(snow, t);
+      colors.push(tint.r, tint.g, tint.b);
     }
     g.setAttribute("color", new THREE.Float32BufferAttribute(colors, 3));
     g.computeVertexNormals();
     return g;
-  }, [height, radius, color, night]);
+  }, [height, radius, color, night, seed]);
 
   // a light scatter of trees on the lower slopes
   const trees = useMemo(() => {
@@ -1139,6 +1157,37 @@ const MOUNTAIN_PEAKS = (() => {
 const PEAK_DAY = ["#9aa8c2", "#8a9ab4", "#7c8da8"];
 const PEAK_NIGHT = ["#2e3c66", "#28345a", "#222e4e"];
 
+/* gradient sky dome: the horizon stays on the fog colour so distant peaks
+   fade into it seamlessly, and the zenith deepens for a taller-feeling sky */
+function SkyDome({ night }: { night: boolean }) {
+  const geo = useMemo(() => {
+    const R = 240;
+    const g = new THREE.SphereGeometry(R, 24, 12);
+    const pos = g.attributes.position as THREE.BufferAttribute;
+    const horizon = new THREE.Color(night ? "#1a2347" : "#bfe6f3");
+    const zenith = new THREE.Color(night ? "#0e142e" : "#7cc4e8");
+    const c = new THREE.Color();
+    const colors: number[] = [];
+    for (let i = 0; i < pos.count; i++) {
+      const t = Math.min(1, Math.max(0, (pos.getY(i) / R) * 1.6));
+      c.copy(horizon).lerp(zenith, t);
+      colors.push(c.r, c.g, c.b);
+    }
+    g.setAttribute("color", new THREE.Float32BufferAttribute(colors, 3));
+    return g;
+  }, [night]);
+  return (
+    <mesh geometry={geo} renderOrder={-1}>
+      <meshBasicMaterial
+        vertexColors
+        side={THREE.BackSide}
+        fog={false}
+        depthWrite={false}
+      />
+    </mesh>
+  );
+}
+
 /* ground tinted into soft green biomes (forest floor, meadow, mossy ground)
    so the landscape reads as varied regions rather than one flat oasis lawn */
 function BiomeGround({ night }: { night: boolean }) {
@@ -1188,6 +1237,7 @@ function Scene({
     <>
       <color attach="background" args={[sky]} />
       <fog attach="fog" args={[sky, 32, 100]} />
+      <SkyDome night={night} />
 
       <ambientLight intensity={night ? 0.58 : 0.62} />
       <hemisphereLight
@@ -1223,6 +1273,7 @@ function Scene({
           radius={p.r}
           color={night ? PEAK_NIGHT[p.row] : PEAK_DAY[p.row]}
           night={night}
+          seed={i + 1}
           treeCount={p.t}
         />
       ))}
