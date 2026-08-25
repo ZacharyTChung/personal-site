@@ -829,9 +829,10 @@ function Fireflies({ night, count = 70 }: { night: boolean; count?: number }) {
 }
 
 /* a few autumn leaves tumbling down through the clearing */
+const LEAF_PALETTE = ["#e0843f", "#d8a23a", "#c2703a", "#7c9a4a", "#e6b35a"];
+
 function Leaves({ count = 16 }: { count?: number }) {
   const refs = useRef<THREE.Mesh[]>([]);
-  const palette = ["#e0843f", "#d8a23a", "#c2703a", "#7c9a4a", "#e6b35a"];
   const seeds = useMemo(
     () =>
       Array.from({ length: count }, (_, i) => ({
@@ -842,7 +843,7 @@ function Leaves({ count = 16 }: { count?: number }) {
         sway: 0.5 + Math.random() * 1.1,
         phase: Math.random() * 6,
         spin: 0.6 + Math.random() * 1.2,
-        color: palette[i % palette.length],
+        color: LEAF_PALETTE[i % LEAF_PALETTE.length],
       })),
     [count],
   );

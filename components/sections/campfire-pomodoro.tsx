@@ -118,6 +118,7 @@ export function CampfirePomodoro() {
   }, [running]);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     if (left === 0) setRunning(false);
   }, [left]);
 

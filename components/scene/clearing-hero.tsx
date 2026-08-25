@@ -41,6 +41,8 @@ export function ClearingHero({
   const [night, setNight] = useState(false);
 
   useEffect(() => {
+    // capability check has to wait for the client; the server can't probe WebGL
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
     const small =
       window.matchMedia("(max-width: 767px)").matches ||

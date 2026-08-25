@@ -29,6 +29,9 @@ export function RaceCountdown({
   const [now, setNow] = useState(start);
 
   useEffect(() => {
+    // seed the countdown right away so it doesn't sit at zero for a second;
+    // it can't be computed during render without a hydration mismatch
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setTick(diff(target));
     setNow(Date.now());
     const id = setInterval(() => {
