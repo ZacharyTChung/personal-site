@@ -81,6 +81,7 @@ function Hotspot3D({
   rotation = 0,
   scale = 1,
   tagHeight = 2.9,
+  hit = [2.2, 2.4, 1.8],
   onSelect,
   children,
 }: {
@@ -90,6 +91,8 @@ function Hotspot3D({
   rotation?: number;
   scale?: number;
   tagHeight?: number;
+  /** width, height, depth of the invisible click target */
+  hit?: [number, number, number];
   onSelect?: (k: SectionKey) => void;
   children: ReactNode;
 }) {
@@ -146,6 +149,12 @@ function Hotspot3D({
           setCursor(false);
         }}
       >
+        {/* generous invisible click target: thin shapes like the bike frame
+            are nearly impossible to hit with a raycast against the real mesh */}
+        <mesh position={[0, hit[1] / 2, 0]}>
+          <boxGeometry args={hit} />
+          <meshBasicMaterial transparent opacity={0} depthWrite={false} />
+        </mesh>
         {children}
       </group>
 
@@ -1338,28 +1347,28 @@ function Scene({
       <LakeLife night={night} />
 
       {/* clickable objects — one per section, spread across a near-grass arc */}
-      <Hotspot3D section="about" label="About" onSelect={onSelect} position={[-10, 0, 5.4]} rotation={0.6} scale={1.2}>
+      <Hotspot3D section="about" label="About" onSelect={onSelect} position={[-10, 0, 5.4]} rotation={0.6} scale={1.2} hit={[3, 2.4, 2.6]}>
         <Tent />
       </Hotspot3D>
-      <Hotspot3D section="stack" label="Stack" onSelect={onSelect} position={[-7.4, 0, 4.5]} rotation={0.45} scale={1.25}>
+      <Hotspot3D section="stack" label="Stack" onSelect={onSelect} position={[-7.4, 0, 4.5]} rotation={0.45} scale={1.25} hit={[1.8, 2.2, 1.4]}>
         <Backpack />
       </Hotspot3D>
-      <Hotspot3D section="ironman" label="Goals" onSelect={onSelect} position={[-4.8, 0, 3.9]} rotation={0.2} scale={1.3}>
+      <Hotspot3D section="ironman" label="Goals" onSelect={onSelect} position={[-4.8, 0, 3.9]} rotation={0.2} scale={1.3} hit={[2.8, 2, 1.4]}>
         <Bike />
       </Hotspot3D>
-      <Hotspot3D section="contact" label="Contact" onSelect={onSelect} position={[-1.7, 0, 3.5]} scale={1.25}>
+      <Hotspot3D section="contact" label="Contact" onSelect={onSelect} position={[-1.7, 0, 3.5]} scale={1.25} hit={[2.2, 1.8, 2.2]}>
         <Campfire night={night} />
       </Hotspot3D>
-      <Hotspot3D section="music" label="Focus" onSelect={onSelect} position={[1.7, 0, 3.5]} scale={1.35}>
+      <Hotspot3D section="music" label="Focus" onSelect={onSelect} position={[1.7, 0, 3.5]} scale={1.35} hit={[1.5, 2, 1.5]}>
         <Lantern night={night} />
       </Hotspot3D>
-      <Hotspot3D section="interests" label="Interests" onSelect={onSelect} position={[4.8, 0, 3.9]} scale={1.45}>
+      <Hotspot3D section="interests" label="Interests" onSelect={onSelect} position={[4.8, 0, 3.9]} scale={1.45} hit={[1.6, 1.6, 1.6]}>
         <SoccerBall />
       </Hotspot3D>
-      <Hotspot3D section="projects" label="Projects" onSelect={onSelect} position={[7.4, 0, 4.5]} rotation={-0.45} scale={1.25}>
+      <Hotspot3D section="projects" label="Projects" onSelect={onSelect} position={[7.4, 0, 4.5]} rotation={-0.45} scale={1.25} hit={[2.8, 1.9, 1.8]}>
         <LaptopLog />
       </Hotspot3D>
-      <Hotspot3D section="awards" label="Awards" onSelect={onSelect} position={[10, 0, 5.4]} rotation={-0.25} scale={1.15} tagHeight={3.4}>
+      <Hotspot3D section="awards" label="Awards" onSelect={onSelect} position={[10, 0, 5.4]} rotation={-0.25} scale={1.15} tagHeight={3.4} hit={[1.8, 3.2, 1.4]}>
         <Flag />
       </Hotspot3D>
 

@@ -73,16 +73,16 @@ export function RaceCountdown({
         </p>
       </div>
 
-      <div className="mt-6 grid grid-cols-4 gap-3">
+      <div className="mt-6 grid grid-cols-4 gap-2 md:gap-3">
         {units.map(([label, value]) => (
           <div
             key={label}
-            className="rounded-xl border border-border bg-muted/40 p-3 text-center md:p-4"
+            className="min-w-0 rounded-xl border border-border bg-muted/40 p-2 text-center md:p-3"
           >
-            <p className="font-display text-3xl font-bold tabular-nums text-foreground md:text-5xl">
+            <p className="font-display text-2xl font-bold tabular-nums text-foreground md:text-4xl">
               {value.toString().padStart(2, "0")}
             </p>
-            <p className="mt-1 text-[10px] uppercase tracking-[0.2em] text-muted-foreground md:text-xs">
+            <p className="mt-1 truncate text-[9px] uppercase tracking-[0.12em] text-muted-foreground md:text-[11px]">
               {label}
             </p>
           </div>

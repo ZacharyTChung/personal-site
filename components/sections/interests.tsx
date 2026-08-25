@@ -51,29 +51,22 @@ export function Interests() {
   return (
     <section
       id="interests"
-      className="relative overflow-hidden px-6 py-20 text-foreground"
+      className="relative overflow-hidden px-6 py-10 text-foreground md:py-12"
     >
       <SectionGlow accent="--c-pop-lime" />
       <div className="relative z-10 mx-auto max-w-5xl">
-        <div className="mb-4 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-          <div className="flex items-center gap-4">
-            <SceneGlyph Object={SoccerBallSVG} accent="--c-pop-lime" />
-            <div>
-              <SectionEyebrow accent="--c-pop-lime">outside of work</SectionEyebrow>
-              <h2 className="mt-1 font-display text-4xl font-semibold tracking-tight md:text-6xl">
-                What I do outside
-                <br />
-                <span className="text-foreground/50">of work.</span>
-              </h2>
-            </div>
+        <div className="flex items-center gap-4">
+          <SceneGlyph Object={SoccerBallSVG} accent="--c-pop-lime" />
+          <div>
+            <SectionEyebrow accent="--c-pop-lime">interests</SectionEyebrow>
+            <h2 className="mt-1 font-display text-3xl font-semibold tracking-tight md:text-5xl">
+              Outside of work
+            </h2>
           </div>
-          <p className="max-w-md text-muted-foreground">
-            A few things I like to do when I&apos;m not working.
-          </p>
         </div>
 
         {/* taped trail-journal polaroids */}
-        <div className="mt-14 flex flex-wrap items-start justify-center gap-x-8 gap-y-16">
+        <div className="mt-10 flex flex-wrap items-start justify-center gap-x-8 gap-y-16">
           {interests.map((i) => (
             <figure
               key={i.title}

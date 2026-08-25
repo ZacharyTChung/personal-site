@@ -10,7 +10,7 @@ export function Music() {
   return (
     <section
       id="music"
-      className="relative overflow-hidden px-6 py-20 text-foreground"
+      className="relative overflow-hidden px-6 py-10 text-foreground md:py-12"
     >
       <SectionGlow accent="--c-pop-pink" />
       <div className="relative z-10 mx-auto max-w-2xl">
@@ -18,8 +18,8 @@ export function Music() {
           <SceneGlyph Object={CampfireSVG} accent="--c-pop-pink" />
           <div>
             <SectionEyebrow accent="--c-pop-pink">focus</SectionEyebrow>
-            <h2 className="mt-1 font-display text-4xl font-semibold tracking-tight md:text-6xl">
-              Campfire pomodoro.
+            <h2 className="mt-1 font-display text-3xl font-semibold tracking-tight md:text-5xl">
+              Campfire pomodoro
             </h2>
           </div>
         </div>

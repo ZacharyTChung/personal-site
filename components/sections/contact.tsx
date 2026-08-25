@@ -148,14 +148,14 @@ export function Contact() {
   return (
     <section
       id="contact"
-      className="relative overflow-hidden px-6 pb-16 pt-20 text-foreground"
+      className="relative overflow-hidden px-6 pb-10 pt-10 text-foreground md:pt-12"
     >
       <div className="relative mx-auto max-w-4xl text-center">
         <p className="text-sm uppercase tracking-[0.3em] text-muted-foreground">
           Contact
         </p>
-        <h2 className="mt-4 font-display text-5xl font-semibold tracking-tight md:text-7xl">
-          Get in touch.
+        <h2 className="mt-3 font-display text-4xl font-semibold tracking-tight md:text-5xl">
+          Get in touch
         </h2>
         <p className="mx-auto mt-6 max-w-xl text-lg text-muted-foreground">
           I&apos;m looking for software engineering and technical product
@@ -163,7 +163,7 @@ export function Contact() {
         </p>
 
         {/* campfire with the socials gathered around it */}
-        <div className="relative mx-auto mt-12 flex max-w-3xl flex-col items-center gap-4 md:mt-16 md:block md:h-[440px]">
+        <div className="relative mx-auto mt-8 flex max-w-3xl flex-col items-center gap-4 md:mt-10 md:block md:h-[400px]">
           {/* warm hearth glow (desktop) */}
           <div
             aria-hidden="true"
@@ -186,7 +186,7 @@ export function Contact() {
         </div>
       </div>
 
-      <footer className="relative mt-16 border-t border-border pt-8 text-center text-xs text-muted-foreground">
+      <footer className="relative mt-10 border-t border-border pt-8 text-center text-xs text-muted-foreground">
         <p>
           Built with Next.js and Tailwind. © {new Date().getFullYear()} Zachary
           Chung.

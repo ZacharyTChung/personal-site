@@ -259,11 +259,11 @@ export function CampfirePomodoro() {
           <p className="mt-1 font-hand text-xl text-foreground/60">
             {done
               ? mode === "focus"
-                ? "nice work, take a break"
-                : "break over, back to it"
+                ? "done, take a break"
+                : "break over"
               : mode === "focus"
-                ? "keep the fire going"
-                : "rest by the fire"}
+                ? "focus"
+                : "break"}
           </p>
         </div>
 
@@ -304,8 +304,8 @@ export function CampfirePomodoro() {
         </div>
         <p className="font-hand text-base text-foreground/45">
           {sound
-            ? "crackle on (plays while the timer runs)"
-            : "tap the speaker for fire sounds"}
+            ? "sound on while the timer runs"
+            : "the speaker button adds fire sounds"}
         </p>
       </div>
     </div>

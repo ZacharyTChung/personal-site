@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { ContainerScroll } from "@/components/ui/container-scroll-animation";
 import { ArrowUpRight, ChevronLeft, ChevronRight, Github, Star, Trophy } from "lucide-react";
 import type { Project } from "@/lib/github";
 import { LaptopLogSVG } from "@/components/scene/scene-objects";
@@ -48,7 +47,9 @@ export function ProjectsCarousel({ projects }: { projects: Project[] }) {
   const [visible, setVisible] = useState(3);
 
   useEffect(() => {
-    const update = () => setVisible(window.innerWidth >= 768 ? 3 : 1);
+    // the section always renders inside the ~3xl detail panel, so two
+    // cards is the most that fits comfortably
+    const update = () => setVisible(window.innerWidth >= 768 ? 2 : 1);
     update();
     window.addEventListener("resize", update);
     return () => window.removeEventListener("resize", update);
@@ -62,30 +63,26 @@ export function ProjectsCarousel({ projects }: { projects: Project[] }) {
   return (
     <section
       id="projects"
-      className="relative overflow-hidden text-foreground"
+      className="relative overflow-hidden px-6 py-10 text-foreground md:py-12"
     >
-      <ContainerScroll
-        titleComponent={
-          <>
-            <div className="flex items-center justify-center gap-4">
-              <SceneGlyph Object={LaptopLogSVG} accent="--c-pop-violet" />
-              <div className="text-left">
-                <SectionEyebrow accent="--c-pop-violet">projects</SectionEyebrow>
-                <h2 className="mt-2 font-display text-3xl font-semibold text-foreground md:text-5xl">
-                  Things I&apos;ve built lately
-                </h2>
-              </div>
-            </div>
-            <p className="mt-4 text-sm text-muted-foreground">
-              Descriptions and stats sync from GitHub.
-            </p>
-          </>
-        }
-      >
-        <div className="relative h-full">
-          <div className="h-full overflow-hidden p-2">
+      <div className="mx-auto max-w-3xl">
+        <div className="flex items-center gap-4">
+          <SceneGlyph Object={LaptopLogSVG} accent="--c-pop-violet" />
+          <div>
+            <SectionEyebrow accent="--c-pop-violet">projects</SectionEyebrow>
+            <h2 className="mt-1 font-display text-3xl font-semibold tracking-tight text-foreground md:text-5xl">
+              Things I&apos;ve built lately
+            </h2>
+          </div>
+        </div>
+        <p className="mt-3 text-sm text-muted-foreground">
+          Descriptions and stats sync from GitHub.
+        </p>
+
+        <div className="relative mt-6">
+          <div className="overflow-hidden">
             <div
-              className="flex h-full transition-transform duration-500 ease-out"
+              className="flex transition-transform duration-500 ease-out"
               style={{
                 transform: `translateX(-${(safeIndex * 100) / visible}%)`,
               }}
@@ -93,7 +90,7 @@ export function ProjectsCarousel({ projects }: { projects: Project[] }) {
               {projects.map((p) => (
                 <div
                   key={p.slug}
-                  className="h-full shrink-0 px-2 md:px-3"
+                  className="shrink-0 px-1.5 md:px-2"
                   style={{ width: `${100 / visible}%` }}
                 >
                   <article className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-card transition-colors hover:border-foreground/30">
@@ -117,7 +114,7 @@ export function ProjectsCarousel({ projects }: { projects: Project[] }) {
                       </h3>
                     </div>
 
-                    <div className="flex flex-1 flex-col overflow-y-auto p-5">
+                    <div className="flex flex-1 flex-col p-5">
                       {/* live meta row */}
                       <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-[11px] uppercase tracking-[0.15em] text-muted-foreground">
                         {p.language && (
@@ -205,20 +202,21 @@ export function ProjectsCarousel({ projects }: { projects: Project[] }) {
             <ChevronRight className="h-5 w-5" />
           </button>
 
-          <div className="pointer-events-none absolute bottom-2 left-0 right-0 flex justify-center gap-1.5">
-            {Array.from({ length: maxIndex + 1 }).map((_, i) => (
-              <span
-                key={i}
-                className={`h-1.5 rounded-full transition-all ${
-                  i === safeIndex
-                    ? "w-6 bg-foreground/70"
-                    : "w-1.5 bg-foreground/25"
-                }`}
-              />
-            ))}
-          </div>
         </div>
-      </ContainerScroll>
+
+        <div className="mt-4 flex justify-center gap-1.5">
+          {Array.from({ length: maxIndex + 1 }).map((_, i) => (
+            <span
+              key={i}
+              className={`h-1.5 rounded-full transition-all ${
+                i === safeIndex
+                  ? "w-6 bg-foreground/70"
+                  : "w-1.5 bg-foreground/25"
+              }`}
+            />
+          ))}
+        </div>
+      </div>
     </section>
   );
 }

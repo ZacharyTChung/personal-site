@@ -31,7 +31,7 @@ export function Awards() {
   return (
     <section
       id="awards"
-      className="relative overflow-hidden px-6 py-20 text-foreground"
+      className="relative overflow-hidden px-6 py-10 text-foreground md:py-12"
     >
       <SectionGlow accent="--c-pop-gold" />
       <div className="relative z-10 mx-auto max-w-5xl">
@@ -39,8 +39,8 @@ export function Awards() {
           <SceneGlyph Object={FlagSVG} accent="--c-pop-gold" />
           <div>
             <SectionEyebrow accent="--c-pop-gold">awards</SectionEyebrow>
-            <h2 className="mt-1 font-display text-4xl font-semibold tracking-tight md:text-6xl">
-              Recognition.
+            <h2 className="mt-1 font-display text-3xl font-semibold tracking-tight md:text-5xl">
+              Recognition
             </h2>
           </div>
         </div>

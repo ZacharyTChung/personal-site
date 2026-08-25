@@ -29,7 +29,7 @@ export function About() {
   return (
     <section
       id="about"
-      className="relative overflow-hidden px-6 py-20 text-foreground"
+      className="relative overflow-hidden px-6 py-10 text-foreground md:py-12"
     >
       <SectionGlow accent="--c-pop-coral" />
       <div className="relative z-10 mx-auto max-w-5xl">
@@ -37,8 +37,8 @@ export function About() {
           <SceneGlyph Object={TentSVG} accent="--c-pop-coral" />
           <div>
             <SectionEyebrow accent="--c-pop-coral">about me</SectionEyebrow>
-            <h2 className="mt-1 font-display text-4xl font-semibold tracking-tight md:text-6xl">
-              About me.
+            <h2 className="mt-1 font-display text-3xl font-semibold tracking-tight md:text-5xl">
+              About me
             </h2>
           </div>
         </div>
