@@ -43,9 +43,20 @@ const personJsonLd = {
   name: "Zachary Chung",
   jobTitle: "Software Engineer",
   url: "https://zacharychung.vercel.app",
+  email: "mailto:zacharytylerchung@gmail.com",
+  telephone: "+1-626-491-8380",
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: "Los Angeles",
+    addressRegion: "CA",
+  },
+  alumniOf: {
+    "@type": "CollegeOrUniversity",
+    name: "University of Southern California",
+  },
   sameAs: [
     "https://github.com/ZacharyTChung",
-    "https://www.linkedin.com/in/zachary-chung-07012a319/",
+    "https://www.linkedin.com/in/zacharychung",
   ],
 };
 

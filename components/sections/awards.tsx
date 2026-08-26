@@ -8,10 +8,10 @@ import {
 
 const awards = [
   {
-    title: "3rd Place, SoCal Claude Hackathon",
+    title: "Winning Team, Claude Builder Hackathon",
     org: "UCLA · USC · Caltech",
     date: "April 2026",
-    note: "Built a voice-driven iPhone agent that runs multi-step tasks across apps and reads each step out loud for blind and low-vision users.",
+    note: "Placed top 3 of 50+ teams in a 6 hour build with a voice-driven iPhone agent that runs multi-step tasks across apps and reads each step out loud for blind and low-vision users.",
   },
   {
     title: "Director's Scholar",

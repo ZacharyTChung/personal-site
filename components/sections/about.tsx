@@ -46,13 +46,15 @@ export function About() {
           <div className="md:col-span-3 space-y-5 text-lg leading-relaxed text-muted-foreground">
             <p>
               I&apos;m a software engineer based in LA, open to relocating. I
-              build web and mobile apps end to end, and I go lower level when
-              the problem calls for it.
+              study Computer Science and Business Administration at USC, and I
+              do storage systems research in the Networked Systems Lab.
             </p>
             <p>
-              I care about the product side as much as the code: what to
-              build, who it&apos;s for, and how to tell if it worked. I&apos;m
-              looking for software engineering and technical product roles.
+              I build web and mobile apps end to end, and I go lower level
+              when the problem calls for it. I care about the product side as
+              much as the code: what to build, who it&apos;s for, and how to
+              tell if it worked. I&apos;m looking for software engineering and
+              technical product roles.
             </p>
             <p>
               Outside of work I&apos;m training for my first half Ironman and

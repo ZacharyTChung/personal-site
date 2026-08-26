@@ -396,6 +396,58 @@ function Flag() {
   );
 }
 
+function Signpost() {
+  return (
+    <group>
+      {/* rocks at the base */}
+      <mesh position={[0.28, 0.1, 0.1]} castShadow>
+        <sphereGeometry args={[0.2, 8, 6]} />
+        <meshStandardMaterial color="#7b8390" flatShading />
+      </mesh>
+      <mesh position={[-0.24, 0.09, -0.05]} castShadow>
+        <sphereGeometry args={[0.16, 8, 6]} />
+        <meshStandardMaterial color="#6d7480" flatShading />
+      </mesh>
+      {/* post */}
+      <mesh position={[0, 1.15, 0]} castShadow>
+        <cylinderGeometry args={[0.07, 0.09, 2.3, 8]} />
+        <meshStandardMaterial color="#6b5536" />
+      </mesh>
+      {/* arrow boards pointing opposite ways down the trail */}
+      <group position={[0, 1.85, 0]} rotation={[0, 0.32, 0]}>
+        <mesh castShadow>
+          <boxGeometry args={[1.35, 0.34, 0.09]} />
+          <meshStandardMaterial color="#96653c" flatShading />
+        </mesh>
+        <mesh position={[0.74, 0, 0]} rotation={[0, 0, Math.PI / 4]} castShadow>
+          <boxGeometry args={[0.24, 0.24, 0.09]} />
+          <meshStandardMaterial color="#96653c" flatShading />
+        </mesh>
+      </group>
+      <group position={[0, 1.35, 0]} rotation={[0, -0.35, 0]}>
+        <mesh castShadow>
+          <boxGeometry args={[1.15, 0.3, 0.09]} />
+          <meshStandardMaterial color="#8a5a34" flatShading />
+        </mesh>
+        <mesh position={[-0.63, 0, 0]} rotation={[0, 0, Math.PI / 4]} castShadow>
+          <boxGeometry args={[0.21, 0.21, 0.09]} />
+          <meshStandardMaterial color="#8a5a34" flatShading />
+        </mesh>
+      </group>
+      {/* small plank low on the post */}
+      <mesh position={[0, 0.9, 0]} rotation={[0, 0.12, 0]} castShadow>
+        <boxGeometry args={[0.8, 0.26, 0.08]} />
+        <meshStandardMaterial color="#a9744a" flatShading />
+      </mesh>
+      {/* cap */}
+      <mesh position={[0, 2.34, 0]}>
+        <sphereGeometry args={[0.09, 8, 6]} />
+        <meshStandardMaterial color="#ffd98a" />
+      </mesh>
+    </group>
+  );
+}
+
 function SoccerBall() {
   const R = 0.48;
   // The real soccer ball: an actual truncated icosahedron built from the
@@ -1358,6 +1410,9 @@ function Scene({
       </Hotspot3D>
       <Hotspot3D section="contact" label="Contact" onSelect={onSelect} position={[-1.7, 0, 3.5]} scale={1.25} hit={[2.2, 1.8, 2.2]}>
         <Campfire night={night} />
+      </Hotspot3D>
+      <Hotspot3D section="experience" label="Experience" onSelect={onSelect} position={[0, 0, 3.2]} rotation={0.1} scale={1.2} tagHeight={3.2} hit={[1.6, 2.9, 1]}>
+        <Signpost />
       </Hotspot3D>
       <Hotspot3D section="music" label="Focus" onSelect={onSelect} position={[1.7, 0, 3.5]} scale={1.35} hit={[1.5, 2, 1.5]}>
         <Lantern night={night} />

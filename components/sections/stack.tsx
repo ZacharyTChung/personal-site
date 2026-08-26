@@ -1,11 +1,4 @@
-import {
-  Code2,
-  Smartphone,
-  Server,
-  Cpu,
-  Sparkles,
-  Wrench,
-} from "lucide-react";
+import { Code2, Layers, Server, Sparkles } from "lucide-react";
 import { BackpackSVG } from "@/components/scene/scene-objects";
 import { SceneGlyph, SectionGlow, SectionEyebrow } from "@/components/ui/scene-accents";
 
@@ -13,32 +6,46 @@ const groups = [
   {
     icon: Code2,
     label: "Languages",
-    items: ["Python", "C++", "Java", "TypeScript", "SQL"],
+    items: ["Python", "TypeScript", "JavaScript", "Swift", "C++", "Rust", "SQL"],
   },
   {
-    icon: Smartphone,
-    label: "Mobile / Frontend",
-    items: ["React Native", "Expo", "React", "Mapbox GL"],
+    icon: Layers,
+    label: "Frameworks",
+    items: [
+      "React Native",
+      "Expo",
+      "Node.js",
+      "Express",
+      "SwiftUI",
+      "React",
+      "Mapbox GL",
+    ],
   },
   {
     icon: Server,
-    label: "Backend / Infra",
-    items: ["Node.js", "Express", "PostgreSQL", "PostGIS"],
-  },
-  {
-    icon: Cpu,
-    label: "Systems",
-    items: ["Linux", "Apache Arrow", "AWS S3"],
+    label: "Infrastructure",
+    items: [
+      "PostgreSQL",
+      "Firebase",
+      "AWS",
+      "Docker",
+      "Git",
+      "REST APIs",
+      "CI/CD",
+      "Linux",
+    ],
   },
   {
     icon: Sparkles,
-    label: "AI Tools",
-    items: ["Claude API", "GitHub Copilot"],
-  },
-  {
-    icon: Wrench,
-    label: "Other",
-    items: ["Firebase", "Git", "Vercel"],
+    label: "Testing and AI",
+    items: [
+      "pytest",
+      "XCTest",
+      "Unit and integration testing",
+      "LLM APIs",
+      "Agentic tool calling",
+      "Evaluation harnesses",
+    ],
   },
 ];
 
@@ -65,7 +72,7 @@ export function Stack() {
           </p>
         </div>
 
-        <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-5 md:grid-cols-2">
           {groups.map((g) => (
             <div
               key={g.label}

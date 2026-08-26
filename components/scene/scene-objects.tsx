@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 
 /**
- * Six flat-vector "national-park-poster" objects for the clearing.
+ * Flat-vector "national-park-poster" objects for the clearing.
  * All share a 0 0 100 100 viewBox and a soft ground shadow so they read as
  * sitting on the grass. Every <linearGradient>/<radialGradient> id is
  * namespaced per object (e.g. `tent-roof`) because all six render on one page
@@ -312,6 +312,47 @@ export function FlagSVG({ className }: ObjProps) {
         fill="#3a2616"
         opacity="0.7"
       />
+    </svg>
+  );
+}
+
+export function SignpostSVG({ className }: ObjProps) {
+  return (
+    <svg
+      viewBox="0 0 100 100"
+      className={cn(SVG_BASE, className)}
+      fill="none"
+      stroke="rgb(var(--c-fg))"
+      strokeWidth="2.2"
+      strokeLinejoin="round"
+      strokeLinecap="round"
+      aria-hidden="true"
+    >
+      <defs>
+        <linearGradient id="sign-board" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="#a9744a" />
+          <stop offset="1" stopColor="#8a5a34" />
+        </linearGradient>
+      </defs>
+      <GroundShadow rx={18} />
+      {/* rocks holding the post */}
+      <ellipse cx="50" cy="87" rx="13" ry="6" fill="#5b5750" />
+      <circle cx="43" cy="84" r="4" fill="#6b6760" />
+      <circle cx="57" cy="84" r="4.5" fill="#56524b" />
+      {/* post */}
+      <rect x="47" y="14" width="6" height="72" rx="2" fill="#6b5536" />
+      <rect x="47" y="14" width="2.4" height="72" fill="#7d6440" />
+      {/* top arrow board, pointing right */}
+      <path d="M22 22 L70 22 L80 29 L70 36 L22 36 Z" fill="url(#sign-board)" />
+      <path d="M28 29 L62 29" stroke="#3a2616" strokeWidth="2.4" opacity="0.65" />
+      {/* middle arrow board, pointing left */}
+      <path d="M78 44 L30 44 L20 51 L30 58 L78 58 Z" fill="url(#sign-board)" />
+      <path d="M38 51 L70 51" stroke="#3a2616" strokeWidth="2.4" opacity="0.65" />
+      {/* small lower board */}
+      <path d="M32 65 L68 65 L68 76 L32 76 Z" fill="#96653c" />
+      <path d="M38 70.5 L62 70.5" stroke="#3a2616" strokeWidth="2" opacity="0.6" />
+      {/* post cap */}
+      <circle cx="50" cy="13" r="3.4" fill="rgb(var(--s-sun))" />
     </svg>
   );
 }

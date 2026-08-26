@@ -146,6 +146,22 @@ export function ProjectsCarousel({ projects }: { projects: Project[] }) {
                       <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
                         {p.description}
                       </p>
+                      {p.highlights && (
+                        <ul className="mt-3 space-y-2">
+                          {p.highlights.map((h) => (
+                            <li
+                              key={h}
+                              className="flex gap-2 text-[13px] leading-relaxed text-muted-foreground"
+                            >
+                              <span
+                                aria-hidden="true"
+                                className="mt-[0.5em] h-1 w-1 shrink-0 rounded-full bg-foreground/40"
+                              />
+                              {h}
+                            </li>
+                          ))}
+                        </ul>
+                      )}
                       <div className="mt-auto flex flex-wrap gap-2 pt-4">
                         {p.tags.map((t) => (
                           <span

@@ -1,4 +1,4 @@
-import { Mail, Github, Linkedin, MapPin } from "lucide-react";
+import { Mail, Github, Linkedin, MapPin, Phone } from "lucide-react";
 
 type Seat = {
   icon: typeof Github;
@@ -14,29 +14,36 @@ const seats: Seat[] = [
     icon: Github,
     label: "GitHub",
     value: "ZacharyTChung",
-    href: "https://github.com/ZacharyTChung/ZacharyTChung",
+    href: "https://github.com/ZacharyTChung",
     pos: "md:left-[1%] md:top-[12%]",
   },
   {
     icon: Linkedin,
     label: "LinkedIn",
-    value: "zachary-chung",
-    href: "https://www.linkedin.com/in/zachary-chung-07012a319/",
+    value: "zacharychung",
+    href: "https://www.linkedin.com/in/zacharychung",
     pos: "md:right-[1%] md:top-[12%]",
   },
   {
     icon: Mail,
     label: "Email",
-    value: "zchung@usc.edu",
-    href: "mailto:zchung@usc.edu",
+    value: "zacharytylerchung@gmail.com",
+    href: "mailto:zacharytylerchung@gmail.com",
     pos: "md:left-[4%] md:bottom-[10%]",
+  },
+  {
+    icon: Phone,
+    label: "Phone",
+    value: "626.491.8380",
+    href: "tel:+16264918380",
+    pos: "md:right-[4%] md:bottom-[10%]",
   },
   {
     icon: MapPin,
     label: "Based in",
     value: "Los Angeles, CA",
     href: null,
-    pos: "md:right-[4%] md:bottom-[10%]",
+    pos: "md:bottom-[-3%] md:left-1/2 md:-translate-x-1/2",
   },
 ];
 
@@ -120,7 +127,7 @@ function SeatCard({ seat }: { seat: Seat }) {
         <span className="block text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
           {seat.label}
         </span>
-        <span className="block truncate text-sm font-medium text-foreground">
+        <span className="block break-all text-sm font-medium text-foreground">
           {seat.value}
         </span>
       </span>

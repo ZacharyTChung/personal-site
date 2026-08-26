@@ -1,6 +1,7 @@
 import { getProjects } from "@/lib/github";
 import { SiteExperience } from "@/components/scene/site-experience";
 import { About } from "@/components/sections/about";
+import { Experience } from "@/components/sections/experience";
 import { Stack } from "@/components/sections/stack";
 import { ProjectsCarousel } from "@/components/sections/projects-carousel";
 import { Awards } from "@/components/sections/awards";
@@ -18,6 +19,7 @@ export default async function Home() {
 
   const sections: Record<SectionKey, ReactNode> = {
     about: <About />,
+    experience: <Experience />,
     stack: <Stack />,
     projects: <ProjectsCarousel projects={projects} />,
     awards: <Awards />,

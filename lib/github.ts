@@ -24,6 +24,8 @@ export interface Project {
   repo: string;
   role?: string;
   award?: string;
+  /** resume-style bullet points shown under the description */
+  highlights?: string[];
   /** e.g. "Updated Jun 2026" */
   date: string;
   stars: number;
@@ -38,6 +40,7 @@ interface Override {
   gradient: string;
   role?: string;
   award?: string;
+  highlights?: string[];
   /** fallback used only when GitHub has no description / fetch fails */
   blurb?: string;
   /** overrides GitHub homepage */
@@ -70,11 +73,16 @@ const CURATED: Override[] = [
     repo: "wandr",
     title: "Wandr",
     mark: "WN",
-    tags: ["React Native", "Expo", "Firebase", "Mapbox GL", "TypeScript"],
+    tags: ["iOS", "React Native", "Expo", "TypeScript", "Firebase", "Mapbox GL"],
     gradient: "linear-gradient(135deg,#102a28 0%,#1f5b54 60%,#3f9182 100%)",
     role: "Built it",
     blurb:
-      "A cozy, image-first social travel map — pin the places you've been and want to go, and share itineraries. Built with Expo, Firebase, and Mapbox.",
+      "iOS travel journal and place ranking app. Pin the places you've been and want to go, rank them, and share itineraries.",
+    highlights: [
+      "Architected and shipped the full stack as sole engineer and designer, owning the Firestore schema, auth, Mapbox GL globe rendering, and the EAS build and release pipeline.",
+      "Implemented place ranking as binary insertion over each user's saved list, ordering 50 places in roughly 280 comparisons instead of the 1,225 an exhaustive pairwise approach would require, keeping ranking usable as saved lists grow.",
+      "Denormalized the Firestore schema so a feed load resolves in a single batched query with cursor pagination rather than one read per entry, and persisted results to a local cache for offline reads and optimistic writes.",
+    ],
   },
   {
     repo: "profbench",
@@ -103,9 +111,14 @@ const CURATED: Override[] = [
     tags: ["Swift", "SwiftUI", "Claude API", "AVFoundation", "XCTest"],
     gradient: "linear-gradient(135deg,#20162e 0%,#4a3a6e 60%,#8a7ab8 100%)",
     role: "Hackathon",
-    award: "3rd Place · SoCal Claude Hackathon (UCLA · USC · Caltech)",
+    award: "Winning Team · Claude Builder Hackathon (UCLA · USC · Caltech)",
     blurb:
       "Voice-driven iPhone agent that reads on-screen context, runs multi-step cross-app workflows, and narrates each action in real time for blind and low-vision users.",
+    highlights: [
+      "Placed top 3 of 50+ teams as a team of 3 in a 6 hour build, shipping a voice controlled agent that operates a real iPhone for blind and low vision users.",
+      "Built a perception and action loop in which Claude reads the live screen, selects the next UI action, and narrates it aloud, with a human in the loop safety gate.",
+      "Cut per step API cost 90% and task time 3.4x through prompt caching, rolling context summaries, and compressed screenshot payloads.",
+    ],
   },
 ];
 
@@ -170,6 +183,7 @@ export async function getProjects(): Promise<Project[]> {
         repo: gh?.html_url ?? `https://github.com/${USER}/${o.repo}`,
         role: o.role,
         award: o.award,
+        highlights: o.highlights,
         date: gh?.pushed_at ? `Updated ${fmtDate(gh.pushed_at)}` : "",
         stars: gh?.stargazers_count ?? 0,
         language: gh?.language ?? null,
