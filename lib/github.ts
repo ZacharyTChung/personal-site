@@ -50,6 +50,37 @@ interface Override {
 /** Display order = curated order (most compelling / recent first). */
 const CURATED: Override[] = [
   {
+    repo: "wandr",
+    title: "Wandr",
+    mark: "WN",
+    tags: ["iOS", "React Native", "Expo", "TypeScript", "Firebase", "Mapbox GL"],
+    gradient: "linear-gradient(135deg,#102a28 0%,#1f5b54 60%,#3f9182 100%)",
+    role: "Built it",
+    blurb:
+      "iOS travel journal and place ranking app. Pin the places you've been and want to go, rank them, and share itineraries.",
+    highlights: [
+      "Sole engineer and designer: Firestore schema, auth, Mapbox GL globe rendering, and the EAS release pipeline.",
+      "Place ranking as binary insertion: about 280 comparisons to order 50 places instead of 1,225 pairwise.",
+      "Feed loads resolve in one batched query with cursor pagination, cached locally for offline reads and optimistic writes.",
+    ],
+  },
+  {
+    repo: "Agentic-Phone-Automation",
+    title: "Agentic iOS Accessibility",
+    mark: "iA",
+    tags: ["Swift", "SwiftUI", "Claude API", "AVFoundation", "XCTest"],
+    gradient: "linear-gradient(135deg,#20162e 0%,#4a3a6e 60%,#8a7ab8 100%)",
+    role: "Hackathon",
+    award: "Winning Team · Claude Builder Hackathon (UCLA · USC · Caltech)",
+    blurb:
+      "Voice-driven iPhone agent that reads on-screen context, runs multi-step cross-app workflows, and narrates each action in real time for blind and low-vision users.",
+    highlights: [
+      "Top 3 of 50+ teams as a team of 3 in a 6 hour build, operating a real iPhone by voice.",
+      "Claude reads the live screen, picks the next UI action, and narrates it aloud, with a human in the loop safety gate.",
+      "Cut per step API cost 90% and task time 3.4x with prompt caching, rolling summaries, and compressed screenshots.",
+    ],
+  },
+  {
     repo: "alpha-edge",
     title: "Alpha Edge",
     mark: "AE",
@@ -70,21 +101,6 @@ const CURATED: Override[] = [
       "Browser-native boxing game controlled entirely by your webcam — punch, dodge, and block with your body. Powered by MediaPipe Pose and Three.js.",
   },
   {
-    repo: "wandr",
-    title: "Wandr",
-    mark: "WN",
-    tags: ["iOS", "React Native", "Expo", "TypeScript", "Firebase", "Mapbox GL"],
-    gradient: "linear-gradient(135deg,#102a28 0%,#1f5b54 60%,#3f9182 100%)",
-    role: "Built it",
-    blurb:
-      "iOS travel journal and place ranking app. Pin the places you've been and want to go, rank them, and share itineraries.",
-    highlights: [
-      "Architected and shipped the full stack as sole engineer and designer, owning the Firestore schema, auth, Mapbox GL globe rendering, and the EAS build and release pipeline.",
-      "Implemented place ranking as binary insertion over each user's saved list, ordering 50 places in roughly 280 comparisons instead of the 1,225 an exhaustive pairwise approach would require, keeping ranking usable as saved lists grow.",
-      "Denormalized the Firestore schema so a feed load resolves in a single batched query with cursor pagination rather than one read per entry, and persisted results to a local cache for offline reads and optimistic writes.",
-    ],
-  },
-  {
     repo: "profbench",
     title: "ProfBench",
     mark: "PB",
@@ -103,22 +119,6 @@ const CURATED: Override[] = [
     role: "Author",
     blurb:
       "17 controlled experiments across 8 phases comparing mmap vs io_uring for analytical I/O. Identified NVMe queue saturation as the scaling limit and shipped 5 engineering recommendations.",
-  },
-  {
-    repo: "Agentic-Phone-Automation",
-    title: "Agentic iOS Accessibility",
-    mark: "iA",
-    tags: ["Swift", "SwiftUI", "Claude API", "AVFoundation", "XCTest"],
-    gradient: "linear-gradient(135deg,#20162e 0%,#4a3a6e 60%,#8a7ab8 100%)",
-    role: "Hackathon",
-    award: "Winning Team · Claude Builder Hackathon (UCLA · USC · Caltech)",
-    blurb:
-      "Voice-driven iPhone agent that reads on-screen context, runs multi-step cross-app workflows, and narrates each action in real time for blind and low-vision users.",
-    highlights: [
-      "Placed top 3 of 50+ teams as a team of 3 in a 6 hour build, shipping a voice controlled agent that operates a real iPhone for blind and low vision users.",
-      "Built a perception and action loop in which Claude reads the live screen, selects the next UI action, and narrates it aloud, with a human in the loop safety gate.",
-      "Cut per step API cost 90% and task time 3.4x through prompt caching, rolling context summaries, and compressed screenshot payloads.",
-    ],
   },
 ];
 

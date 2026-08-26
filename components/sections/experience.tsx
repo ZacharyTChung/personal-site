@@ -67,7 +67,7 @@ function RoleCard({ role }: { role: (typeof roles)[number] }) {
         <h3 className="text-lg font-semibold leading-snug text-foreground">
           {role.org}
         </h3>
-        <span className="font-hud text-[9px] uppercase tracking-wider text-[rgb(var(--c-warm-1))]">
+        <span className="whitespace-nowrap font-hand text-lg leading-none text-[rgb(var(--c-warm-1))]">
           {role.date}
         </span>
       </div>
@@ -151,7 +151,7 @@ export function Experience() {
               <h3 className="text-lg font-semibold leading-snug text-foreground">
                 University of Southern California
               </h3>
-              <span className="font-hud text-[9px] uppercase tracking-wider text-[rgb(var(--c-warm-1))]">
+              <span className="whitespace-nowrap font-hand text-lg leading-none text-[rgb(var(--c-warm-1))]">
                 Expected May 2028
               </span>
             </div>

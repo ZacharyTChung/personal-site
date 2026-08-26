@@ -67,7 +67,8 @@ export function ClearingScene({
     return () => clearTimeout(t);
   }, []);
 
-  const baseSize = isNarrow ? 92 : 122;
+  // nine objects share the narrow layout now, so they run a touch smaller
+  const baseSize = isNarrow ? 84 : 122;
 
   return (
     <>

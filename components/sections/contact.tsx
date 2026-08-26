@@ -7,6 +7,8 @@ type Seat = {
   href: string | null;
   /** desktop position around the fire */
   pos: string;
+  /** wider desktop card with smaller text, for long values like the email */
+  wide?: boolean;
 };
 
 const seats: Seat[] = [
@@ -29,7 +31,8 @@ const seats: Seat[] = [
     label: "Email",
     value: "zacharytylerchung@gmail.com",
     href: "mailto:zacharytylerchung@gmail.com",
-    pos: "md:left-[4%] md:bottom-[10%]",
+    pos: "md:left-[2%] md:bottom-[10%]",
+    wide: true,
   },
   {
     icon: Phone,
@@ -127,14 +130,20 @@ function SeatCard({ seat }: { seat: Seat }) {
         <span className="block text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
           {seat.label}
         </span>
-        <span className="block break-all text-sm font-medium text-foreground">
+        <span
+          className={`block break-all font-medium text-foreground ${
+            seat.wide ? "text-sm md:text-xs" : "text-sm"
+          }`}
+        >
           {seat.value}
         </span>
       </span>
     </>
   );
 
-  const className = `flex w-full max-w-xs items-center gap-3 rounded-2xl border border-border bg-card/80 px-4 py-3 backdrop-blur transition md:absolute md:w-[226px] ${seat.pos}`;
+  const className = `flex w-full max-w-xs items-center gap-3 rounded-2xl border border-border bg-card/80 px-4 py-3 backdrop-blur transition md:absolute ${
+    seat.wide ? "md:w-[286px]" : "md:w-[226px]"
+  } ${seat.pos}`;
 
   if (seat.href) {
     return (
