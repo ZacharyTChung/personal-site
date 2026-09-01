@@ -1,12 +1,12 @@
 import Image from "next/image";
-import { ArrowUpRight, Bell, Github, ListOrdered, MapPin, Share2, Users } from "lucide-react";
+import { ArrowUpRight, Bell, ListOrdered, MapPin, Share2, Users } from "lucide-react";
 import { WandrPhoneSVG } from "@/components/scene/scene-objects";
 import {
   SceneGlyph,
   SectionGlow,
   SectionEyebrow,
 } from "@/components/ui/scene-accents";
-import { WANDR_APP_STORE_URL, WANDR_REPO_URL } from "@/lib/wandr";
+import { WANDR_APP_STORE_URL } from "@/lib/wandr";
 
 const features = [
   {
@@ -100,14 +100,6 @@ export function WandrSection() {
                   </span>
                 </span>
                 <ArrowUpRight className="ml-0.5 h-4 w-4 opacity-70" />
-              </a>
-              <a
-                href={WANDR_REPO_URL}
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex items-center gap-1.5 rounded-xl border border-border px-3.5 py-2.5 text-sm text-muted-foreground transition-colors hover:border-foreground/40 hover:text-foreground"
-              >
-                <Github className="h-4 w-4" /> Code
               </a>
             </div>
           </div>

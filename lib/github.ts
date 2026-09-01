@@ -25,7 +25,8 @@ export interface Project {
   href: string | null;
   /** label for the live link, e.g. "App Store" (defaults to "Live") */
   hrefLabel?: string;
-  repo: string;
+  /** GitHub URL, or null when the repo is private */
+  repo: string | null;
   role?: string;
   award?: string;
   /** resume-style bullet points shown under the description */
@@ -51,6 +52,8 @@ interface Override {
   live?: string;
   /** label for the live link, e.g. "App Store" */
   liveLabel?: string;
+  /** the repo is private: skip the GitHub fetch and show no code link */
+  private?: boolean;
 }
 
 /** Display order = curated order (most compelling / recent first). */
@@ -64,6 +67,7 @@ const CURATED: Override[] = [
     role: "Built it",
     live: WANDR_APP_STORE_URL,
     liveLabel: "App Store",
+    private: true,
     blurb:
       "iOS travel journal and place ranking app. Pin the places you've been and want to go, rank them, and share itineraries.",
     highlights: [
@@ -177,7 +181,7 @@ function clean(s: string): string {
 export async function getProjects(): Promise<Project[]> {
   return Promise.all(
     CURATED.map(async (o): Promise<Project> => {
-      const gh = await fetchRepo(o.repo);
+      const gh = o.private ? null : await fetchRepo(o.repo);
       const liveDesc = gh?.description?.trim();
       const homepage = o.live ?? (gh?.homepage?.trim() || null);
       return {
@@ -189,7 +193,9 @@ export async function getProjects(): Promise<Project[]> {
         gradient: o.gradient,
         href: homepage,
         hrefLabel: o.liveLabel,
-        repo: gh?.html_url ?? `https://github.com/${USER}/${o.repo}`,
+        repo: o.private
+          ? null
+          : (gh?.html_url ?? `https://github.com/${USER}/${o.repo}`),
         role: o.role,
         award: o.award,
         highlights: o.highlights,

@@ -184,14 +184,16 @@ export function ProjectsCarousel({ projects }: { projects: Project[] }) {
                             <ArrowUpRight className="h-3.5 w-3.5" />
                           </Link>
                         )}
-                        <Link
-                          href={p.repo}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="inline-flex items-center gap-1 transition-colors hover:text-foreground"
-                        >
-                          <Github className="h-3.5 w-3.5" /> Code
-                        </Link>
+                        {p.repo && (
+                          <Link
+                            href={p.repo}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="inline-flex items-center gap-1 transition-colors hover:text-foreground"
+                          >
+                            <Github className="h-3.5 w-3.5" /> Code
+                          </Link>
+                        )}
                       </div>
                     </div>
                   </article>
