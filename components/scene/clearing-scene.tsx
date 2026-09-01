@@ -121,13 +121,12 @@ export function ClearingScene({
             />
           ))}
 
-          {/* camp dog hanging out by the fire (the fire is the last object
-              in the ladder on narrow screens, bottom-right) */}
+          {/* camp dog hanging out by the fire */}
           <div
             className="pointer-events-auto absolute -translate-x-1/2 -translate-y-1/2"
             style={{
-              left: isNarrow ? "88%" : "63%",
-              top: isNarrow ? "93%" : "90%",
+              left: "63%",
+              top: "90%",
               width: baseSize * 0.62,
               height: baseSize * 0.62,
             }}
@@ -137,10 +136,7 @@ export function ClearingScene({
 
           <span
             className="pointer-events-none absolute z-20 -rotate-6 font-hand text-xl text-[rgb(var(--c-warm-3))]"
-            style={{
-              left: isNarrow ? "84%" : "64%",
-              top: isNarrow ? "85%" : "83%",
-            }}
+            style={{ left: "64%", top: "83%" }}
           >
             woof!
           </span>

@@ -1492,17 +1492,19 @@ function Scene({
       <Hotspot3D section="music" label="Focus" onSelect={onSelect} position={[1.7, 0, 3.5]} scale={1.35} hit={[1.5, 2, 1.5]}>
         <Lantern night={night} />
       </Hotspot3D>
-      <Hotspot3D section="interests" label="Interests" onSelect={onSelect} position={[4.6, 0, 3.7]} scale={1.45} hit={[1.6, 1.6, 1.6]}>
+      <Hotspot3D section="interests" label="Interests" onSelect={onSelect} position={[4.8, 0, 3.9]} scale={1.45} hit={[1.6, 1.6, 1.6]}>
         <SoccerBall />
       </Hotspot3D>
-      <Hotspot3D section="projects" label="Projects" onSelect={onSelect} position={[6.9, 0, 4.3]} rotation={-0.45} scale={1.25} hit={[2.8, 1.9, 1.8]}>
+      <Hotspot3D section="projects" label="Projects" onSelect={onSelect} position={[7.4, 0, 4.5]} rotation={-0.45} scale={1.25} hit={[2.8, 1.9, 1.8]}>
         <LaptopLog />
       </Hotspot3D>
-      <Hotspot3D section="wandr" label="Wandr" onSelect={onSelect} position={[9.2, 0, 5.1]} rotation={-0.5} scale={1.25} hit={[1.9, 2.4, 1.4]}>
-        <WandrPhone night={night} />
-      </Hotspot3D>
-      <Hotspot3D section="awards" label="Awards" onSelect={onSelect} position={[11.5, 0, 6.1]} rotation={-0.25} scale={1.15} tagHeight={3.4} hit={[1.8, 3.2, 1.4]}>
+      <Hotspot3D section="awards" label="Awards" onSelect={onSelect} position={[10, 0, 5.4]} rotation={-0.25} scale={1.15} tagHeight={3.4} hit={[1.8, 3.2, 1.4]}>
         <Flag />
+      </Hotspot3D>
+      {/* the phone sits off the arc, down in the near-left grass so it lands in
+          the bottom-left corner of the opening view */}
+      <Hotspot3D section="wandr" label="Wandr" onSelect={onSelect} position={[-14, 0, 17]} rotation={0.5} scale={1.1} hit={[1.9, 2.4, 1.4]}>
+        <WandrPhone night={night} />
       </Hotspot3D>
 
       <JourneyRig progress={progress} />
