@@ -4,6 +4,7 @@ export type SectionKey =
   | "experience"
   | "stack"
   | "projects"
+  | "wandr"
   | "awards"
   | "interests"
   | "music"
@@ -16,6 +17,7 @@ export const SECTION_LABELS: Record<SectionKey, string> = {
   experience: "Experience",
   stack: "Stack",
   projects: "Projects",
+  wandr: "Wandr",
   awards: "Awards",
   interests: "Interests",
   music: "Focus",
@@ -29,6 +31,7 @@ export const NAV_ORDER: SectionKey[] = [
   "experience",
   "stack",
   "projects",
+  "wandr",
   "awards",
   "interests",
   "music",

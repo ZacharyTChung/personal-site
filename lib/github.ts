@@ -8,6 +8,8 @@
  * a static fallback, so the page renders even with no network / rate limits.
  */
 
+import { WANDR_APP_STORE_URL } from "./wandr";
+
 const USER = "ZacharyTChung";
 
 export interface Project {
@@ -21,6 +23,8 @@ export interface Project {
   gradient: string;
   /** live / homepage URL, or null */
   href: string | null;
+  /** label for the live link, e.g. "App Store" (defaults to "Live") */
+  hrefLabel?: string;
   repo: string;
   role?: string;
   award?: string;
@@ -45,6 +49,8 @@ interface Override {
   blurb?: string;
   /** overrides GitHub homepage */
   live?: string;
+  /** label for the live link, e.g. "App Store" */
+  liveLabel?: string;
 }
 
 /** Display order = curated order (most compelling / recent first). */
@@ -56,6 +62,8 @@ const CURATED: Override[] = [
     tags: ["iOS", "React Native", "Expo", "TypeScript", "Firebase", "Mapbox GL"],
     gradient: "linear-gradient(135deg,#102a28 0%,#1f5b54 60%,#3f9182 100%)",
     role: "Built it",
+    live: WANDR_APP_STORE_URL,
+    liveLabel: "App Store",
     blurb:
       "iOS travel journal and place ranking app. Pin the places you've been and want to go, rank them, and share itineraries.",
     highlights: [
@@ -180,6 +188,7 @@ export async function getProjects(): Promise<Project[]> {
         tags: o.tags,
         gradient: o.gradient,
         href: homepage,
+        hrefLabel: o.liveLabel,
         repo: gh?.html_url ?? `https://github.com/${USER}/${o.repo}`,
         role: o.role,
         award: o.award,

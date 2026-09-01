@@ -180,7 +180,8 @@ export function ProjectsCarousel({ projects }: { projects: Project[] }) {
                             rel="noreferrer"
                             className="inline-flex items-center gap-1 transition-colors hover:text-foreground"
                           >
-                            Live <ArrowUpRight className="h-3.5 w-3.5" />
+                            {p.hrefLabel ?? "Live"}{" "}
+                            <ArrowUpRight className="h-3.5 w-3.5" />
                           </Link>
                         )}
                         <Link

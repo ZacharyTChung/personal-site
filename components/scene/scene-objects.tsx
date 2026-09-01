@@ -391,3 +391,54 @@ export function GuitarSVG({ className }: ObjProps) {
     </svg>
   );
 }
+
+export function WandrPhoneSVG({ className }: ObjProps) {
+  // a phone leaning on a rock, its screen showing the wandr mark: a navy "w"
+  // with an orange dot on cream, plus a dropped map pin in the grass
+  return (
+    <svg
+      viewBox="0 0 100 100"
+      className={cn(SVG_BASE, className)}
+      fill="none"
+      stroke="rgb(var(--c-fg))"
+      strokeWidth="2.2"
+      strokeLinejoin="round"
+      strokeLinecap="round"
+      aria-hidden="true"
+    >
+      <defs>
+        <linearGradient id="wandr-screen" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="#faf7f0" />
+          <stop offset="1" stopColor="#ece5d6" />
+        </linearGradient>
+      </defs>
+      <GroundShadow rx={30} />
+      {/* rock the phone leans against */}
+      <ellipse cx="70" cy="82" rx="13" ry="8" fill="#6b7280" />
+      <ellipse cx="74" cy="79" rx="5" ry="3" fill="#8a919c" stroke="none" opacity="0.7" />
+      {/* map pin dropped in the grass */}
+      <path
+        d="M24 64 C18.5 64 15 68 15 72.5 C15 78 24 86 24 86 C24 86 33 78 33 72.5 C33 68 29.5 64 24 64 Z"
+        fill="#c65a32"
+      />
+      <circle cx="24" cy="72.5" r="3.2" fill="#faf7f0" stroke="none" />
+      {/* the phone, leaned back a touch */}
+      <g transform="rotate(-6 50 52)">
+        <rect x="33" y="14" width="34" height="74" rx="7.5" fill="#1c2438" />
+        <rect x="36.5" y="19" width="27" height="64" rx="4.5" fill="url(#wandr-screen)" stroke="none" />
+        {/* speaker slot */}
+        <rect x="45" y="16" width="10" height="1.6" rx="0.8" fill="#3b4457" stroke="none" />
+        {/* the wandr w */}
+        <path
+          d="M40.2 46.8 C41.4 52.6 43.6 56.4 46.1 55.7 C48.2 55 49.3 51.7 49.8 48.4 C50.4 51.7 51.9 56.4 54.6 55.7 C56.9 55 59.2 51.2 60.6 46.4"
+          stroke="#1c2438"
+          strokeWidth="3.4"
+          fill="none"
+        />
+        <circle cx="61.3" cy="44.9" r="2.6" fill="#c65a32" stroke="none" />
+        {/* home bar */}
+        <rect x="44" y="79.5" width="12" height="1.4" rx="0.7" fill="#3b4457" stroke="none" opacity="0.6" />
+      </g>
+    </svg>
+  );
+}

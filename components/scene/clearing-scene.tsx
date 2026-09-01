@@ -67,8 +67,7 @@ export function ClearingScene({
     return () => clearTimeout(t);
   }, []);
 
-  // nine objects share the narrow layout now, so they run a touch smaller
-  const baseSize = isNarrow ? 84 : 122;
+  const baseSize = isNarrow ? 92 : 122;
 
   return (
     <>
@@ -122,13 +121,13 @@ export function ClearingScene({
             />
           ))}
 
-          {/* camp dog hanging out by the fire (the fire sits bottom-left on
-              narrow screens, bottom-right on wide ones) */}
+          {/* camp dog hanging out by the fire (the fire is the last object
+              in the ladder on narrow screens, bottom-right) */}
           <div
             className="pointer-events-auto absolute -translate-x-1/2 -translate-y-1/2"
             style={{
-              left: isNarrow ? "18%" : "63%",
-              top: isNarrow ? "91%" : "90%",
+              left: isNarrow ? "88%" : "63%",
+              top: isNarrow ? "93%" : "90%",
               width: baseSize * 0.62,
               height: baseSize * 0.62,
             }}
@@ -139,8 +138,8 @@ export function ClearingScene({
           <span
             className="pointer-events-none absolute z-20 -rotate-6 font-hand text-xl text-[rgb(var(--c-warm-3))]"
             style={{
-              left: isNarrow ? "17%" : "64%",
-              top: isNarrow ? "84%" : "83%",
+              left: isNarrow ? "84%" : "64%",
+              top: isNarrow ? "85%" : "83%",
             }}
           >
             woof!

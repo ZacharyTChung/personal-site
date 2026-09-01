@@ -4,6 +4,7 @@ import { About } from "@/components/sections/about";
 import { Experience } from "@/components/sections/experience";
 import { Stack } from "@/components/sections/stack";
 import { ProjectsCarousel } from "@/components/sections/projects-carousel";
+import { WandrSection } from "@/components/sections/wandr";
 import { Awards } from "@/components/sections/awards";
 import { Interests } from "@/components/sections/interests";
 import { Music } from "@/components/sections/music";
@@ -22,6 +23,7 @@ export default async function Home() {
     experience: <Experience />,
     stack: <Stack />,
     projects: <ProjectsCarousel projects={projects} />,
+    wandr: <WandrSection />,
     awards: <Awards />,
     interests: <Interests />,
     music: <Music />,

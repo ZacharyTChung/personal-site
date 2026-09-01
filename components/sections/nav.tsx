@@ -49,20 +49,20 @@ export function Nav({ onSelect }: { onSelect?: (k: SectionKey) => void }) {
             : "border border-transparent",
         )}
       >
-        <Link href="#top" className="flex items-center gap-2">
+        <Link href="#top" className="flex shrink-0 items-center gap-2 whitespace-nowrap">
           <span className="font-hud text-[10px] text-[rgb(var(--c-warm-1))]">▲</span>
           <span className="font-display text-lg tracking-tight text-foreground">
             Zachary Chung
           </span>
         </Link>
 
-        <ul className="hidden items-center gap-0.5 md:flex">
+        <ul className="hidden items-center gap-0.5 lg:flex">
           {NAV_ORDER.map((key) => (
             <li key={key}>
               <button
                 type="button"
                 onClick={() => pick(key)}
-                className="group flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground"
+                className="group flex items-center gap-1.5 whitespace-nowrap rounded-lg px-2 py-1.5 text-[13px] text-muted-foreground transition-colors hover:text-foreground lg:px-2.5 lg:text-sm"
               >
                 <span className="h-1.5 w-1.5 rounded-full bg-foreground/25 transition-colors group-hover:bg-[rgb(var(--c-warm-1))]" />
                 {SECTION_LABELS[key]}
@@ -76,7 +76,7 @@ export function Nav({ onSelect }: { onSelect?: (k: SectionKey) => void }) {
           <button
             type="button"
             onClick={() => pick("contact")}
-            className="hidden rounded-full border-2 border-[rgb(var(--c-warm-1)/0.55)] bg-[rgb(var(--c-warm-1)/0.15)] px-4 py-1 font-hand text-lg leading-none text-[rgb(var(--c-warm-1))] transition-transform hover:-rotate-2 hover:scale-105 sm:block"
+            className="hidden whitespace-nowrap rounded-full border-2 border-[rgb(var(--c-warm-1)/0.55)] bg-[rgb(var(--c-warm-1)/0.15)] px-4 py-1 font-hand text-lg leading-none text-[rgb(var(--c-warm-1))] transition-transform hover:-rotate-2 hover:scale-105 sm:block lg:hidden xl:block"
           >
             get in touch
           </button>
@@ -85,7 +85,7 @@ export function Nav({ onSelect }: { onSelect?: (k: SectionKey) => void }) {
             aria-label={menuOpen ? "Close menu" : "Open menu"}
             aria-expanded={menuOpen}
             onClick={() => setMenuOpen((v) => !v)}
-            className="flex h-9 w-9 items-center justify-center rounded-full border-2 border-foreground/15 text-foreground transition-colors hover:border-[rgb(var(--c-warm-1)/0.55)] md:hidden"
+            className="flex h-9 w-9 items-center justify-center rounded-full border-2 border-foreground/15 text-foreground transition-colors hover:border-[rgb(var(--c-warm-1)/0.55)] lg:hidden"
           >
             {menuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
@@ -100,14 +100,14 @@ export function Nav({ onSelect }: { onSelect?: (k: SectionKey) => void }) {
               type="button"
               aria-label="Close menu"
               onClick={() => setMenuOpen(false)}
-              className="fixed inset-0 -z-10 cursor-default md:hidden"
+              className="fixed inset-0 -z-10 cursor-default lg:hidden"
             />
             <motion.ul
               initial={{ opacity: 0, y: -8 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -8 }}
               transition={{ duration: 0.18 }}
-              className="mx-auto mt-2 grid max-w-6xl grid-cols-2 gap-1 rounded-2xl border border-[rgb(var(--c-warm-1)/0.2)] bg-[rgb(var(--c-bg-2)/0.97)] p-3 shadow-md md:hidden"
+              className="mx-auto mt-2 grid max-w-6xl grid-cols-2 gap-1 rounded-2xl border border-[rgb(var(--c-warm-1)/0.2)] bg-[rgb(var(--c-bg-2)/0.97)] p-3 shadow-md lg:hidden"
             >
               {NAV_ORDER.map((key) => (
                 <li key={key}>

@@ -649,6 +649,81 @@ function Campfire({ night }: { night: boolean }) {
 }
 
 /* ---------- scenery ---------- */
+function WandrPhone({ night }: { night: boolean }) {
+  // a phone leaning on a rock, its screen showing the wandr mark: the navy
+  // "w" (a tube swept along the icon's curve) with an orange dot on cream
+  const navy = "#1c2438";
+  const cream = "#f4f0e8";
+  const orange = "#c65a32";
+  const wGeo = useMemo(() => {
+    const pts: [number, number][] = [
+      [-0.3, 0.13],
+      [-0.25, -0.02],
+      [-0.17, -0.13],
+      [-0.1, -0.12],
+      [-0.05, -0.03],
+      [0, 0.07],
+      [0.05, -0.03],
+      [0.1, -0.12],
+      [0.17, -0.13],
+      [0.25, -0.02],
+      [0.31, 0.16],
+    ];
+    const curve = new THREE.CatmullRomCurve3(
+      pts.map(([x, y]) => new THREE.Vector3(x, y, 0)),
+      false,
+      "catmullrom",
+      0.5,
+    );
+    return new THREE.TubeGeometry(curve, 48, 0.036, 8, false);
+  }, []);
+  return (
+    <group>
+      {/* rock it leans against */}
+      <mesh position={[0.2, 0.24, -0.5]} castShadow>
+        <dodecahedronGeometry args={[0.42, 0]} />
+        <meshStandardMaterial color="#7b8390" flatShading />
+      </mesh>
+      {/* the phone, leaned back a touch */}
+      <group position={[0, 0.02, 0]} rotation={[-0.26, 0, 0]}>
+        <RoundedBox args={[0.92, 1.8, 0.09]} radius={0.09} position={[0, 0.9, 0]} castShadow>
+          <meshStandardMaterial color={navy} />
+        </RoundedBox>
+        <mesh position={[0, 0.9, 0.047]}>
+          <planeGeometry args={[0.78, 1.62]} />
+          <meshStandardMaterial
+            color={cream}
+            emissive={cream}
+            emissiveIntensity={night ? 0.22 : 0.06}
+          />
+        </mesh>
+        <mesh geometry={wGeo} position={[0, 0.92, 0.062]}>
+          <meshStandardMaterial color={navy} />
+        </mesh>
+        <mesh position={[0.32, 1.1, 0.062]}>
+          <sphereGeometry args={[0.058, 12, 10]} />
+          <meshStandardMaterial color={orange} />
+        </mesh>
+      </group>
+      {/* map pin dropped in the grass */}
+      <group position={[-0.72, 0, 0.3]}>
+        <mesh position={[0, 0.2, 0]} rotation={[Math.PI, 0, 0]} castShadow>
+          <coneGeometry args={[0.13, 0.36, 12]} />
+          <meshStandardMaterial color={orange} />
+        </mesh>
+        <mesh position={[0, 0.4, 0]} castShadow>
+          <sphereGeometry args={[0.15, 14, 12]} />
+          <meshStandardMaterial color={orange} />
+        </mesh>
+        <mesh position={[0, 0.4, 0.13]}>
+          <sphereGeometry args={[0.05, 8, 8]} />
+          <meshStandardMaterial color={cream} />
+        </mesh>
+      </group>
+    </group>
+  );
+}
+
 function Mountain({
   position,
   height,
@@ -1417,13 +1492,16 @@ function Scene({
       <Hotspot3D section="music" label="Focus" onSelect={onSelect} position={[1.7, 0, 3.5]} scale={1.35} hit={[1.5, 2, 1.5]}>
         <Lantern night={night} />
       </Hotspot3D>
-      <Hotspot3D section="interests" label="Interests" onSelect={onSelect} position={[4.8, 0, 3.9]} scale={1.45} hit={[1.6, 1.6, 1.6]}>
+      <Hotspot3D section="interests" label="Interests" onSelect={onSelect} position={[4.6, 0, 3.7]} scale={1.45} hit={[1.6, 1.6, 1.6]}>
         <SoccerBall />
       </Hotspot3D>
-      <Hotspot3D section="projects" label="Projects" onSelect={onSelect} position={[7.4, 0, 4.5]} rotation={-0.45} scale={1.25} hit={[2.8, 1.9, 1.8]}>
+      <Hotspot3D section="projects" label="Projects" onSelect={onSelect} position={[6.9, 0, 4.3]} rotation={-0.45} scale={1.25} hit={[2.8, 1.9, 1.8]}>
         <LaptopLog />
       </Hotspot3D>
-      <Hotspot3D section="awards" label="Awards" onSelect={onSelect} position={[10, 0, 5.4]} rotation={-0.25} scale={1.15} tagHeight={3.4} hit={[1.8, 3.2, 1.4]}>
+      <Hotspot3D section="wandr" label="Wandr" onSelect={onSelect} position={[9.2, 0, 5.1]} rotation={-0.5} scale={1.25} hit={[1.9, 2.4, 1.4]}>
+        <WandrPhone night={night} />
+      </Hotspot3D>
+      <Hotspot3D section="awards" label="Awards" onSelect={onSelect} position={[11.5, 0, 6.1]} rotation={-0.25} scale={1.15} tagHeight={3.4} hit={[1.8, 3.2, 1.4]}>
         <Flag />
       </Hotspot3D>
 
